@@ -1,11 +1,11 @@
 package com.imaginea.pageobjects;
 
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileBy;
+
 import org.openqa.selenium.By;
 
 import com.imaginea.utils.UIUtility;
-
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileBy;
 
 public class HomePageActivity extends UIUtility {
 
@@ -43,6 +43,18 @@ public class HomePageActivity extends UIUtility {
 	public String wrongPasswordErrorMSG(String errorMSG) {
 		return UIUtility.getErrorMSG(driver, errorMSG);
 
+	}
+
+	/**
+	 * Select Category by Category Name
+	 * 
+	 * @param categoryName
+	 */
+	public void selectCategory(String categoryName) {
+		UIUtility.clickElementusingClassName(driver, imageButton);
+		String category = String.format(
+				"//android.widget.TextView[@text='%s']", categoryName);
+		UIUtility.clickElementusingXPath(driver, category);
 	}
 
 }
