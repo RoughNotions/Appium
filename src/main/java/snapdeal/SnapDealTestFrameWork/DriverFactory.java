@@ -28,7 +28,7 @@ public class DriverFactory {
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			}
-		else if(osName.equalsIgnoreCase("IOS"))
+		else if (osName.equalsIgnoreCase("IOS"))
 			try {
 				driver = new IOS().getDriver(getDesiredCapabailities());
 				IOSDriver idriver = (IOSDriver) driver;
@@ -52,17 +52,20 @@ public class DriverFactory {
 			try {
 				prop.load(inStream);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		capability.setCapability(MobileCapabilityType.BROWSER_NAME, prop.getProperty("BROWSER_NAME"));
 		capability.setCapability(MobileCapabilityType.DEVICE_NAME, prop.getProperty("DEVICE_NAME"));
 		capability.setCapability(MobileCapabilityType.PLATFORM_NAME, prop.getProperty("PLATFORM_NAME"));
+		capability.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, prop.getProperty("NEW_COMMAND_TIMEOUT")); // Default
+																														// NEW_COMMAND_TIMEOUT
+																														// is
+																														// 60
+																														// sec
 		capability.setCapability("appPackage", prop.getProperty("APP_PACKAGE"));
 		capability.setCapability("appActivity", prop.getProperty("APP_ACTIVITY"));
 		return capability;

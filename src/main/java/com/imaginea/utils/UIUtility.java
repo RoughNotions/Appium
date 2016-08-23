@@ -1,5 +1,6 @@
 package com.imaginea.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.Keys;
@@ -18,7 +19,7 @@ public class UIUtility {
 	protected static final int pageTimeoutTime = 15;
 
 	public UIUtility(AppiumDriver driver) {
-		this.driver = driver;	
+		this.driver = driver;
 	}
 
 	public void initPage(WebElement initialElement, WebElement... initialElements) {
@@ -93,5 +94,15 @@ public class UIUtility {
 			e.printStackTrace();
 		}
 
+	}
+
+	public static List<String> getListOfElementsByID(AppiumDriver driver, String ID) {
+		List<WebElement> ele = driver.findElementsById(ID);
+		List<String> text = new ArrayList<String>();
+		for (int i = 0; i < ele.size(); i++) {
+			System.out.println(ele.get(i));
+			text.add(ele.get(i).getText());
+		}
+		return text;
 	}
 }
