@@ -56,7 +56,10 @@ public class HomePageActivity extends UIUtility {
 	 */
 	public void selectCategory(String categoryName) {
 		UIUtility.clickElementusingClassName(driver, imageButton);
-		String category = String.format("//android.widget.TextView[@text='%s']", categoryName);
+		String category = String.format(
+				"//android.widget.TextView[@text='%s']", categoryName);
+		waitForElementVisibility(driver, 30,
+				driver.findElement(By.xpath(category)));
 		UIUtility.clickElementusingXPath(driver, category);
 	}
 
