@@ -3,6 +3,8 @@ package com.imaginea.pageobjects;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 
 import com.imaginea.utils.UIUtility;
@@ -20,6 +22,8 @@ public class HomePageActivity extends UIUtility {
 	String searchBoxB = "com.snapdeal.main:id/search_text_view";
 	String searchBoxA = "com.snapdeal.main:id/search_edit_text_autocomplete";
 	String mobileRechargeLink = "com.snapdeal.main:id/mobileRechargeItem";
+	String mobileElectronics = "//*[text()='Mobiles & Electronics']";
+	String categoryName = "com.snapdeal.main:id/subCategoryTitleTextView";
 
 	public HomePageActivity(AppiumDriver driver) {
 		super(driver);
@@ -52,9 +56,27 @@ public class HomePageActivity extends UIUtility {
 	 */
 	public void selectCategory(String categoryName) {
 		UIUtility.clickElementusingClassName(driver, imageButton);
-		String category = String.format(
-				"//android.widget.TextView[@text='%s']", categoryName);
+		String category = String.format("//android.widget.TextView[@text='%s']", categoryName);
 		UIUtility.clickElementusingXPath(driver, category);
+	}
+
+	/**
+	 * Get List of Sub Category Items Under a Category Name
+	 * 
+	 * @param categoryName
+	 */
+	public List<String> getSubItemsList() {
+		List<String> text = UIUtility.getListOfElementsByID(driver, categoryName);
+		return text;
+	}
+
+	/**
+	 * Selects a SubCategory Under a Category
+	 * @param subCategoryName
+	 */
+	public void selectSubCategory(String subCategoryName) {
+		String subCategory = String.format("//android.widget.TextView[@text='%s']", subCategoryName);
+		UIUtility.clickElementusingXPath(driver, subCategory);
 	}
 
 }
