@@ -92,8 +92,7 @@ public class FashionTests extends BaseTest {
 		UIUtility.clickElementByText(driver, "Discount");
 		UIUtility.sleep(5000L);
 		Assert.assertTrue(fashionPageActivity.getProductDiscountList().get(0)
-				.contains("% OFF"), "Expected "
-				+ fashionPageActivity.getProductDiscountList().get(0));
+				.contains("% OFF"), "Discount is not shown");
 
 	}
 

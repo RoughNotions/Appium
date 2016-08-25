@@ -2,9 +2,12 @@ package com.imaginea.utils;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -163,5 +166,18 @@ public class UIUtility {
 			text.add(ele.get(i).getText());
 		}
 		return text;
+	}
+	
+	/**
+	 * Swipe down page
+	 * @param driver
+	 */
+	public static void swipeDown(AppiumDriver driver){
+		Dimension dimensions = driver.manage().window().getSize();
+		Double screenHeightStart = dimensions.getHeight() * 0.7;
+		int scrollStart = screenHeightStart.intValue();		
+		Double screenHeightEnd = dimensions.getHeight() * 0.4;
+		int scrollEnd = screenHeightEnd.intValue();
+		driver.swipe(0,scrollStart,0,scrollEnd,2000);
 	}
 }
