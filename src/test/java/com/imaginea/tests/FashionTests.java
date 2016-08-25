@@ -1,4 +1,4 @@
-package snapdeal.SnapDealTestFrameWork;
+package com.imaginea.tests;
 
 import java.util.Arrays;
 

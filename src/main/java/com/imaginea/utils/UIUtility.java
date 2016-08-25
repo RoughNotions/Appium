@@ -162,7 +162,7 @@ public class UIUtility {
 		List<WebElement> ele = driver.findElementsById(ID);
 		List<String> text = new ArrayList<String>();
 		for (int i = 0; i < ele.size(); i++) {
-			System.out.println(ele.get(i));
+			System.out.println(ele.get(i).getText());
 			text.add(ele.get(i).getText());
 		}
 		return text;

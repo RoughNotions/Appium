@@ -1,4 +1,4 @@
-package snapdeal.SnapDealTestFrameWork;
+package com.imaginea.tests;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,6 +10,8 @@ import org.testng.annotations.Test;
 
 import com.imaginea.pageobjects.HomePageActivity;
 import com.imaginea.pageobjects.MobileElectronicsPageActivity;
+
+import io.appium.java_client.android.AndroidDriver;
 
 public class MobilesElectronicsTests extends BaseTest {
 
@@ -33,8 +35,7 @@ public class MobilesElectronicsTests extends BaseTest {
 	public void verifyAllPageNavigations() {
 		HomePageActivity homePage = new HomePageActivity(driver);
 		homePage.selectCategory("Mobiles & Electronics");
-		homePage.selectSubCategory("Mobile Phones");
-		MobileElectronicsPageActivity mePage = new MobileElectronicsPageActivity(driver);
+		MobileElectronicsPageActivity mePage = homePage.selectSubCategory("Mobile Phones");
 		Assert.assertEquals(mePage.getPageTitle("Mobile Phones"), "Mobile Phones");
 		mePage.navigateToBackPage();
 
@@ -90,13 +91,67 @@ public class MobilesElectronicsTests extends BaseTest {
 
 		HomePageActivity homePage = new HomePageActivity(driver);
 		homePage.selectCategory("Mobiles & Electronics");
-		homePage.selectSubCategory("Mobile Phones");
+		MobileElectronicsPageActivity mePage = homePage.selectSubCategory("Mobile Phones");
 
-		MobileElectronicsPageActivity mePage = new MobileElectronicsPageActivity(driver);
-
-		Assert.assertEquals(mePage.getAllMobilesByPriceType(), mobileType, "Invalid Price Range");
+		Assert.assertEquals(mePage.getAllMobilesByPriceType(), mobileType, "Invalid Price Type");
 		Assert.assertEquals(mePage.getAllMobilesByPriceRange(), priceRange, "Invalid Price Range");
-		Assert.assertEquals(mePage.getAllMobilesByPicks(), mobilePicks, "Invalid Price Range");
+		Assert.assertEquals(mePage.getAllMobilesByPicks(), mobilePicks, "Invalid Mobile Picks");
+
+	}
+
+	@Test
+	public void verifyGamingItems() {
+		List<String> gameItems = Arrays.asList("Gaming Consoles", "Gaming Accessories", "Gaming Titles",
+				"Gaming Merchandise", "Gaming Monitors");
+		List<String> bestDeals = Arrays.asList("Limited Period Offer", "Featured Deals", "Discount Offers");
+		List<String> gameTypes = Arrays.asList("Top Rated Games", "PS4 Games", "Play Games with consoles",
+				"Gaming Titles 50% Off");
+
+		HomePageActivity homePage = new HomePageActivity(driver);
+		homePage.selectCategory("Mobiles & Electronics");
+		MobileElectronicsPageActivity mePage = homePage.selectSubCategory("Gaming");
+
+		Assert.assertEquals(mePage.getAllGameItems(), gameItems, "Invalid Game Items");
+		Assert.assertEquals(mePage.getAllBestDeals(), bestDeals, "Invalid Best Deals");
+		Assert.assertEquals(mePage.getAllGameTypes(), gameTypes, "Invalid Game Types");
+
+	}
+
+	@Test
+	public void verifyAppliances() {
+		List<String> applianceItems = Arrays.asList("ACs & Air Coolers", "Washing Machines", "Geysers & Heaters",
+				"Home Appliances", "Personal Care Appliances", "Irons", "Fans", "More");
+		List<String> greatDeals = Arrays.asList("ACs: Upto 30% Off", "Fans: Below Rs.1000", "Inverters: Upto 50% Off",
+				"Hair Dryers:Below Rs.1000");
+		List<String> trimmersByPrice = Arrays.asList("Below Rs.500", "Rs.500 - Rs.1000", "Above Rs.1000");
+
+		HomePageActivity homePage = new HomePageActivity(driver);
+		homePage.selectCategory("Mobiles & Electronics");
+		MobileElectronicsPageActivity mePage = homePage.selectSubCategory("Appliances");
+		Assert.assertEquals(mePage.getAllApplianceItems(), applianceItems, "Invalid Appliance Items");
+		Assert.assertEquals(mePage.getGreatDeals(), greatDeals, "Invalid Great Deals");
+		/*
+		 * Assert.assertEquals(mePage.getAllTrimmersByPrice(), trimmersByPrice,
+		 * "Invalid Trimmer Prices");
+		 */
+	}
+
+	@Test
+	public void verifyTabletsAccessories() {
+		List<String> tabletTypes = Arrays.asList("WiFi Tablets", "3G Tablets", "4G Tablets");
+		List<String> tabletItems = Arrays.asList("Tablets", "Refurbished Tablets", "Cases & Covers", "Screen Guards",
+				"Keyboards", "Cables & Chargers", "Cleaning Cloths, Docks & Stands", "More");
+		List<String> priceStore = Arrays.asList("Below Rs 5,000", "Rs 5,000 - 10,000", "Rs 10,000 - 20,000",
+				"20,000 and Above");
+		List<String> osNames = Arrays.asList("Android", "iOS", "Windows", "Kindle");
+
+		HomePageActivity homePage = new HomePageActivity(driver);
+		homePage.selectCategory("Mobiles & Electronics");
+		MobileElectronicsPageActivity mePage = homePage.selectSubCategory("Tablets & Accessories");
+		Assert.assertEquals(mePage.getTabletTypes(), tabletTypes, "Invalid Tablet Types");
+		Assert.assertEquals(mePage.getTabletItems(), tabletItems, "Invalid Tablet Items");
+		Assert.assertEquals(mePage.getPriceStore(), priceStore, "Invalid PriceStore");
+		Assert.assertEquals(mePage.getOS(), osNames, "Invalid OS types");
 
 	}
 

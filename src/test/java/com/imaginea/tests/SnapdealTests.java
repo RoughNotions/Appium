@@ -1,4 +1,4 @@
-package snapdeal.SnapDealTestFrameWork;
+package com.imaginea.tests;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;

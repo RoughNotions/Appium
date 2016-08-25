@@ -1,4 +1,4 @@
-package snapdeal.SnapDealTestFrameWork;
+package com.imaginea.testframework;
 
 import java.net.MalformedURLException;
 import java.net.URL;

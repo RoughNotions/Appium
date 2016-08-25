@@ -77,9 +77,11 @@ public class HomePageActivity extends UIUtility {
 	 * Selects a SubCategory Under a Category
 	 * @param subCategoryName
 	 */
-	public void selectSubCategory(String subCategoryName) {
+	public MobileElectronicsPageActivity selectSubCategory(String subCategoryName) {
+		UIUtility.sleep(500L);
 		String subCategory = String.format("//android.widget.TextView[@text='%s']", subCategoryName);
 		UIUtility.clickElementusingXPath(driver, subCategory);
+		return new MobileElectronicsPageActivity(driver);
 	}
 
 }

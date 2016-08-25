@@ -1,4 +1,4 @@
-package snapdeal.SnapDealTestFrameWork;
+package com.imaginea.testframework;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -1,4 +1,4 @@
-package snapdeal.SnapDealTestFrameWork;
+package com.imaginea.tests;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,6 +9,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 
+import com.imaginea.testframework.DriverFactory;
 import com.imaginea.utils.FileUtilities;
 
 import io.appium.java_client.AppiumDriver;
