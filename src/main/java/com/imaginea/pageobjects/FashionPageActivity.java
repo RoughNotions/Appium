@@ -2,13 +2,7 @@ package com.imaginea.pageobjects;
 
 import io.appium.java_client.AppiumDriver;
 
-import java.util.HashMap;
 import java.util.List;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebElement;
 
 import com.imaginea.utils.UIUtility;
 
@@ -23,7 +17,6 @@ public class FashionPageActivity extends UIUtility {
 	private String fashionSubCategory = "com.snapdeal.main:id/subCategoryTitleTextView";
 	private String sortResourceId = "com.snapdeal.main:id/sort_by_radio_button";
 	private String productDiscount = "com.snapdeal.main:id/productDiscount";
-	private String flipper = "android.widget.ViewFlipper";
 
 	public FashionPageActivity(AppiumDriver driver) {
 		super(driver);
@@ -61,12 +54,8 @@ public class FashionPageActivity extends UIUtility {
 	 * 
 	 * @return
 	 */
-	public List<String> getProductDiscountList() {		
-		driver.findElementByClassName(flipper).click();
-		sleep(1000L);
-		driver.findElementByClassName(flipper).click();
-		sleep(1000L);
-		driver.findElementByClassName(flipper).click();
+	public List<String> getProductDiscountList() {
+		swipeDown(driver);
 		return getListOfElementsByID(driver, productDiscount);
 	}
 }
