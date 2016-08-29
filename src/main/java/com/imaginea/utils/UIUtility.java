@@ -165,6 +165,7 @@ public class UIUtility {
 			System.out.println(ele.get(i).getText());
 			text.add(ele.get(i).getText());
 		}
+		System.out.println("count --->"+text.size());
 		return text;
 	}
 	
@@ -180,4 +181,21 @@ public class UIUtility {
 		int scrollEnd = screenHeightEnd.intValue();
 		driver.swipe(0,scrollStart,0,scrollEnd,2000);
 	}
+	public static List<WebElement> getElementsTextByIndex(AppiumDriver driver, int index) {
+		sleep(15000L);
+		return driver.findElements(MobileBy.AndroidUIAutomator(String.format("new UiSelector().index(%d)", index)));
+	}
+	
+	public static List<String> getTitles(AppiumDriver driver, int index){
+		List<WebElement> ele = getElementsTextByIndex(driver,index);
+		List<String> names = new ArrayList<String>();
+		for (int i = 0; i < ele.size(); i++) {
+			System.out.println(ele.get(i).getText());
+			names.add(ele.get(i).getText());
+		}
+		System.out.println("count --->"+names.size());
+		return names;
+	}
+	
+	
 }
