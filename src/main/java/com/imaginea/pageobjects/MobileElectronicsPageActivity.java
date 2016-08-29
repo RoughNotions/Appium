@@ -31,6 +31,11 @@ public class MobileElectronicsPageActivity extends UIUtility {
 	String tabletItems = "com.snapdeal.main:id/txvProductItemTitle";
 	String osText = "com.snapdeal.main:id/price_range_text";
 	String priceStore = "com.snapdeal.main:id/price_range_text";
+	String item = "//android.widget.TextView[text()='Televisions']";
+	String cartButton = "com.snapdeal.main:id/addCartBUtton";
+	String goToCart = "com.snapdeal.main:id/addCartBUtton";
+	String removeItem = "com.snapdeal.main:id/btnMinus";
+	String remove = "com.snapdeal.main:id/tvNoDialog";
 
 	public MobileElectronicsPageActivity(AppiumDriver driver) {
 		super(driver);
@@ -133,5 +138,30 @@ public class MobileElectronicsPageActivity extends UIUtility {
 		driver.scrollTo("Shop By Operating System");
 		List<String> text = UIUtility.getListOfElementsByID(driver, osText);
 		return text;
+	}
+
+	public void addItemToCart(String item) {
+		UIUtility.clickElementByText(driver, item);
+		sleep(5000L);
+		UIUtility.clickElementByText(driver, "109-137cms (43-54)");
+		sleep(5000L);
+		UIUtility.clickElementByText(driver,
+				"Micromax 50C5220MHD 127 cm ( 50 ) Full HD LED Television With 1 + 2 Year Extended Warranty");
+		sleep(5000L);
+		UIUtility.clickElementusingID(driver, cartButton);
+	}
+
+	public void removeItemToCart() {
+		sleep(5000L);
+		UIUtility.clickElementusingID(driver, goToCart);
+		sleep(5000L);
+		UIUtility.clickElementusingID(driver, removeItem);
+		UIUtility.clickElementusingID(driver, remove);
+		navigateToBackPage();
+	}
+
+	public String getCartButtonText() {
+		return driver.findElementById("com.snapdeal.main:id/addCartBUtton").getText();
+
 	}
 }

@@ -10,14 +10,16 @@ import org.testng.annotations.Test;
 
 import com.imaginea.pageobjects.HomePageActivity;
 import com.imaginea.pageobjects.MobileElectronicsPageActivity;
+import com.imaginea.utils.UIUtility;
 
-import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.MobileBy;
+import io.appium.java_client.TouchAction;
 
 public class MobilesElectronicsTests extends BaseTest {
 
 	@BeforeMethod
 	public void beforeMethod() {
-		driver.launchApp();
+		// driver.launchApp();
 	}
 
 	@Test
@@ -152,6 +154,19 @@ public class MobilesElectronicsTests extends BaseTest {
 		Assert.assertEquals(mePage.getTabletItems(), tabletItems, "Invalid Tablet Items");
 		Assert.assertEquals(mePage.getPriceStore(), priceStore, "Invalid PriceStore");
 		Assert.assertEquals(mePage.getOS(), osNames, "Invalid OS types");
+
+	}
+
+	@Test
+	public void addToCart() {
+		HomePageActivity homePage = new HomePageActivity(driver);
+		homePage.selectCategory("Mobiles & Electronics");
+		MobileElectronicsPageActivity mePage = homePage.selectSubCategory("TVs, Audio & Video");
+
+		mePage.addItemToCart("Televisions");
+		mePage.removeItemToCart();
+		Assert.assertEquals(mePage.getCartButtonText(), "Add to Cart",
+				"Invalid button type. Item has not been removed from cart");
 
 	}
 
