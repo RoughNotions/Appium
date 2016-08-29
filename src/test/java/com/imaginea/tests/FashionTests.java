@@ -5,19 +5,20 @@ import java.util.Arrays;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import com.imaginea.pageobjects.FashionPageActivity;
 import com.imaginea.pageobjects.HomePageActivity;
 import com.imaginea.utils.UIUtility;
-
 /**
  * All test case of Fashion Category are updated in this page
  * 
  * @author krishnakumarnellore
  *
  */
+@Listeners(com.imaginea.tests.ExtentReporterNG.class)
 public class FashionTests extends BaseTest {
 
 	@BeforeMethod
@@ -27,19 +28,20 @@ public class FashionTests extends BaseTest {
 
 	@Test(description = "Verify Fashion Category and sub category list")
 	public void verifyFashionCategory() {
-		HomePageActivity homePage = new HomePageActivity(driver);
-		homePage.selectCategory("Fashion");
+		beforeMethod();		
+		HomePageActivity homePage = new HomePageActivity(driver);		
 		FashionPageActivity fashionPageActivity = new FashionPageActivity(
 				driver);
 		String category[] = { "Men's Fashion", "Women's Fashion",
 				"Baby & Kids", "Jewellery", "Bags & Luggage",
 				"Sports, Fitness & Outdoor" };
+		homePage.selectCategory("Fashion");
 		Assert.assertEquals(fashionPageActivity.getSubCategoryList(),
-				Arrays.asList(category));
+				Arrays.asList(category));	
 	}
 
 	@Test(description = "Verify Sub Category")
-	public void verifySubCategory() {
+	public void verifySubCategory() {		
 		SoftAssert s_assert = new SoftAssert();
 		HomePageActivity homePage = new HomePageActivity(driver);
 		String category[] = { "Men's Fashion", "Women's Fashion",
@@ -49,6 +51,7 @@ public class FashionTests extends BaseTest {
 				"Fashion Jewellery", "Backpacks & More", "Sports" };
 
 		for (int i = 0; i < category.length; i++) {
+			
 			homePage.selectCategory("Fashion");
 			FashionPageActivity fashionPageActivity = new FashionPageActivity(
 					driver);
@@ -56,6 +59,7 @@ public class FashionTests extends BaseTest {
 			s_assert.assertEquals(UIUtility.getElementTextByIndex(driver, 1),
 					subCategory[i], "Sub Category result field didn't match");
 			driver.navigate().back();
+			
 		}
 		s_assert.assertAll();
 	}
@@ -93,8 +97,7 @@ public class FashionTests extends BaseTest {
 		UIUtility.sleep(5000L);
 		Assert.assertTrue(fashionPageActivity.getProductDiscountList().get(0)
 				.contains("% OFF"), "Discount is not shown");
-		
-		}
+	}
 
 	@AfterMethod
 	public void afterMethod() {
