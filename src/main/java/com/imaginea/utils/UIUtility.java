@@ -197,5 +197,10 @@ public class UIUtility {
 		return names;
 	}
 	
-	
+	public static void enterTextByID(AppiumDriver driver, String id,
+			String text) {
+		driver.findElementById(id).clear();
+		driver.findElementById(id).sendKeys(text);
+		driver.hideKeyboard();
+	}	
 }

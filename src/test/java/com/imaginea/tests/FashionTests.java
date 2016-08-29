@@ -1,6 +1,7 @@
 package com.imaginea.tests;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -12,6 +13,7 @@ import org.testng.asserts.SoftAssert;
 import com.imaginea.pageobjects.FashionPageActivity;
 import com.imaginea.pageobjects.HomePageActivity;
 import com.imaginea.utils.UIUtility;
+
 /**
  * All test case of Fashion Category are updated in this page
  * 
@@ -23,13 +25,13 @@ public class FashionTests extends BaseTest {
 
 	@BeforeMethod
 	public void beforeMethod() {
+		driver.closeApp();
 		driver.launchApp();
 	}
 
 	@Test(description = "Verify Fashion Category and sub category list")
 	public void verifyFashionCategory() {
-		beforeMethod();		
-		HomePageActivity homePage = new HomePageActivity(driver);		
+		HomePageActivity homePage = new HomePageActivity(driver);
 		FashionPageActivity fashionPageActivity = new FashionPageActivity(
 				driver);
 		String category[] = { "Men's Fashion", "Women's Fashion",
@@ -37,11 +39,11 @@ public class FashionTests extends BaseTest {
 				"Sports, Fitness & Outdoor" };
 		homePage.selectCategory("Fashion");
 		Assert.assertEquals(fashionPageActivity.getSubCategoryList(),
-				Arrays.asList(category));	
+				Arrays.asList(category));
 	}
 
 	@Test(description = "Verify Sub Category")
-	public void verifySubCategory() {		
+	public void verifySubCategory() {
 		SoftAssert s_assert = new SoftAssert();
 		HomePageActivity homePage = new HomePageActivity(driver);
 		String category[] = { "Men's Fashion", "Women's Fashion",
@@ -51,7 +53,7 @@ public class FashionTests extends BaseTest {
 				"Fashion Jewellery", "Backpacks & More", "Sports" };
 
 		for (int i = 0; i < category.length; i++) {
-			
+
 			homePage.selectCategory("Fashion");
 			FashionPageActivity fashionPageActivity = new FashionPageActivity(
 					driver);
@@ -59,7 +61,7 @@ public class FashionTests extends BaseTest {
 			s_assert.assertEquals(UIUtility.getElementTextByIndex(driver, 1),
 					subCategory[i], "Sub Category result field didn't match");
 			driver.navigate().back();
-			
+
 		}
 		s_assert.assertAll();
 	}
@@ -99,8 +101,52 @@ public class FashionTests extends BaseTest {
 				.contains("% OFF"), "Discount is not shown");
 	}
 
+	@Test(description = "Verify Brand Selection in Fashion Category")
+	public void testBrandSelection() {
+		HomePageActivity homePage = new HomePageActivity(driver);
+		homePage.selectCategory("Fashion");
+		FashionPageActivity fashionPageActivity = new FashionPageActivity(
+				driver);
+		fashionPageActivity.selectSubCategory("Men's Fashion");
+		UIUtility.sleep(5000L);
+		UIUtility.clickElementByText(driver, "Clothing");
+		UIUtility.sleep(5000L);
+		fashionPageActivity.selectCategoryByText("Brand");
+		UIUtility.sleep(2000L);
+		fashionPageActivity.selectCategoryByText("Lee");
+		UIUtility.sleep(2000L);
+		fashionPageActivity.clickApplyButton();
+		UIUtility.sleep(5000L);
+		List<String> titleList = fashionPageActivity.getProductTitleList();
+		Assert.assertTrue(titleList.contains("Lee"), "Title is not shown "
+				+ titleList);
+	}
+
+	@Test(description = "Verify Brand Selection in Fashion Category")
+	public void testSizeSelection() {
+		HomePageActivity homePage = new HomePageActivity(driver);
+		homePage.selectCategory("Fashion");
+		FashionPageActivity fashionPageActivity = new FashionPageActivity(
+				driver);
+		fashionPageActivity.selectSubCategory("Men's Fashion");
+		UIUtility.sleep(5000L);
+		UIUtility.clickElementByText(driver, "Clothing");
+		UIUtility.sleep(5000L);
+		fashionPageActivity.selectCategoryByText("Price");
+		UIUtility.sleep(2000L);
+		fashionPageActivity.setPriceFilter("2000", "30000");
+		UIUtility.sleep(5000L);
+		List<String> titleList = fashionPageActivity
+				.getProductDisplayPriceList();
+		int price = Integer.parseInt(titleList.get(0).replace("Rs. ", "")
+				.replace(",", ""));
+		Assert.assertEquals(price > 2000, price < 30000,
+				"Price is not in range");
+	}
+
 	@AfterMethod
 	public void afterMethod() {
 		driver.closeApp();
 	}
+
 }
