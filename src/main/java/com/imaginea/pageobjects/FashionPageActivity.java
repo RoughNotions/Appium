@@ -4,6 +4,8 @@ import io.appium.java_client.AppiumDriver;
 
 import java.util.List;
 
+import org.openqa.selenium.By;
+
 import com.imaginea.utils.UIUtility;
 
 /**
@@ -17,6 +19,10 @@ public class FashionPageActivity extends UIUtility {
 	private String fashionSubCategory = "com.snapdeal.main:id/subCategoryTitleTextView";
 	private String sortResourceId = "com.snapdeal.main:id/sort_by_radio_button";
 	private String productDiscount = "com.snapdeal.main:id/productDiscount";
+	private String productTitle = "com.snapdeal.main:id/productTitle";
+	private String startPrice = "com.snapdeal.main:id/filterTextStart";
+	private String endPrice = "com.snapdeal.main:id/filterTextEnd";
+	private String productDisplayPrice = "com.snapdeal.main:id/productDisplayPrice";
 
 	public FashionPageActivity(AppiumDriver driver) {
 		super(driver);
@@ -57,5 +63,56 @@ public class FashionPageActivity extends UIUtility {
 	public List<String> getProductDiscountList() {
 		swipeDown(driver);
 		return getListOfElementsByID(driver, productDiscount);
+	}
+	
+	/**
+	 * To click field by Text
+	 * 
+	 * @param title
+	 */
+	public void selectCategoryByText(String title){
+			String category = String.format(
+					"//android.widget.TextView[@text='%s']", title);
+			waitForElementVisibility(driver, 30,
+					driver.findElement(By.xpath(category)));
+			UIUtility.clickElementusingXPath(driver, category);
+	}
+	
+	/**
+	 * Click on Apply Button
+	 */
+	public void clickApplyButton(){
+		clickElementByText(driver, "APPLY");
+	}
+	
+	/**
+	 * Get Product Title List
+	 * 
+	 * @return
+	 */
+	public List<String> getProductTitleList() {
+		swipeDown(driver);
+		return getListOfElementsByID(driver, productTitle);
+	}	
+
+	/**
+	 * Set Price Filter
+	 * @param sPrice
+	 * @param ePrice
+	 */
+	public void setPriceFilter(String sPrice ,String ePrice){
+		enterTextByID(driver, startPrice,sPrice);
+		enterTextByID(driver, endPrice,ePrice);
+		clickElementByText(driver, "Apply Filters");
+	}
+
+	/**
+	 * Get Product Display Price List
+	 * 
+	 * @return
+	 */
+	public List<String> getProductDisplayPriceList() {
+		swipeDown(driver);
+		return getListOfElementsByID(driver, productDisplayPrice);
 	}
 }
