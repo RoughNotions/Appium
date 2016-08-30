@@ -12,14 +12,16 @@ import com.imaginea.pageobjects.HomePageActivity;
 import com.imaginea.pageobjects.MobileElectronicsPageActivity;
 import com.imaginea.utils.UIUtility;
 
-import io.appium.java_client.MobileBy;
-import io.appium.java_client.TouchAction;
-
+/**
+ * 
+ * @author avinashg
+ *
+ */
 public class MobilesElectronicsTests extends BaseTest {
 
 	@BeforeMethod
 	public void beforeMethod() {
-		// driver.launchApp();
+		driver.launchApp();
 	}
 
 	@Test
@@ -168,6 +170,21 @@ public class MobilesElectronicsTests extends BaseTest {
 		Assert.assertEquals(mePage.getCartButtonText(), "Add to Cart",
 				"Invalid button type. Item has not been removed from cart");
 
+	}
+
+	@Test
+	public void verifyOfficeEquipments() {
+		List<String> equipmentTypes = Arrays.asList("Note Counters & Paper Shredders", "POS Equipment",
+				"Laminators & Binders", "Labeling & Stamping Machine");
+		List<String> officeHaves = Arrays.asList("Thermal Printers", "Paper Shredders", "Lamination Machines");
+		List<String> shopByType = Arrays.asList("CCTV Camera Kits", "Note Counters", "Barcode Scanners",
+				"Label Printers");
+		HomePageActivity homePage = new HomePageActivity(driver);
+		homePage.selectCategory("Mobiles & Electronics");
+		MobileElectronicsPageActivity mePage = homePage.selectSubCategory("Office Equipments");
+		Assert.assertEquals(mePage.getEquipmentTypes(), equipmentTypes, "Invalid equipment Types");
+		Assert.assertEquals(mePage.getOfficeMustHaves(), officeHaves, "Invalid office haves");
+		Assert.assertEquals(mePage.getShopByType(), shopByType, "Invalid Shop By Types");
 	}
 
 	@AfterMethod

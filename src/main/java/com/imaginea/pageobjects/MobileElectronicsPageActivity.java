@@ -1,16 +1,22 @@
 package com.imaginea.pageobjects;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.testng.annotations.Listeners;
 
 import com.imaginea.utils.UIUtility;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
-import io.appium.java_client.android.AndroidDriver;
+
+/**
+ * 
+ * @author avinashg
+ *
+ */
+@Listeners(com.imaginea.tests.ExtentReporterNG.class)
 
 public class MobileElectronicsPageActivity extends UIUtility {
 
@@ -36,6 +42,7 @@ public class MobileElectronicsPageActivity extends UIUtility {
 	String goToCart = "com.snapdeal.main:id/addCartBUtton";
 	String removeItem = "com.snapdeal.main:id/btnMinus";
 	String remove = "com.snapdeal.main:id/tvNoDialog";
+	String firstTV = "com.snapdeal.main:id/productTitle";
 
 	public MobileElectronicsPageActivity(AppiumDriver driver) {
 		super(driver);
@@ -45,6 +52,10 @@ public class MobileElectronicsPageActivity extends UIUtility {
 
 	public void navigateToBackPage() {
 		driver.navigate().back();
+		/* Below code also works 
+		 * AndroidDriver adriver = (AndroidDriver) driver;
+		 * adriver.pressKeyCode(AndroidKeyCode.BACK);
+		 */
 	}
 
 	public String getPageTitle(String subCategoryName) {
@@ -143,10 +154,9 @@ public class MobileElectronicsPageActivity extends UIUtility {
 	public void addItemToCart(String item) {
 		UIUtility.clickElementByText(driver, item);
 		sleep(5000L);
-		UIUtility.clickElementByText(driver, "109-137cms (43-54)");
+		UIUtility.clickElementByText(driver, getFirstItemTitle());
 		sleep(5000L);
-		UIUtility.clickElementByText(driver,
-				"Micromax 50C5220MHD 127 cm ( 50 ) Full HD LED Television With 1 + 2 Year Extended Warranty");
+		UIUtility.clickElementByText(driver, getFirstTVTitle());
 		sleep(5000L);
 		UIUtility.clickElementusingID(driver, cartButton);
 	}
@@ -163,5 +173,41 @@ public class MobileElectronicsPageActivity extends UIUtility {
 	public String getCartButtonText() {
 		return driver.findElementById("com.snapdeal.main:id/addCartBUtton").getText();
 
+	}
+
+	public String getFirstTVTitle() {
+		return driver.findElementById(firstTV).getText();
+	}
+
+	public String getFirstItemTitle() {
+		return driver.findElementById(mobileByPrice).getText();
+	}
+
+	public void swipeAndZoom(String item) {
+		UIUtility.clickElementByText(driver, item);
+		sleep(5000L);
+		UIUtility.clickElementByText(driver, getFirstItemTitle());
+		sleep(5000L);
+		UIUtility.clickElementByText(driver, getFirstTVTitle());
+		UIUtility.clickElementusingID(driver, "com.snapdeal.main:id/imageView");
+		for (int i = 0; i < 10; i++)
+			driver.pinch(driver.findElementById("com.snapdeal.main:id/imageView"));
+	}
+
+	public List<String> getEquipmentTypes() {
+		List<String> text = UIUtility.getListOfElementsByID(driver, mobileByPrice);
+		return text;
+	}
+
+	public List<String> getOfficeMustHaves() {
+		UIUtility.swipeDown(driver);
+		List<String> text = UIUtility.getListOfElementsByID(driver, tabletTypes);
+		return text;
+	}
+
+	public List<String> getShopByType() {
+		driver.scrollTo("Shop By Type");
+		List<String> text = UIUtility.getListOfElementsByID(driver, mobileByPicks);
+		return text;
 	}
 }
