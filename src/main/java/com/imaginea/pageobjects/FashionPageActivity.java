@@ -23,6 +23,11 @@ public class FashionPageActivity extends UIUtility {
 	private String startPrice = "com.snapdeal.main:id/filterTextStart";
 	private String endPrice = "com.snapdeal.main:id/filterTextEnd";
 	private String productDisplayPrice = "com.snapdeal.main:id/productDisplayPrice";
+	private String productDiscountPrice = "com.snapdeal.main:id/productDiscount";
+	private String imageId="com.snapdeal.main:id/imageView";
+	private String menuCartIcon="com.snapdeal.main:id/menu_cart_icon";
+	private String txtProductName ="com.snapdeal.main:id/txtProductName";
+	private String txtCount="com.snapdeal.main:id/txtCount";
 
 	public FashionPageActivity(AppiumDriver driver) {
 		super(driver);
@@ -81,7 +86,7 @@ public class FashionPageActivity extends UIUtility {
 	/**
 	 * Click on Apply Button
 	 */
-	public void clickApplyButton(){
+	public void clickApplyButton(){		
 		clickElementByText(driver, "APPLY");
 	}
 	
@@ -114,5 +119,46 @@ public class FashionPageActivity extends UIUtility {
 	public List<String> getProductDisplayPriceList() {
 		swipeDown(driver);
 		return getListOfElementsByID(driver, productDisplayPrice);
+	}
+	
+	
+	/**
+	 * Get Product Discount List
+	 * 
+	 * @return
+	 */
+	public List<String> getProductDiscountPriceList() {
+		swipeDown(driver);
+		return getListOfElementsByID(driver, productDiscountPrice);
+	}
+	
+	/**
+	 * Zoom Image by single tap
+	 */
+	public void zoomImage(){
+		zoomImageById(driver, imageId);
+	}
+	
+	/**
+	 * Click On Menu Cart Icon
+	 */
+	public void clickMenuCartIcon(){
+		clickElementusingID(driver, menuCartIcon);
+	}
+	
+	/**
+	 * Get Product Name Added to cart list
+	 * @return
+	 */
+	public List<String> getCartProductNameList(){
+		return getListOfElementsByID(driver, txtProductName);
+	}
+	
+	/**
+	 * Get Count Of cart Product List
+	 * @return
+	 */
+	public List<String> getCartProductCountList(){
+		return getListOfElementsByID(driver, txtCount);
 	}
 }

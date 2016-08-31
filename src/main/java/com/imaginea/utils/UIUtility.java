@@ -2,9 +2,6 @@ package com.imaginea.utils;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidKeyCode;
-import io.appium.java_client.android.AndroidKeyMetastate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +9,6 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -123,9 +119,10 @@ public class UIUtility {
 	 * @param driver
 	 * @param description
 	 */
-	public static void clickElementByText(AppiumDriver driver, String description) {
-		driver.findElement(MobileBy.AndroidUIAutomator(String.format("new UiSelector().text(\"%s\")", description)))
-				.click();
+	public static void clickElementByText(AppiumDriver driver, String description) {		
+		WebElement element= driver.findElement(MobileBy.AndroidUIAutomator(String.format("new UiSelector().text(\"%s\")", description)));
+		waitForElementVisibility(driver, 10, element);
+		element.click();
 	}
 
 	public static void sleep(Long millis) {
@@ -150,6 +147,7 @@ public class UIUtility {
 
 	public static List<String> getListOfElementsByID(AppiumDriver driver, String ID) {
 		List<WebElement> ele = driver.findElementsById(ID);
+		waitForElementVisibility(driver, 10, ele.get(0));
 		List<String> text = new ArrayList<String>();
 		for (int i = 0; i < ele.size(); i++) {
 			System.out.println(ele.get(i).getText());
@@ -166,9 +164,9 @@ public class UIUtility {
 	 */
 	public static void swipeDown(AppiumDriver driver) {
 		Dimension dimensions = driver.manage().window().getSize();
-		Double screenHeightStart = dimensions.getHeight() * 0.7;
+		Double screenHeightStart = dimensions.getHeight() * 0.9;
 		int scrollStart = screenHeightStart.intValue();
-		Double screenHeightEnd = dimensions.getHeight() * 0.4;
+		Double screenHeightEnd = dimensions.getHeight() * 0.5;
 		int scrollEnd = screenHeightEnd.intValue();
 		driver.swipe(0, scrollStart, 0, scrollEnd, 2000);
 	}
@@ -193,5 +191,17 @@ public class UIUtility {
 		driver.findElementById(id).clear();
 		driver.findElementById(id).sendKeys(text);
 		driver.hideKeyboard();
+	}	
+	
+	/**
+	 * Zoom Image on single tap
+	 * @param driver
+	 * @param resourceId
+	 */
+	public static void zoomImageById(AppiumDriver driver,String resourceId){
+		WebElement element =driver.findElement(By.id(resourceId));
+		waitForElementVisibility(driver, 20, element);
+		driver.tap(1, element, 2);
 	}
+	
 }

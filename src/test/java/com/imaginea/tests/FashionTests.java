@@ -118,11 +118,11 @@ public class FashionTests extends BaseTest {
 		fashionPageActivity.clickApplyButton();
 		UIUtility.sleep(5000L);
 		List<String> titleList = fashionPageActivity.getProductTitleList();
-		Assert.assertTrue(titleList.contains("Lee"), "Title is not shown "
-				+ titleList);
+		Assert.assertTrue(titleList.get(0).contains("Lee"),
+				"Title is not shown " + titleList);
 	}
 
-	@Test(description = "Verify Brand Selection in Fashion Category")
+	@Test(description = "Verify Size Selection in Fashion Category")
 	public void testSizeSelection() {
 		HomePageActivity homePage = new HomePageActivity(driver);
 		homePage.selectCategory("Fashion");
@@ -142,6 +142,67 @@ public class FashionTests extends BaseTest {
 				.replace(",", ""));
 		Assert.assertEquals(price > 2000, price < 30000,
 				"Price is not in range");
+	}
+
+	@Test(description = "Verify Discount Selection in Fashion Category")
+	public void testDiscountSelection() {
+		HomePageActivity homePage = new HomePageActivity(driver);
+		homePage.selectCategory("Fashion");
+		FashionPageActivity fashionPageActivity = new FashionPageActivity(
+				driver);
+		fashionPageActivity.selectSubCategory("Men's Fashion");
+		UIUtility.clickElementByText(driver, "Clothing");
+		fashionPageActivity.selectCategoryByText("Discount %");
+		fashionPageActivity.selectCategoryByText("40 - 50");
+		fashionPageActivity.clickApplyButton();
+		UIUtility.sleep(2000L);
+		List<String> titleList = fashionPageActivity
+				.getProductDiscountPriceList();
+		Assert.assertTrue(titleList.get(0).contains("% OFF"),
+				"Discount is not shown");
+	}
+
+	@Test(description = "Verify Zoom Functionality in Fashion Category")
+	public void testZoomFunctionality() {
+		HomePageActivity homePage = new HomePageActivity(driver);
+		homePage.selectCategory("Fashion");
+		FashionPageActivity fashionPageActivity = new FashionPageActivity(
+				driver);
+		fashionPageActivity.selectSubCategory("Men's Fashion");
+		UIUtility.clickElementByText(driver, "Clothing");
+		UIUtility.clickElementByText(driver, "T-Shirts & Polos");
+		UIUtility.clickElementByText(driver, "T-Shirts");
+		UIUtility.clickElementByText(driver,
+				"Alan Jones Clothing Grey Cotton T-Shirt");
+		fashionPageActivity.zoomImage();
+		Assert.assertTrue(UIUtility.isElementPresent(driver,
+				"com.snapdeal.main:id/imageViewZoom"),
+				"Trouble in Zooming image");
+	}
+
+	@Test(description = "Verify Add to Cart Functionality in Fashion Category")
+	public void testAddToCartFunctionality() {
+		HomePageActivity homePage = new HomePageActivity(driver);
+		homePage.selectCategory("Fashion");
+		FashionPageActivity fashionPageActivity = new FashionPageActivity(
+				driver);
+		fashionPageActivity.selectSubCategory("Men's Fashion");
+		UIUtility.clickElementByText(driver, "Clothing");
+		UIUtility.clickElementByText(driver, "T-Shirts & Polos");
+		UIUtility.clickElementByText(driver, "T-Shirts");
+		String fashionItem = "Alan Jones Clothing Grey Cotton T-Shirt";
+		UIUtility.clickElementByText(driver, fashionItem);
+		UIUtility.clickElementByText(driver, "Add to Cart");
+		UIUtility.clickElementByText(driver, "L");
+		UIUtility.clickElementByText(driver, "Add to cart");
+		fashionPageActivity.clickMenuCartIcon();
+		Assert.assertEquals(
+				fashionPageActivity.getCartProductNameList().get(0),
+				fashionItem);
+		Assert.assertEquals(
+				fashionPageActivity.getCartProductCountList().get(0),
+				"1");
+
 	}
 
 	@AfterMethod
