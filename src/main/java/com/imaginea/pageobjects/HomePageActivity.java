@@ -24,9 +24,13 @@ public class HomePageActivity extends UIUtility {
 	String mobileRechargeLink = "com.snapdeal.main:id/mobileRechargeItem";
 	String mobileElectronics = "//*[text()='Mobiles & Electronics']";
 	String categoryName = "com.snapdeal.main:id/subCategoryTitleTextView";
+	String skip = "com.snapdeal.main:id/home_screen_login_skip";
 
 	public HomePageActivity(AppiumDriver driver) {
 		super(driver);
+		if(isElementPresent(driver, skip)){
+			UIUtility.clickElementusingID(driver, skip);
+		}
 		initPage(driver.findElement(homeMenu));
 	}
 
