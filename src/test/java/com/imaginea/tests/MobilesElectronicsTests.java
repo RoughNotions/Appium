@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 
 import com.imaginea.pageobjects.HomePageActivity;
 import com.imaginea.pageobjects.MobileElectronicsPageActivity;
-import com.imaginea.utils.UIUtility;
 
 /**
  * 
@@ -185,6 +184,39 @@ public class MobilesElectronicsTests extends BaseTest {
 		Assert.assertEquals(mePage.getEquipmentTypes(), equipmentTypes, "Invalid equipment Types");
 		Assert.assertEquals(mePage.getOfficeMustHaves(), officeHaves, "Invalid office haves");
 		Assert.assertEquals(mePage.getShopByType(), shopByType, "Invalid Shop By Types");
+	}
+
+	@Test
+	public void verifyLaptopsComputers() {
+
+		List<String> items = Arrays.asList("Laptops", "Printers & Inks", "Storage", "Computer Accessories",
+				"Computer Components", "Routers & Modems", "Desktops", "More");
+		List<String> topViewedProducts = Arrays.asList("Acer Laptops starting Rs.13999", "Antivirus | Upto 70% Off",
+				"Logitech B170 Wireless Mouse");
+		List<String> budgetStore = Arrays.asList("2-in-1 Laptops", "Assembled Desktops", "Laptop Skins",
+				"McAfee Antivirus @ Rs 99");
+		HomePageActivity homePage = new HomePageActivity(driver);
+		homePage.selectCategory("Mobiles & Electronics");
+		MobileElectronicsPageActivity mePage = homePage.selectSubCategory("Laptops & Computers");
+		Assert.assertEquals(mePage.getAllItems(), items, "Invalid Items");
+		Assert.assertEquals(mePage.getTopViewedProducts(), topViewedProducts, "Invalid Top Viewed Products");
+		Assert.assertEquals(mePage.getItemsFromBudgetStore(), budgetStore, "Invalid Budget Store Items");
+
+	}
+
+	@Test
+	public void verifyCamerasAccessories() {
+		List<String> cameraItems = Arrays.asList("DSLRs", "Digital Cameras", "Camera Lenses", "Selfie Sticks",
+				"Camera Accessories", "Binoculars & Telescopes", "Camcorders", "Digital Photo Frames");
+		List<String> bestCameras = Arrays.asList("Nikon Coolpix 20.1 MP", "Nikon Coolpix 16.1 MP", "Canon EOS 1300D",
+				"Sony Cybershot W800");
+
+		HomePageActivity homePage = new HomePageActivity(driver);
+		homePage.selectCategory("Mobiles & Electronics");
+		MobileElectronicsPageActivity mePage = homePage.selectSubCategory("Cameras & Accessories");
+
+		Assert.assertEquals(mePage.getAllCameraItems(), cameraItems, "Invalid Camera Items");
+		Assert.assertTrue(mePage.getAllBestCameras().contains(bestCameras), "Invalid Best Deals");
 	}
 
 	@AfterMethod

@@ -8,9 +8,12 @@ import com.imaginea.utils.UIUtility;
 
 public class DailyNeedsPageActivity extends UIUtility {
 	private String  DailyNeedsSubCategory = "com.snapdeal.main:id/subCategoryTitleTextView";
+	private String sortResourceId = "com.snapdeal.main:id/sort_by_radio_button";
+	private String productDiscount = "com.snapdeal.main:id/productDiscount";
 	public DailyNeedsPageActivity(AppiumDriver driver) {
 		super(driver);
-	}
+		
+	} 
 
 	/**
 	 * Select Sub Category of DailyNeeds
@@ -27,6 +30,24 @@ public class DailyNeedsPageActivity extends UIUtility {
 	 */
 	public List<String> getSubCategoryList() {
 		return getListOfElementsByID(driver, DailyNeedsSubCategory);
+	}
+	/**
+	 * Get List of Sort Category
+	 * 
+	 * @return
+	 */
+	public List<String> getSortCategoryList() {
+		return getListOfElementsByID(driver, sortResourceId);
+	}
+
+	/**
+	 * Get Product Discount List
+	 * 
+	 * @return
+	 */
+	public List<String> getProductDiscountList() {
+		swipeDown(driver);
+		return getListOfElementsByID(driver, productDiscount);
 	}
 
 }

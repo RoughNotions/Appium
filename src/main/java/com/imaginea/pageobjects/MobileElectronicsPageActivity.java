@@ -1,6 +1,7 @@
 package com.imaginea.pageobjects;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -52,8 +53,8 @@ public class MobileElectronicsPageActivity extends UIUtility {
 
 	public void navigateToBackPage() {
 		driver.navigate().back();
-		/* Below code also works 
-		 * AndroidDriver adriver = (AndroidDriver) driver;
+		/*
+		 * Below code also works AndroidDriver adriver = (AndroidDriver) driver;
 		 * adriver.pressKeyCode(AndroidKeyCode.BACK);
 		 */
 	}
@@ -207,6 +208,34 @@ public class MobileElectronicsPageActivity extends UIUtility {
 
 	public List<String> getShopByType() {
 		driver.scrollTo("Shop By Type");
+		List<String> text = UIUtility.getListOfElementsByID(driver, mobileByPicks);
+		return text;
+	}
+
+	public List<String> getAllItems() {
+		List<String> text = UIUtility.getListOfElementsByID(driver, mobileByPrice);
+		return text;
+	}
+
+	public List<String> getTopViewedProducts() {
+		UIUtility.swipeDown(driver);
+		List<String> text = UIUtility.getListOfElementsByID(driver, mobileByTypes);
+		return text;
+	}
+
+	public List<String> getItemsFromBudgetStore() {
+		driver.scrollToExact("McAfee Antivirus @ Rs 99");
+		List<String> text = UIUtility.getListOfElementsByID(driver, mobileByPicks);
+		return text;
+	}
+
+	public List<String> getAllCameraItems() {
+		List<String> text = UIUtility.getListOfElementsByID(driver, mobileByPrice);
+		return text;
+	}
+
+	public List<String> getAllBestCameras() {
+		driver.scrollToExact("Best of Cameras");
 		List<String> text = UIUtility.getListOfElementsByID(driver, mobileByPicks);
 		return text;
 	}
