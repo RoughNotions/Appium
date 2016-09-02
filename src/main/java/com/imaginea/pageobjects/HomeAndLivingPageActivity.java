@@ -1,6 +1,11 @@
 package com.imaginea.pageobjects;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.tools.ant.types.CommandlineJava.SysProperties;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
@@ -12,12 +17,12 @@ import com.imaginea.utils.UIUtility;
 public class HomeAndLivingPageActivity extends UIUtility {
 	private String subCategories = "com.snapdeal.main:id/subCategoryTitleTextView";
 	private String shopNowButton = "com.snapdeal.main:id/shop_now_button";
-	public HomeAndLivingPageActivity(AppiumDriver driver) {
-		super(driver);
+	public HomeAndLivingPageActivity(AppiumDriver driver1) {
+		super(driver1);
 		// TODO Auto-generated constructor stub
 	}
 	public List<String> getSubCategoryList() {
-		return getListOfElementsByID(driver, subCategories);
+		return getListOfElementsByID( subCategories);
 	}
 	
 	/**
@@ -26,27 +31,28 @@ public class HomeAndLivingPageActivity extends UIUtility {
 	 * @param subCategory
 	 */
 	public void selectSubCategory(String subCategory) {
-		clickElementByText(driver, subCategory);
+		clickElementByText( subCategory);
 	}
 
 	public List<String> getProductTitles(){
-		List<String> titles=getTitles(driver,1);
+		List<String> titles=getTitles(1);
 		boolean bFlag=false;
 		if(titles.contains("More")){
 			bFlag=true;
-			clickElementByText(driver,"More");
-			UIUtility.sleep(5000l);
+			clickElementByText("More");
+			sleep(5000l);
 		}
 		driver.swipe(0, 788, 0, 250, 3000);
 		
+		
 		while(bFlag){
-			titles=getTitles(driver,1);
+			titles=getTitles(1);
 			if(titles.contains("Less")){
 				break;
 			}else if(titles.contains("More")){
-				clickElementByText(driver,"More");
-				UIUtility.sleep(5000l);
-				titles=getTitles(driver,1);
+				clickElementByText("More");
+				sleep(5000l);
+				titles=getTitles(1);
 			}
 		}
 		return titles;
@@ -60,8 +66,120 @@ public class HomeAndLivingPageActivity extends UIUtility {
 	}
 	
 	public List<String> getProductsTitles(){
-		List<String> titles=getTitles(driver,1);
+		List<String> titles=getTitles(1);
 		System.out.println(titles);
 		return titles;
+	}
+	
+	public String getHeaderText(){
+		try{
+			System.out.println(driver.findElementByXPath("//android.widget.FrameLayout[@resource-id='com.snapdeal.main:id/header_container']//android.view.View[0]//android.widget.TextView[1]").getText());
+		}catch(Exception e){
+			System.out.println("in ex");
+		}
+		
+		try{
+			System.out.println(driver.findElementByXPath("//android.support.v4.widget.DrawerLayout[0]/android.widget.FrameLayout[0]/android.widget.FrameLayout[0]/android.widget.FrameLayout[1]//android.view.View[0]//android.widget.TextView[1]").getText());
+			driver.findElementByXPath("//*[@id='com.snapdeal.main:id/toolBar']");
+			driver.findElement(By.id("com.snapdeal.main:id/toolBar'"));
+			//*[@class='android.widget.TextView']");
+			driver.getPageSource();
+		}catch(Exception e){
+			System.out.println("in ex");
+		}
+		
+		return "..";
+	}
+	
+	
+	
+	public String getPageTitle(String subCategoryName) {
+		String category = String.format("//android.widget.TextView[@text='%s']", subCategoryName);
+		waitForElementVisibility( 60, driver.findElementByXPath(category));
+		return driver.findElementByXPath(category).getText();
+	}
+	
+	public String clickFirsProductFromList(int index){
+		List<WebElement> ele = getElementsTextByIndex(index);
+		String productName = "";
+		System.out.println(ele.size());
+		if(ele.size()>0){
+			productName = ele.get(0).getText();
+			ele.get(0).click();
+		}
+		return productName;
+	}
+	
+	public String clickFirstProductFromList(String resourceId){
+		List<WebElement> ele =  getElementsTextById(resourceId);
+		String productName = "";
+		System.out.println(ele.size());
+		if(ele.size()>0){
+			productName = ele.get(0).getText();
+			ele.get(0).click();
+		}
+		return productName;
+	}
+	
+	public String clickFirstSubProduct(){
+		return  clickFirstProductFromList("com.snapdeal.main:id/txvProductItemTitle");
+	}
+	public String clickFirstMostRelavantSubProduct(){
+		return  clickFirstProductFromList("com.snapdeal.main:id/productTitle");
+	}
+	public void clickOnAddToCartButton(){
+		WebElement element;
+		try{
+			element= driver.findElementByXPath("//android.widget.TextView[contains(@resource-id,'addCartBUtton')]");	
+			System.out.println(element.getText());
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			try{
+				element= driver.findElementByXPath("//android.widget.TextView[@id='com.snapdeal.main:id/addCartBUtton']");	
+				System.out.println(element.getText());
+			}catch(Exception e1){
+				System.out.println(e1.getMessage());
+				element= driver.findElementById("com.snapdeal.main:id/addCartBUtton");
+				System.out.println(element.getText());
+			}
+		}
+		
+		tapElement(element);
+	}
+	
+	
+	public boolean verifyTextInAddToCartButton(String text){
+		WebElement element;
+		String actualtext="";
+		try{
+			element= driver.findElementByXPath("//android.widget.TextView[contains(@resource-id,'addCartBUtton')]");	
+			actualtext=element.getText();
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+				element= driver.findElementById("com.snapdeal.main:id/addCartBUtton");
+				actualtext=element.getText();
+		}
+		
+		if(actualtext.equals(text)){
+			return true;
+		}
+		return false;
+	}
+	
+	public void swipeShopNow(){
+		WebElement element = null;
+		try{
+			String category = String.format("//android.widget.TextView[@text='%s']", "Shop Now");
+			waitForElementVisibility( 60, driver.findElementByXPath(category));
+			element= driver.findElementByXPath(category);	
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+				
+		}
+		swipeRight(element);
+	}
+	
+	public void scrollToHomeDecorSection(){
+		scrollToExactText("Home Decor");
 	}
 }

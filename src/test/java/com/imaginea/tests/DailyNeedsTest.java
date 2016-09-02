@@ -37,7 +37,7 @@ public class DailyNeedsTest extends BaseTest {
 			homePage.selectCategory("Daily Needs");
 			DailyNeedsPageActivity dailyneedsactivity = new DailyNeedsPageActivity(driver);
 			dailyneedsactivity.selectSubCategory(category[i]);
-			Assert.assertEquals(UIUtility.getElementTextByIndex(driver, 1), subcategory[i],
+			Assert.assertEquals(dailyneedsactivity.getElementTextByIndex( 1), subcategory[i],
 					"Sub Category result field didn't match");
 			driver.navigate().back();
 
@@ -50,10 +50,10 @@ public class DailyNeedsTest extends BaseTest {
 		homePage.selectCategory("Daily Needs");
 		DailyNeedsPageActivity dailyneedsactivity = new DailyNeedsPageActivity(driver);
 		dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
-		UIUtility.sleep(10000L);
-		UIUtility.clickElementByText(driver, "Makeup");
-		UIUtility.sleep(10000L);
-		UIUtility.clickElementByText(driver, "Sort\nPopularity");
+		dailyneedsactivity.sleep(10000L);
+		dailyneedsactivity.clickElementByText( "Makeup");
+		dailyneedsactivity.sleep(10000L);
+		dailyneedsactivity.clickElementByText( "Sort\nPopularity");
 		String sortCategory[] = { "Relevance", "Popularity", "Price Low To High", "Price High To Low", "New Arrival",
 				"Discount" };
 		Assert.assertEquals(dailyneedsactivity.getSortCategoryList(), Arrays.asList(sortCategory));
@@ -65,12 +65,12 @@ public class DailyNeedsTest extends BaseTest {
 		homePage.selectCategory("Daily Needs");
 		DailyNeedsPageActivity dailyneedsactivity = new DailyNeedsPageActivity(driver);
 		dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
-		UIUtility.sleep(5000L);
-		UIUtility.clickElementByText(driver, "Makeup");
-		UIUtility.sleep(5000L);
-		UIUtility.clickElementByText(driver, "Sort\nPopularity");
-		UIUtility.clickElementByText(driver, "Discount");
-		UIUtility.sleep(5000L);
+		dailyneedsactivity.sleep(5000L);
+		dailyneedsactivity.clickElementByText( "Makeup");
+		dailyneedsactivity.sleep(5000L);
+		dailyneedsactivity.clickElementByText( "Sort\nPopularity");
+		dailyneedsactivity.clickElementByText( "Discount");
+		dailyneedsactivity.sleep(5000L);
 		Assert.assertTrue(dailyneedsactivity.getProductDiscountList().get(0)
 				.contains("% OFF"), "Discount is not shown");
 		
@@ -81,12 +81,12 @@ public class DailyNeedsTest extends BaseTest {
 		homePage.selectCategory("Daily Needs");
 		DailyNeedsPageActivity dailyneedsactivity = new DailyNeedsPageActivity(driver);
 		dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
-		UIUtility.sleep(5000L);
-		UIUtility.clickElementByText(driver, "Makeup");
-		UIUtility.sleep(5000L);
-		UIUtility.clickElementByText(driver, "Sort\nPopularity");
-		UIUtility.clickElementByText(driver, "Price Low To High");
-		UIUtility.sleep(5000L);
+		dailyneedsactivity.sleep(5000L);
+		dailyneedsactivity.clickElementByText( "Makeup");
+		dailyneedsactivity.sleep(5000L);
+		dailyneedsactivity.clickElementByText( "Sort\nPopularity");
+		dailyneedsactivity.clickElementByText( "Price Low To High");
+		dailyneedsactivity.sleep(5000L);
 		Assert.assertTrue(dailyneedsactivity.getProductDiscountList().get(0)
 				.contains("price"), "Price Low To High is not shown");
 	}
@@ -96,12 +96,12 @@ public class DailyNeedsTest extends BaseTest {
 		homePage.selectCategory("Daily Needs");
 		DailyNeedsPageActivity dailyneedsactivity = new DailyNeedsPageActivity(driver);
 		dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
-		UIUtility.sleep(5000L);
-		UIUtility.clickElementByText(driver, "Makeup");
-		UIUtility.sleep(5000L);
-		UIUtility.clickElementByText(driver, "Sort\nPopularity");
-		UIUtility.clickElementByText(driver, "Price High To Low");
-		UIUtility.sleep(5000L);
+		dailyneedsactivity.sleep(5000L);
+		dailyneedsactivity.clickElementByText( "Makeup");
+		dailyneedsactivity.sleep(5000L);
+		dailyneedsactivity.clickElementByText( "Sort\nPopularity");
+		dailyneedsactivity.clickElementByText( "Price High To Low");
+		dailyneedsactivity.sleep(5000L);
 		Assert.assertTrue(dailyneedsactivity.getProductDiscountList().get(0)
 				.contains("price"), "Price High To Low is not shown");
 	}
@@ -111,12 +111,12 @@ public class DailyNeedsTest extends BaseTest {
 		homePage.selectCategory("Daily Needs");
 		DailyNeedsPageActivity dailyneedsactivity = new DailyNeedsPageActivity(driver);
 		dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
-		UIUtility.sleep(5000L);
-		UIUtility.clickElementByText(driver, "Makeup");
-		UIUtility.sleep(5000L);
-		UIUtility.clickElementByText(driver, "Sort\nPopularity");
-		UIUtility.clickElementByText(driver, "New Arrival");
-		UIUtility.sleep(5000L);
+		dailyneedsactivity.sleep(5000L);
+		dailyneedsactivity.clickElementByText( "Makeup");
+		dailyneedsactivity.sleep(5000L);
+		dailyneedsactivity.clickElementByText( "Sort\nPopularity");
+		dailyneedsactivity.clickElementByText( "New Arrival");
+		dailyneedsactivity.sleep(5000L);
 		Assert.assertTrue(dailyneedsactivity.getProductDiscountList().get(0)
 				.contains("price"), "New Arrival is not shown");
 	}
