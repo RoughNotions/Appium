@@ -1,21 +1,18 @@
 package com.imaginea.tests;
 
+import io.appium.java_client.AppiumDriver;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-import org.testng.Assert;
 import org.testng.TestNG;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 
-import com.android.ddmlib.AndroidDebugBridge;
-import com.android.ddmlib.IDevice;
 import com.imaginea.base.DriverFactory;
 import com.imaginea.utils.FileUtilities;
-
-import io.appium.java_client.AppiumDriver;
 
 public class BaseTest {
 

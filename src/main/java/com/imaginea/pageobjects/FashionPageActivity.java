@@ -39,7 +39,7 @@ public class FashionPageActivity extends UIUtility {
 	 * @param subCategory
 	 */
 	public void selectSubCategory(String subCategory) {
-		clickElementByText(driver, subCategory);
+		clickElementByText( subCategory);
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class FashionPageActivity extends UIUtility {
 	 * @return
 	 */
 	public List<String> getSubCategoryList() {
-		return getListOfElementsByID(driver, fashionSubCategory);
+		return getListOfElementsByID( fashionSubCategory);
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class FashionPageActivity extends UIUtility {
 	 * @return
 	 */
 	public List<String> getSortCategoryList() {
-		return getListOfElementsByID(driver, sortResourceId);
+		return getListOfElementsByID( sortResourceId);
 	}
 
 	/**
@@ -66,8 +66,8 @@ public class FashionPageActivity extends UIUtility {
 	 * @return
 	 */
 	public List<String> getProductDiscountList() {
-		swipeDown(driver);
-		return getListOfElementsByID(driver, productDiscount);
+		swipeDown();
+		return getListOfElementsByID( productDiscount);
 	}
 	
 	/**
@@ -78,16 +78,16 @@ public class FashionPageActivity extends UIUtility {
 	public void selectCategoryByText(String title){
 			String category = String.format(
 					"//android.widget.TextView[@text='%s']", title);
-			waitForElementVisibility(driver, 30,
+			waitForElementVisibility( 30,
 					driver.findElement(By.xpath(category)));
-			UIUtility.clickElementusingXPath(driver, category);
+			clickElementusingXPath( category);
 	}
 	
 	/**
 	 * Click on Apply Button
 	 */
 	public void clickApplyButton(){		
-		clickElementByText(driver, "APPLY");
+		clickElementByText( "APPLY");
 	}
 	
 	/**
@@ -96,8 +96,8 @@ public class FashionPageActivity extends UIUtility {
 	 * @return
 	 */
 	public List<String> getProductTitleList() {
-		swipeDown(driver);
-		return getListOfElementsByID(driver, productTitle);
+		swipeDown();
+		return getListOfElementsByID( productTitle);
 	}	
 
 	/**
@@ -106,9 +106,9 @@ public class FashionPageActivity extends UIUtility {
 	 * @param ePrice
 	 */
 	public void setPriceFilter(String sPrice ,String ePrice){
-		enterTextByID(driver, startPrice,sPrice);
-		enterTextByID(driver, endPrice,ePrice);
-		clickElementByText(driver, "Apply Filters");
+		enterTextByID( startPrice,sPrice);
+		enterTextByID( endPrice,ePrice);
+		clickElementByText( "Apply Filters");
 	}
 
 	/**
@@ -117,8 +117,8 @@ public class FashionPageActivity extends UIUtility {
 	 * @return
 	 */
 	public List<String> getProductDisplayPriceList() {
-		swipeDown(driver);
-		return getListOfElementsByID(driver, productDisplayPrice);
+		swipeDown();
+		return getListOfElementsByID( productDisplayPrice);
 	}
 	
 	
@@ -128,22 +128,22 @@ public class FashionPageActivity extends UIUtility {
 	 * @return
 	 */
 	public List<String> getProductDiscountPriceList() {
-		swipeDown(driver);
-		return getListOfElementsByID(driver, productDiscountPrice);
+		swipeDown();
+		return getListOfElementsByID( productDiscountPrice);
 	}
 	
 	/**
 	 * Zoom Image by single tap
 	 */
 	public void zoomImage(){
-		zoomImageById(driver, imageId);
+		zoomImageById( imageId);
 	}
 	
 	/**
 	 * Click On Menu Cart Icon
 	 */
 	public void clickMenuCartIcon(){
-		clickElementusingID(driver, menuCartIcon);
+		clickElementusingID( menuCartIcon);
 	}
 	
 	/**
@@ -151,7 +151,7 @@ public class FashionPageActivity extends UIUtility {
 	 * @return
 	 */
 	public List<String> getCartProductNameList(){
-		return getListOfElementsByID(driver, txtProductName);
+		return getListOfElementsByID( txtProductName);
 	}
 	
 	/**
@@ -159,6 +159,6 @@ public class FashionPageActivity extends UIUtility {
 	 * @return
 	 */
 	public List<String> getCartProductCountList(){
-		return getListOfElementsByID(driver, txtCount);
+		return getListOfElementsByID( txtCount);
 	}
 }

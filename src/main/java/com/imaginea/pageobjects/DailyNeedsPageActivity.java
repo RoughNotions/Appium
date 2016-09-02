@@ -1,8 +1,8 @@
 package com.imaginea.pageobjects;
 
-import java.util.List;
-
 import io.appium.java_client.AppiumDriver;
+
+import java.util.List;
 
 import com.imaginea.utils.UIUtility;
 
@@ -21,7 +21,7 @@ public class DailyNeedsPageActivity extends UIUtility {
 	 * @param subCategory 
 	 */
 	public void selectSubCategory(String subCategory) {
-		clickElementByText(driver, subCategory);
+		clickElementByText(subCategory);
 	}
 	/**
 	 * Get Sub Category List
@@ -29,7 +29,7 @@ public class DailyNeedsPageActivity extends UIUtility {
 	 * @return
 	 */
 	public List<String> getSubCategoryList() {
-		return getListOfElementsByID(driver, DailyNeedsSubCategory);
+		return getListOfElementsByID(DailyNeedsSubCategory);
 	}
 	/**
 	 * Get List of Sort Category
@@ -37,7 +37,7 @@ public class DailyNeedsPageActivity extends UIUtility {
 	 * @return
 	 */
 	public List<String> getSortCategoryList() {
-		return getListOfElementsByID(driver, sortResourceId);
+		return getListOfElementsByID(sortResourceId);
 	}
 
 	/**
@@ -46,8 +46,8 @@ public class DailyNeedsPageActivity extends UIUtility {
 	 * @return
 	 */
 	public List<String> getProductDiscountList() {
-		swipeDown(driver);
-		return getListOfElementsByID(driver, productDiscount);
+		swipeDown();
+		return getListOfElementsByID(productDiscount);
 	}
 
 }

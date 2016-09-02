@@ -58,7 +58,7 @@ public class FashionTests extends BaseTest {
 			FashionPageActivity fashionPageActivity = new FashionPageActivity(
 					driver);
 			fashionPageActivity.selectSubCategory(category[i]);
-			s_assert.assertEquals(UIUtility.getElementTextByIndex(driver, 1),
+			s_assert.assertEquals(fashionPageActivity.getElementTextByIndex(1),
 					subCategory[i], "Sub Category result field didn't match");
 			driver.navigate().back();
 
@@ -73,10 +73,10 @@ public class FashionTests extends BaseTest {
 		FashionPageActivity fashionPageActivity = new FashionPageActivity(
 				driver);
 		fashionPageActivity.selectSubCategory("Men's Fashion");
-		UIUtility.sleep(10000L);
-		UIUtility.clickElementByText(driver, "Clothing");
-		UIUtility.sleep(10000L);
-		UIUtility.clickElementByText(driver, "Sort\nPopularity");
+		fashionPageActivity.sleep(10000L);
+		fashionPageActivity.clickElementByText( "Clothing");
+		fashionPageActivity.sleep(10000L);
+		fashionPageActivity.clickElementByText( "Sort\nPopularity");
 		String sortCategory[] = { "Relevance", "Popularity",
 				"Price Low To High", "Price High To Low", "New Arrival",
 				"Discount" };
@@ -91,12 +91,12 @@ public class FashionTests extends BaseTest {
 		FashionPageActivity fashionPageActivity = new FashionPageActivity(
 				driver);
 		fashionPageActivity.selectSubCategory("Men's Fashion");
-		UIUtility.sleep(5000L);
-		UIUtility.clickElementByText(driver, "Clothing");
-		UIUtility.sleep(5000L);
-		UIUtility.clickElementByText(driver, "Sort\nPopularity");
-		UIUtility.clickElementByText(driver, "Discount");
-		UIUtility.sleep(5000L);
+		fashionPageActivity.sleep(5000L);
+		fashionPageActivity.clickElementByText("Clothing");
+		fashionPageActivity.sleep(5000L);
+		fashionPageActivity.clickElementByText("Sort\nPopularity");
+		fashionPageActivity.clickElementByText("Discount");
+		fashionPageActivity.sleep(5000L);
 		Assert.assertTrue(fashionPageActivity.getProductDiscountList().get(0)
 				.contains("% OFF"), "Discount is not shown");
 	}
@@ -108,15 +108,15 @@ public class FashionTests extends BaseTest {
 		FashionPageActivity fashionPageActivity = new FashionPageActivity(
 				driver);
 		fashionPageActivity.selectSubCategory("Men's Fashion");
-		UIUtility.sleep(5000L);
-		UIUtility.clickElementByText(driver, "Clothing");
-		UIUtility.sleep(5000L);
+		fashionPageActivity.sleep(5000L);
+		fashionPageActivity.clickElementByText( "Clothing");
+		fashionPageActivity.sleep(5000L);
 		fashionPageActivity.selectCategoryByText("Brand");
-		UIUtility.sleep(2000L);
+		fashionPageActivity.sleep(2000L);
 		fashionPageActivity.selectCategoryByText("Lee");
-		UIUtility.sleep(2000L);
+		fashionPageActivity.sleep(2000L);
 		fashionPageActivity.clickApplyButton();
-		UIUtility.sleep(5000L);
+		fashionPageActivity.sleep(5000L);
 		List<String> titleList = fashionPageActivity.getProductTitleList();
 		Assert.assertTrue(titleList.get(0).contains("Lee"),
 				"Title is not shown " + titleList);
@@ -129,13 +129,13 @@ public class FashionTests extends BaseTest {
 		FashionPageActivity fashionPageActivity = new FashionPageActivity(
 				driver);
 		fashionPageActivity.selectSubCategory("Men's Fashion");
-		UIUtility.sleep(5000L);
-		UIUtility.clickElementByText(driver, "Clothing");
-		UIUtility.sleep(5000L);
+		fashionPageActivity.sleep(5000L);
+		fashionPageActivity.clickElementByText("Clothing");
+		fashionPageActivity.sleep(5000L);
 		fashionPageActivity.selectCategoryByText("Price");
-		UIUtility.sleep(2000L);
+		fashionPageActivity.sleep(2000L);
 		fashionPageActivity.setPriceFilter("2000", "30000");
-		UIUtility.sleep(5000L);
+		fashionPageActivity.sleep(5000L);
 		List<String> titleList = fashionPageActivity
 				.getProductDisplayPriceList();
 		int price = Integer.parseInt(titleList.get(0).replace("Rs. ", "")
@@ -151,11 +151,11 @@ public class FashionTests extends BaseTest {
 		FashionPageActivity fashionPageActivity = new FashionPageActivity(
 				driver);
 		fashionPageActivity.selectSubCategory("Men's Fashion");
-		UIUtility.clickElementByText(driver, "Clothing");
+		fashionPageActivity.clickElementByText("Clothing");
 		fashionPageActivity.selectCategoryByText("Discount %");
 		fashionPageActivity.selectCategoryByText("40 - 50");
 		fashionPageActivity.clickApplyButton();
-		UIUtility.sleep(2000L);
+		fashionPageActivity.sleep(2000L);
 		List<String> titleList = fashionPageActivity
 				.getProductDiscountPriceList();
 		Assert.assertTrue(titleList.get(0).contains("% OFF"),
@@ -169,14 +169,12 @@ public class FashionTests extends BaseTest {
 		FashionPageActivity fashionPageActivity = new FashionPageActivity(
 				driver);
 		fashionPageActivity.selectSubCategory("Men's Fashion");
-		UIUtility.clickElementByText(driver, "Clothing");
-		UIUtility.clickElementByText(driver, "T-Shirts & Polos");
-		UIUtility.clickElementByText(driver, "T-Shirts");
-		UIUtility.clickElementByText(driver,
-				"Alan Jones Clothing Grey Cotton T-Shirt");
+		fashionPageActivity.clickElementByText("Clothing");
+		fashionPageActivity.clickElementByText("T-Shirts & Polos");
+		fashionPageActivity.clickElementByText("T-Shirts");
+		fashionPageActivity.clickElementByText("Alan Jones Clothing Grey Cotton T-Shirt");
 		fashionPageActivity.zoomImage();
-		Assert.assertTrue(UIUtility.isElementPresent(driver,
-				"com.snapdeal.main:id/imageViewZoom"),
+		Assert.assertTrue(fashionPageActivity.isElementPresent("com.snapdeal.main:id/imageViewZoom"),
 				"Trouble in Zooming image");
 	}
 
@@ -187,14 +185,14 @@ public class FashionTests extends BaseTest {
 		FashionPageActivity fashionPageActivity = new FashionPageActivity(
 				driver);
 		fashionPageActivity.selectSubCategory("Men's Fashion");
-		UIUtility.clickElementByText(driver, "Clothing");
-		UIUtility.clickElementByText(driver, "T-Shirts & Polos");
-		UIUtility.clickElementByText(driver, "T-Shirts");
+		fashionPageActivity.clickElementByText( "Clothing");
+		fashionPageActivity.clickElementByText( "T-Shirts & Polos");
+		fashionPageActivity.clickElementByText( "T-Shirts");
 		String fashionItem = "Alan Jones Clothing Grey Cotton T-Shirt";
-		UIUtility.clickElementByText(driver, fashionItem);
-		UIUtility.clickElementByText(driver, "Add to Cart");
-		UIUtility.clickElementByText(driver, "L");
-		UIUtility.clickElementByText(driver, "Add to cart");
+		fashionPageActivity.clickElementByText( fashionItem);
+		fashionPageActivity.clickElementByText( "Add to Cart");
+		fashionPageActivity.clickElementByText( "L");
+		fashionPageActivity.clickElementByText( "Add to cart");
 		fashionPageActivity.clickMenuCartIcon();
 		Assert.assertEquals(
 				fashionPageActivity.getCartProductNameList().get(0),

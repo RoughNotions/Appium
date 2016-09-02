@@ -6,6 +6,7 @@ import io.appium.java_client.MobileBy;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import com.imaginea.utils.UIUtility;
 
@@ -26,21 +27,22 @@ public class HomePageActivity extends UIUtility {
 	String categoryName = "com.snapdeal.main:id/subCategoryTitleTextView";
 	String skip = "com.snapdeal.main:id/home_screen_login_skip";
 
+
 	public HomePageActivity(AppiumDriver driver) {
 		super(driver);
-		if(isElementPresent(driver, skip)){
-			UIUtility.clickElementusingID(driver, skip);
+		if(isElementPresent(skip)){
+			clickElementusingID(skip);
 		}
 		initPage(driver.findElement(homeMenu));
 	}
 
 	public void login() {
-		UIUtility.clickElementusingClassName(driver, imageButton);
-		UIUtility.clickElementusingID(driver, loginLink);
-		UIUtility.enterTextusingID(driver, uname, "avinash.golla@yahoo.com");
-		UIUtility.clickElementusingID(driver, continueButton);
-		UIUtility.enterTextusingID(driver, password, "12345");
-		UIUtility.clickElementusingID(driver, loginButton);
+		clickElementusingClassName( imageButton);
+		clickElementusingID( loginLink);
+		enterTextusingID( uname, "avinash.golla@yahoo.com");
+		clickElementusingID( continueButton);
+		enterTextusingID( password, "12345");
+		clickElementusingID( loginButton);
 
 	}
 
@@ -49,7 +51,7 @@ public class HomePageActivity extends UIUtility {
 	}
 
 	public String wrongPasswordErrorMSG(String errorMSG) {
-		return UIUtility.getErrorMSG(driver, errorMSG);
+		return getTextMSG( errorMSG);
 
 	}
 
@@ -59,12 +61,12 @@ public class HomePageActivity extends UIUtility {
 	 * @param categoryName
 	 */
 	public void selectCategory(String categoryName) {
-		UIUtility.clickElementusingClassName(driver, imageButton);
+		clickElementusingClassName( imageButton);
 		String category = String.format(
 				"//android.widget.TextView[@text='%s']", categoryName);
-		waitForElementVisibility(driver, 30,
+		waitForElementVisibility( 30,
 				driver.findElement(By.xpath(category)));
-		UIUtility.clickElementusingXPath(driver, category);
+		clickElementusingXPath( category);
 	}
 
 	/**
@@ -73,7 +75,7 @@ public class HomePageActivity extends UIUtility {
 	 * @param categoryName
 	 */
 	public List<String> getSubItemsList() {
-		List<String> text = UIUtility.getListOfElementsByID(driver, categoryName);
+		List<String> text = getListOfElementsByID( categoryName);
 		return text;
 	}
 
@@ -82,10 +84,44 @@ public class HomePageActivity extends UIUtility {
 	 * @param subCategoryName
 	 */
 	public MobileElectronicsPageActivity selectSubCategory(String subCategoryName) {
-		UIUtility.sleep(500L);
+		sleep(500L);
 		String subCategory = String.format("//android.widget.TextView[@text='%s']", subCategoryName);
-		UIUtility.clickElementusingXPath(driver, subCategory);
+		clickElementusingXPath( subCategory);
 		return new MobileElectronicsPageActivity(driver);
 	}
+
+	public void tapOnSearch(){
+		WebElement element= driver.findElementById("com.snapdeal.main:id/search_text_view");
+		tapElement(element);
+	}
+	
+	public void enterProductToSearch(String sProduct){
+		enterTextusingID( "com.snapdeal.main:id/search_edit_text_autocomplete",sProduct); 
+		pressKeyInAndroid();
+	}
+	
+	public boolean verifySearchResultsText(String sProdouct){
+		String sMessage=getTextMSG( "com.snapdeal.main:id/spell_check_partial_text_view");
+		if(sMessage.contains(sProdouct)){
+			return true;
+		}
+		return false;
+	}
+	
+	public void tapOnAppllyFilter(){
+		WebElement element= driver.findElementById("com.snapdeal.main:id/filter_by_text_view");
+		driver.tap(1, element, 3000);
+		
+	}
+	
+	public int getCountOfSubCategory(String subCategory){
+		String locator = String.format("//android.widget.TextView[@text='%s']/following-sibling::*[1]", subCategory);
+		return Integer.parseInt(getTextUsingXpath(locator).replaceAll("\\D", ""));
+	}
+	public void tapOnCategory(String subCategory){
+		String locator = String.format("//android.widget.TextView[@text='%s']", subCategory);
+		tapElement(driver.findElementByXPath(locator));
+	}
+	
 
 }

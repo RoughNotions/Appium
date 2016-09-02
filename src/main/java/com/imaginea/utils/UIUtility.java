@@ -2,19 +2,35 @@ package com.imaginea.utils;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.SwipeElementDirection;
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidKeyCode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.InvalidSelectorException;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.google.common.base.Function;
 
 public class UIUtility {
 	protected AppiumDriver driver;
@@ -27,33 +43,34 @@ public class UIUtility {
 	public void initPage(WebElement initialElement, WebElement... initialElements) {
 		PageFactory.initElements(new AjaxElementLocatorFactory(driver, pageTimeoutTime), this);
 		if (initialElement != null) {
-			waitForElementVisibility(driver, 90, initialElement);
+			waitForElementVisibility( 90, initialElement);
 			for (WebElement element : initialElements) {
-				waitForElementVisibility(driver, 90, element);
+				waitForElementVisibility( 90, element);
 			}
 		}
 	}
 
-	public static void waitForElementVisibility(WebDriver driver, int timeout, WebElement element) {
+	public void waitForElementVisibility(int timeout, WebElement element) {
 		new WebDriverWait(driver, timeout).until(ExpectedConditions.visibilityOf(element));
 	}
+	
 
-	public static void clickElementusingClassName(AppiumDriver driver, String className) {
+	public void clickElementusingClassName(String className) {
 		driver.findElementByClassName(className).click();
 
 	}
 
-	public static void clickElementusingID(AppiumDriver driver, String ID) {
+	public  void clickElementusingID(String ID) {
 		driver.findElementById(ID).click();
 	}
 
-	public static void enterTextusingID(AppiumDriver driver, String text, String email) {
-		driver.findElementById(text).clear();
-		driver.findElementById(text).sendKeys(email);
+	public void enterTextusingID(String locator,String sText) {
+		driver.findElementById(locator).clear();
+		driver.findElementById(locator).sendKeys(sText);
 		driver.hideKeyboard();
 	}
 
-	public static String getErrorMSG(AppiumDriver driver, String resourceID) {
+	public String getTextMSG(String resourceID) {
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
@@ -63,19 +80,19 @@ public class UIUtility {
 		return driver.findElementById(resourceID).getText();
 	}
 
-	public static void clickElementusingLinkedText(AppiumDriver driver, String str) {
+	public  void clickElementusingLinkedText(String str) {
 		driver.findElementByLinkText(str).click();
 	}
 
-	public static void clickElementusingXPath(AppiumDriver driver, String continueButton) {
+	public  void clickElementusingXPath( String continueButton) {
 		driver.findElementByXPath(continueButton).click();
 	}
 
-	public static void pressEnter(AppiumDriver driver, String locator) {
+	public  void pressEnter( String locator) {
 		driver.findElementById(locator).sendKeys(Keys.ENTER);
 	}
 
-	public static boolean isElementPresent(AppiumDriver driver, String uname) {
+	public  boolean isElementPresent( String uname) {
 		List<WebElement> ele = driver.findElementsById(uname);
 		if (ele.size() > 0)
 			return true;
@@ -83,12 +100,12 @@ public class UIUtility {
 			return false;
 	}
 
-	public static void enterTextusingIDDontHide(AppiumDriver driver, String text, String email) {
+	public  void enterTextusingIDDontHide( String text, String email) {
 		driver.findElementById(text).clear();
 		driver.findElementById(text).sendKeys(email);
 	}
 
-	public static void clickonSearchBox(AppiumDriver driver, String searchBox) {
+	public  void clickonSearchBox(String searchBox) {
 		driver.findElementById(searchBox).click();
 		try {
 			Thread.sleep(5000);
@@ -104,9 +121,9 @@ public class UIUtility {
 	 * @param by
 	 * @return
 	 */
-	public static List<String> getListOfByText(AppiumDriver<WebElement> driver, By by) {
+	public List<String> getListOfByText(AppiumDriver<WebElement> driver, By by) {
 		List<String> list = new ArrayList<String>();
-		waitForElementVisibility(driver, 10000, driver.findElement(by));
+		waitForElementVisibility( 10000, driver.findElement(by));
 		List<WebElement> element = driver.findElements(by);
 		for (WebElement e : element) {
 			list.add(e.getText());
@@ -119,13 +136,13 @@ public class UIUtility {
 	 * @param driver
 	 * @param description
 	 */
-	public static void clickElementByText(AppiumDriver driver, String description) {		
+	public  void clickElementByText( String description) {		
 		WebElement element= driver.findElement(MobileBy.AndroidUIAutomator(String.format("new UiSelector().text(\"%s\")", description)));
-		waitForElementVisibility(driver, 10, element);
+		waitForElementVisibility( 10, element);
 		element.click();
 	}
 
-	public static void sleep(Long millis) {
+	public  void sleep(Long millis) {
 		try {
 			Thread.sleep(millis);
 		} catch (InterruptedException e) {
@@ -139,15 +156,15 @@ public class UIUtility {
 	 * @param driver
 	 * @param description
 	 */
-	public static String getElementTextByIndex(AppiumDriver driver, int index) {
+	public  String getElementTextByIndex( int index) {
 		sleep(15000L);
 		return driver.findElement(MobileBy.AndroidUIAutomator(String.format("new UiSelector().index(%d)", index)))
 				.getText();
 	}
 
-	public static List<String> getListOfElementsByID(AppiumDriver driver, String ID) {
+	public  List<String> getListOfElementsByID( String ID) {
 		List<WebElement> ele = driver.findElementsById(ID);
-		waitForElementVisibility(driver, 10, ele.get(0));
+		waitForElementVisibility(10, ele.get(0));
 		List<String> text = new ArrayList<String>();
 		for (int i = 0; i < ele.size(); i++) {
 			System.out.println(ele.get(i).getText());
@@ -162,7 +179,7 @@ public class UIUtility {
 	 * 
 	 * @param driver
 	 */
-	public static void swipeDown(AppiumDriver driver) {
+	public  void swipeDown() {
 		Dimension dimensions = driver.manage().window().getSize();
 		Double screenHeightStart = dimensions.getHeight() * 0.9;
 		int scrollStart = screenHeightStart.intValue();
@@ -171,13 +188,13 @@ public class UIUtility {
 		driver.swipe(0, scrollStart, 0, scrollEnd, 2000);
 	}
 
-	public static List<WebElement> getElementsTextByIndex(AppiumDriver driver, int index) {
+	public  List<WebElement> getElementsTextByIndex( int index) {
 		sleep(15000L);
 		return driver.findElements(MobileBy.AndroidUIAutomator(String.format("new UiSelector().index(%d)", index)));
 	}
 
-	public static List<String> getTitles(AppiumDriver driver, int index) {
-		List<WebElement> ele = getElementsTextByIndex(driver, index);
+	public  List<String> getTitles(int index) {
+		List<WebElement> ele = getElementsTextByIndex(index);
 		List<String> names = new ArrayList<String>();
 		for (int i = 0; i < ele.size(); i++) {
 			System.out.println(ele.get(i).getText());
@@ -187,7 +204,7 @@ public class UIUtility {
 		return names;
 	}
 
-	public static void enterTextByID(AppiumDriver driver, String id, String text) {
+	public  void enterTextByID( String id, String text) {
 		driver.findElementById(id).clear();
 		driver.findElementById(id).sendKeys(text);
 		driver.hideKeyboard();
@@ -198,10 +215,62 @@ public class UIUtility {
 	 * @param driver
 	 * @param resourceId
 	 */
-	public static void zoomImageById(AppiumDriver driver,String resourceId){
+	public  void zoomImageById(String resourceId){
 		WebElement element =driver.findElement(By.id(resourceId));
-		waitForElementVisibility(driver, 20, element);
+		waitForElementVisibility( 20, element);
 		driver.tap(1, element, 2);
 	}
+	public List<WebElement> getElementsTextById(String resourceId) {
+		return driver.findElementsById(resourceId);
+	}
 	
+	public void tapElement(WebElement element){
+		TouchAction touch = new TouchAction(driver);
+		waitForElementVisibility( 10,element);
+		touch.tap(element).perform();
+		
+	}
+	
+	public void swipeRight(WebElement element){
+		MobileElement mobileElement= (MobileElement)element;
+		mobileElement.swipe(SwipeElementDirection.RIGHT, 5000);
+	}
+	
+	public void scrollToExactText(String sText){
+		driver.scrollToExact(sText);
+	}
+	
+	public void rotate(String  myOrientation){
+		String orientation= driver.getOrientation().value();
+		try{
+		if(!orientation.equalsIgnoreCase(myOrientation)){
+			
+			try{
+				ScreenOrientation.valueOf(myOrientation);
+			}catch(Exception e){
+				System.out.println(e.getMessage());
+			}
+			driver.rotate(ScreenOrientation.valueOf(myOrientation));
+			driver.rotate(ScreenOrientation.LANDSCAPE);
+		}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void pressKeyInAndroid(){
+		AndroidDriver driver= (AndroidDriver)(this.driver);
+		driver.pressKeyCode(AndroidKeyCode.ENTER);
+		
+	}
+	
+	public String getTextUsingXpath(String locator){
+		return driver.findElementByXPath(locator).getText();
+	}
+	
+	public String getCurrentActivityName(){
+		AndroidDriver driver= (AndroidDriver)(this.driver);
+		return driver.currentActivity();
+	}
 }

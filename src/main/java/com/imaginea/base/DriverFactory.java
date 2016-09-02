@@ -82,7 +82,6 @@ public class DriverFactory {
 		capability.setCapability(MobileCapabilityType.APP,
 				System.getProperty("user.dir") + "\\src\\test\\resources\\" + prop.getProperty("APP")); // Default
 
-		capability.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, prop.getProperty("NEW_COMMAND_TIMEOUT"));
 		return capability;
 	}
 }
