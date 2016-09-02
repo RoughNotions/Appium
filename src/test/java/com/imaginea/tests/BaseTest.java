@@ -5,10 +5,13 @@ import java.io.FileInputStream;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import org.testng.Assert;
 import org.testng.TestNG;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 
+import com.android.ddmlib.AndroidDebugBridge;
+import com.android.ddmlib.IDevice;
 import com.imaginea.base.DriverFactory;
 import com.imaginea.utils.FileUtilities;
 
@@ -37,13 +40,10 @@ public class BaseTest {
 		}
 	}
 
-	
-
 	@BeforeSuite
 	public void setupTestSuite() {
 		FileUtilities utils = new FileUtilities();
-		utils.deleteExisitngFolder(System.getProperty("user.dir")
-				+ File.separator + "ScreenShots");
+		utils.deleteExisitngFolder(System.getProperty("user.dir") + File.separator + "ScreenShots");
 	}
 
 }

@@ -47,5 +47,10 @@
 			<artifactId>animated-gif-lib</artifactId>
 			<version>1.2</version>
 		</dependency>
+		<dependency>
+			<groupId>com.android.tools.ddms</groupId>
+			<artifactId>ddmlib</artifactId>
+			<version>24.5.0</version>
+		</dependency>
 	</dependencies>
 </project>
