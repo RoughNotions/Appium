@@ -13,7 +13,7 @@ import com.imaginea.pageobjects.HomeAndLivingPageActivity;
 import com.imaginea.pageobjects.HomePageActivity;
 import com.imaginea.pageobjects.MaterialMainActivity;
 
-//@Listeners(com.imaginea.tests.ExtentReporterNG.class)
+@Listeners(com.imaginea.tests.ExtentReporterNG.class)
 public class HomeAndLivingTests extends BaseTest{
 	HomeAndLivingPageActivity homeLivingPageActivity;
 	HomePageActivity homePage;
@@ -89,6 +89,9 @@ public class HomeAndLivingTests extends BaseTest{
 		homeLivingPageActivity = new HomeAndLivingPageActivity(driver);
 		homeLivingPageActivity.selectSubCategory(subCategory);
 		homeLivingPageActivity.scrollToHomeDecorSection();
+		homeLivingPageActivity.pressBackKeyInAndroid();
+		homeLivingPageActivity.pressHomeKeyInAndroid();
+		homeLivingPageActivity.openNotifications();
 	}
 	
 	@Test
@@ -127,6 +130,7 @@ public class HomeAndLivingTests extends BaseTest{
 	
 	@Test
 	public void verifyAppScreenOrientation(){
+		homePage = new HomePageActivity(driver);
 		homePage.rotate("LANDSCAPE");
 	}
 	@AfterMethod

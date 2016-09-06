@@ -97,7 +97,7 @@ public class HomePageActivity extends UIUtility {
 	
 	public void enterProductToSearch(String sProduct){
 		enterTextusingID( "com.snapdeal.main:id/search_edit_text_autocomplete",sProduct); 
-		pressKeyInAndroid();
+		pressEnterKeyInAndroid();
 		sleep(5000l);
 	}
 	

@@ -260,11 +260,25 @@ public class UIUtility {
 		}
 	}
 	
-	public void pressKeyInAndroid(){
+	public void pressEnterKeyInAndroid(){
 		AndroidDriver driver= (AndroidDriver)(this.driver);
 		driver.pressKeyCode(AndroidKeyCode.ENTER);
 	}
 	
+	public void pressBackKeyInAndroid(){
+		AndroidDriver driver= (AndroidDriver)(this.driver);
+		driver.pressKeyCode(AndroidKeyCode.BACK);
+	}
+	public void pressHomeKeyInAndroid(){
+		AndroidDriver driver= (AndroidDriver)(this.driver);
+		driver.pressKeyCode(AndroidKeyCode.HOME);
+		
+	}
+	
+	public void openNotifications(){
+		AndroidDriver driver= (AndroidDriver)(this.driver);
+		driver.openNotifications();
+	}
 	public String getTextUsingXpath(String locator){
 		return driver.findElementByXPath(locator).getText();
 		

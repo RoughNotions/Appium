@@ -45,7 +45,6 @@ public class ExtentReporterNG extends BaseTest implements IReporter,
 		ITestListener {
 	private static ExtentReports extent;
 	private String screenShotNameWithTimeStamp;
-	AppiumDriver driver;
 	
 	public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites,
 			String outputDirectory) {
