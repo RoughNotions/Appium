@@ -1,24 +1,19 @@
 package com.imaginea.tests;
 
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.MultiTouchAction;
-import io.appium.java_client.SwipeElementDirection;
-import io.appium.java_client.TouchAction;
 
 import java.util.Arrays;
 
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import com.imaginea.pageobjects.FashionPageActivity;
 import com.imaginea.pageobjects.HomeAndLivingPageActivity;
 import com.imaginea.pageobjects.HomePageActivity;
-import com.imaginea.utils.UIUtility;
+import com.imaginea.pageobjects.MaterialMainActivity;
 
+//@Listeners(com.imaginea.tests.ExtentReporterNG.class)
 public class HomeAndLivingTests extends BaseTest{
 	HomeAndLivingPageActivity homeLivingPageActivity;
 	HomePageActivity homePage;
@@ -33,7 +28,7 @@ public class HomeAndLivingTests extends BaseTest{
 		driver.launchApp();
 	}
 
-//	@Test(description = "Verify Home & Living Category and sub category list")
+	@Test(description = "Verify Home & Living Category and sub category list")
 	public void verifyHomeLivingCategory() {
 		homePage = new HomePageActivity(driver);
 		homePage.selectCategory(categoryMenu);
@@ -44,7 +39,7 @@ public class HomeAndLivingTests extends BaseTest{
 	}
 
 	
-//	@Test(description = "Verify Sub Category")
+	@Test(description = "Verify Sub Category")
 	public void verifySubCategories() {
 		homePage = new HomePageActivity(driver);
 		for (int i = 0; i < category.length-1; i++) {
@@ -55,11 +50,11 @@ public class HomeAndLivingTests extends BaseTest{
 			driver.navigate().back();
 		}
 	}
-	//@Test
+	@Test
 	public void addProductToCatalog(){
 		homePage = new HomePageActivity(driver);
 		homePage.selectCategory(categoryMenu);
-		String subCategory="Kitchen Appliances";
+		String subCategory="Kitchen Appliances1321";
 		homeLivingPageActivity = new HomeAndLivingPageActivity(driver);
 		homeLivingPageActivity.selectSubCategory(subCategory);
 		
@@ -76,7 +71,7 @@ public class HomeAndLivingTests extends BaseTest{
 		Assert.assertTrue(homeLivingPageActivity.verifyTextInAddToCartButton("Go to Cart"), "Go to Cart text is not showing on the button");
 	}
 	
-	//@Test
+	@Test
 	public void verifySwipeFunctionality(){
 		homePage = new HomePageActivity(driver);
 		homePage.selectCategory(categoryMenu);
@@ -86,7 +81,7 @@ public class HomeAndLivingTests extends BaseTest{
 		homeLivingPageActivity.swipeShopNow();
 	}
 	
-//	@Test
+	@Test
 	public void verifyScrollFunctionality(){
 		homePage = new HomePageActivity(driver);
 		homePage.selectCategory(categoryMenu);
@@ -99,19 +94,38 @@ public class HomeAndLivingTests extends BaseTest{
 	@Test
 	public void searchForProduct(){
 		homePage = new HomePageActivity(driver);
-	/*	
+		String product="Beans";
+		String subProduct="Daily Needs";
 		homePage.tapOnSearch();
-		homePage.enterProductToSearch("Beans");
+		homePage.enterProductToSearch(product);
 		
-		homePage.verifySearchResultsText("Beans");
-		homePage.tapOnAppllyFilter();*/
+		Assert.assertTrue(homePage.verifySearchResultsText(product),"Product name is not displayed in Search Results Text");
+		homePage.tapOnAppllyFilter();
+		int count=homePage.getCountOfSubCategory(subProduct);
+		homePage.tapOnCategory(subProduct);
 		
-		homePage.getCurrentActivityName();
+		MaterialMainActivity mainActivity= new MaterialMainActivity(driver);
+		Assert.assertTrue(mainActivity.verifyProductCountHeading(count),"Product count heading is not matching");
+		Assert.assertEquals(mainActivity.getCategoryName(),subProduct,"Sub Product name is not matching");
 		
-
+		int subCategoryCount=mainActivity.getCategoryListCount();    
+		Assert.assertTrue(mainActivity.verifySumOfCategories(count),"Sum of all sub categories are not matching with SubCategory count");
+		
+		int randomNo=mainActivity.getRandomNo(subCategoryCount);
+		
+		
+		String relavantProduct=mainActivity.getRandomSubCategoryName(mainActivity.getSubCategoriesList(),randomNo);
+		int countRelavantProduct=mainActivity.getRandomSubCategoryCount(mainActivity.getSubCategoriesList(),randomNo);
+		
+		homePage.tapOnCategory(relavantProduct);
+		mainActivity.clickApplyFilters();
+		
+		Assert.assertTrue(homePage.verifySearchResultsCount(countRelavantProduct,product),"Product name and count is not displayed in Search Results Text");
+		
 	}
 	
-	//@Test
+	
+	@Test
 	public void verifyAppScreenOrientation(){
 		homePage.rotate("LANDSCAPE");
 	}

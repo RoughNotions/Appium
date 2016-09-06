@@ -10,6 +10,7 @@ import io.appium.java_client.android.AndroidKeyCode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -262,15 +263,20 @@ public class UIUtility {
 	public void pressKeyInAndroid(){
 		AndroidDriver driver= (AndroidDriver)(this.driver);
 		driver.pressKeyCode(AndroidKeyCode.ENTER);
-		
 	}
 	
 	public String getTextUsingXpath(String locator){
 		return driver.findElementByXPath(locator).getText();
+		
 	}
 	
 	public String getCurrentActivityName(){
 		AndroidDriver driver= (AndroidDriver)(this.driver);
 		return driver.currentActivity();
+	}
+	
+	public int getRandomNo(int number){
+		Random random= new Random();
+		return random.nextInt(number);
 	}
 }
