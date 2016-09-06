@@ -20,6 +20,7 @@ import javax.imageio.ImageIO;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.testng.IReporter;
 import org.testng.IResultMap;
 import org.testng.ISuite;
@@ -44,7 +45,8 @@ public class ExtentReporterNG extends BaseTest implements IReporter,
 		ITestListener {
 	private static ExtentReports extent;
 	private String screenShotNameWithTimeStamp;
-
+	AppiumDriver driver;
+	
 	public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites,
 			String outputDirectory) {
 		extent = new ExtentReports(outputDirectory + File.separator
@@ -63,13 +65,15 @@ public class ExtentReporterNG extends BaseTest implements IReporter,
 		}
 		extent.flush();
 		extent.close();		
-		driver.quit(); //Quite Driver
+		getDriver().quit(); //Quite Driver
 	}
 
 	private void buildTestNodes(IResultMap tests, LogStatus status) {
 		ExtentTest test;
 		if (tests.getAllResults().size() > 0) {
 			for (ITestResult result : tests.getAllResults()) {
+				Object object = result.getInstance();
+				setDriver(((BaseTest)object).driver);
 				test = extent.startTest(result.getMethod().getMethodName());
 
 				test.getTest().setStartedTime(getTime(result.getStartMillis()));
@@ -85,7 +89,7 @@ public class ExtentReporterNG extends BaseTest implements IReporter,
 					message = result.getThrowable().getMessage();
 				String failedScreenPng = System.getProperty("user.dir")
 						+ "\\target\\screenshot\\"
-						+ driver.toString().split(" ")[1].toLowerCase() + "\\"
+						+ getDriver().toString().split(" ")[1].toLowerCase() + "\\"
 						+ result.getName() + "\\" + result.getName()
 						+ "_failed" + ".png";
 				try {
@@ -96,7 +100,7 @@ public class ExtentReporterNG extends BaseTest implements IReporter,
 				}
 				String failedScreenGif = System.getProperty("user.dir")
 						+ "\\target\\screenshot\\"
-						+ driver.toString().split(" ")[1].toLowerCase() + "\\"
+						+ getDriver().toString().split(" ")[1].toLowerCase() + "\\"
 						+ result.getName() + "\\" + result.getName()
 						+ "_failed" + ".gif";
 				String imgSrc = null;
@@ -108,7 +112,7 @@ public class ExtentReporterNG extends BaseTest implements IReporter,
 				}
 				test.log(status, message, imgSrc);
 				test.setDescription("Device ID : "
-						+ driver.getCapabilities().getCapability(
+						+ getDriver().getCapabilities().getCapability(
 								MobileCapabilityType.DEVICE_NAME));
 				extent.endTest(test);
 			}
@@ -131,9 +135,11 @@ public class ExtentReporterNG extends BaseTest implements IReporter,
 	}
 
 	public void onTestFailure(ITestResult result) {
+		Object currentClass = result.getInstance();		
+         setDriver(((BaseTest) currentClass).driver);
 		try {
 			if (!result.isSuccess()) {
-				captureScreenShot(result.getName(), driver, result.getName());
+				captureScreenShot(result.getName(), getDriver(), result.getName());
 			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -145,20 +151,20 @@ public class ExtentReporterNG extends BaseTest implements IReporter,
 	}
 
 	private void captureScreenShot(String screenShotName, AppiumDriver driver,
-			String methodName) throws InterruptedException, IOException {
-		File scrFile = ((TakesScreenshot) driver)
+			String methodName) throws InterruptedException, IOException {		
+		File scrFile = ((TakesScreenshot) getDriver())
 				.getScreenshotAs(OutputType.FILE);
 		screenShotNameWithTimeStamp = currentDateAndTime();
-		if (driver.toString().split(":")[0].trim().equals("AndroidDriver")) {
+		if (getDriver().toString().split(":")[0].trim().equals("AndroidDriver")) {
 			String androidModel = screenShotNameWithTimeStamp
-					+ driver.getCapabilities().getCapability(
+					+ getDriver().getCapabilities().getCapability(
 							MobileCapabilityType.DEVICE_NAME);
 			screenShotAndFrame(screenShotName, 2, scrFile, methodName,
 					androidModel, "android");
 		}
-		if (driver.toString().split(":")[0].trim().equals("AndroidDriver")) {
+		if (getDriver().toString().split(":")[0].trim().equals("AndroidDriver")) {
 			String androidModel = screenShotNameWithTimeStamp
-					+ driver.getCapabilities().getCapability(
+					+ getDriver().getCapabilities().getCapability(
 							MobileCapabilityType.DEVICE_NAME);
 			screenShotAndFrame(screenShotName, 2, scrFile, methodName,
 					androidModel, "Ios");
@@ -258,6 +264,14 @@ public class ExtentReporterNG extends BaseTest implements IReporter,
 			createAnimatedGif(file, new File(file.getParent() + "/"
 					+ file.getName().replace(".png", "") + ".gif"));
 		}
+	}
+
+	public AppiumDriver getDriver() {
+		return driver;
+	}
+
+	public void setDriver(AppiumDriver driver) {
+		this.driver = driver;
 	}
 
 }
