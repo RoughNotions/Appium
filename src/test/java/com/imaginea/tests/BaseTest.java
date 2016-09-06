@@ -16,7 +16,7 @@ import com.imaginea.utils.FileUtilities;
 
 public class BaseTest {
 
-	AppiumDriver driver;
+	static AppiumDriver driver;
 	String screenShotNameWithTimeStamp;
 
 	@BeforeClass
