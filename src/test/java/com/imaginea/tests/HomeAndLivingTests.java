@@ -39,7 +39,7 @@ public class HomeAndLivingTests extends BaseTest{
 	}
 
 	
-	@Test(description = "Verify Sub Category")
+	@Test(description = "Verify Items in Sub Categories")
 	public void verifySubCategories() {
 		homePage = new HomePageActivity(driver);
 		for (int i = 0; i < category.length-1; i++) {
@@ -54,7 +54,7 @@ public class HomeAndLivingTests extends BaseTest{
 	public void addProductToCatalog(){
 		homePage = new HomePageActivity(driver);
 		homePage.selectCategory(categoryMenu);
-		String subCategory="Kitchen Appliances1321";
+		String subCategory="Kitchen Appliances";
 		homeLivingPageActivity = new HomeAndLivingPageActivity(driver);
 		homeLivingPageActivity.selectSubCategory(subCategory);
 		
