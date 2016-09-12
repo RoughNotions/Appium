@@ -13,7 +13,12 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -53,9 +58,14 @@
 			<version>24.5.0</version>
 		</dependency>
 		<dependency>
+			<groupId>com.github.saikrishna321</groupId>
+			<artifactId>AppiumTestDistribution</artifactId>
+			<version>5.0.0</version>
+		</dependency>
+		<dependency>
 			<groupId>net.sourceforge.tess4j</groupId>
 			<artifactId>tess4j</artifactId>
-			<version>3.2.1</version>
+			<version>3.2.1</version>	
 		</dependency>
 	</dependencies>
 </project>
