@@ -13,7 +13,12 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -51,6 +56,11 @@
 			<groupId>com.android.tools.ddms</groupId>
 			<artifactId>ddmlib</artifactId>
 			<version>24.5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.saikrishna321</groupId>
+			<artifactId>AppiumTestDistribution</artifactId>
+			<version>5.0.0</version>
 		</dependency>
 	</dependencies>
 </project>
