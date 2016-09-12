@@ -146,7 +146,7 @@ public class MobilesElectronicsTests extends AppiumParallelTest {
                 "Home Appliances", "Personal Care Appliances", "Irons", "Fans", "More");
         List<String> greatDeals = Arrays.asList("ACs: Upto 30% Off", "Fans: Below Rs.1000", "Inverters: Upto 50% Off",
                 "Hair Dryers:Below Rs.1000");
-        
+
         HomePageActivity homePage = new HomePageActivity(driver);
         homePage.selectCategory("Mobiles & Electronics");
         MobileElectronicsPageActivity mePage = homePage.selectSubCategory("Appliances");
@@ -236,6 +236,20 @@ public class MobilesElectronicsTests extends AppiumParallelTest {
 
         Assert.assertEquals(mePage.getAllCameraItems(), cameraItems, "Invalid Camera Items");
         Assert.assertTrue(mePage.getAllBestCameras().contains(bestCameras), "Invalid Best Deals");
+    }   
+   
+
+    @Test
+    public void filterByTelevisonSize() {
+
+        HomePageActivity homePage = new HomePageActivity(driver);
+        homePage.selectCategory("Mobiles & Electronics");
+        MobileElectronicsPageActivity mePage = homePage.selectSubCategory("TVs, Audio & Video");
+        mePage.navigateToTVPage("Televisions");
+        mePage.applyFilter("32");
+        System.out.println(mePage.getFirstTVTitle());
+        Assert.assertTrue(mePage.getFirstTVTitle().contains("32"), "Invalid filter applied");
+
     }
 
     @BeforeClass()
