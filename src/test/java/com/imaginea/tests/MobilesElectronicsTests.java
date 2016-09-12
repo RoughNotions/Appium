@@ -221,6 +221,19 @@ public class MobilesElectronicsTests extends BaseTest {
 		Assert.assertTrue(mePage.getAllBestCameras().contains(bestCameras), "Invalid Best Deals");
 	}
 
+	@Test
+	public void filterByTelevisonSize() {
+
+		HomePageActivity homePage = new HomePageActivity(driver);
+		homePage.selectCategory("Mobiles & Electronics");
+		MobileElectronicsPageActivity mePage = homePage.selectSubCategory("TVs, Audio & Video");
+		mePage.navigateToTVPage("Televisions");
+		mePage.applyFilter("32");
+		System.out.println(mePage.getFirstTVTitle());
+		Assert.assertTrue(mePage.getFirstTVTitle().contains("32"), "Invalid filter applied");
+
+	}
+
 	@AfterMethod
 	public void afterMethod() {
 		driver.closeApp();
