@@ -101,6 +101,13 @@ public class UIUtility {
 			return false;
 	}
 
+	public  boolean isElementExists( String uname) {
+		List<WebElement> ele = driver.findElementsByXPath(uname);
+		if (ele.size() > 0)
+			return true;
+		else
+			return false;
+	}
 	public  void enterTextusingIDDontHide( String text, String email) {
 		driver.findElementById(text).clear();
 		driver.findElementById(text).sendKeys(email);
