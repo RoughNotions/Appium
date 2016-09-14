@@ -26,10 +26,13 @@ public class HomePageActivity extends UIUtility {
 	String mobileElectronics = "//*[text()='Mobiles & Electronics']";
 	String categoryName = "com.snapdeal.main:id/subCategoryTitleTextView";
 	String skip = "com.snapdeal.main:id/home_screen_login_skip";
-
+	String popupmodal="//android.widget.TextView[@resource-id='android:id/alertTitle' and @text='Get Google Play services']";
 
 	public HomePageActivity(AppiumDriver driver) {
 		super(driver);
+		if(isElementExists(popupmodal)){
+			pressBackKeyInAndroid();
+		}
 		if(isElementPresent(skip)){
 			clickElementusingID(skip);
 		}
@@ -97,7 +100,8 @@ public class HomePageActivity extends UIUtility {
 	
 	public void enterProductToSearch(String sProduct){
 		enterTextusingID( "com.snapdeal.main:id/search_edit_text_autocomplete",sProduct); 
-		pressKeyInAndroid();
+		pressEnterKeyInAndroid();
+		sleep(5000l);
 	}
 	
 	public boolean verifySearchResultsText(String sProdouct){
@@ -107,7 +111,14 @@ public class HomePageActivity extends UIUtility {
 		}
 		return false;
 	}
-	
+
+	public boolean verifySearchResultsCount(int count,String sProdouct){
+		String sMessage=getTextMSG( "com.snapdeal.main:id/spell_check_partial_text_view");
+		if(sMessage.equals("Showing "+count+" results for '"+sProdouct+"'")){
+			return true;
+		}
+		return false;
+	}
 	public void tapOnAppllyFilter(){
 		WebElement element= driver.findElementById("com.snapdeal.main:id/filter_by_text_view");
 		driver.tap(1, element, 3000);

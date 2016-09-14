@@ -10,6 +10,7 @@ import io.appium.java_client.android.AndroidKeyCode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -100,6 +101,13 @@ public class UIUtility {
 			return false;
 	}
 
+	public  boolean isElementExists( String uname) {
+		List<WebElement> ele = driver.findElementsByXPath(uname);
+		if (ele.size() > 0)
+			return true;
+		else
+			return false;
+	}
 	public  void enterTextusingIDDontHide( String text, String email) {
 		driver.findElementById(text).clear();
 		driver.findElementById(text).sendKeys(email);
@@ -259,18 +267,37 @@ public class UIUtility {
 		}
 	}
 	
-	public void pressKeyInAndroid(){
+	public void pressEnterKeyInAndroid(){
 		AndroidDriver driver= (AndroidDriver)(this.driver);
 		driver.pressKeyCode(AndroidKeyCode.ENTER);
+	}
+	
+	public void pressBackKeyInAndroid(){
+		AndroidDriver driver= (AndroidDriver)(this.driver);
+		driver.pressKeyCode(AndroidKeyCode.BACK);
+	}
+	public void pressHomeKeyInAndroid(){
+		AndroidDriver driver= (AndroidDriver)(this.driver);
+		driver.pressKeyCode(AndroidKeyCode.HOME);
 		
 	}
 	
+	public void openNotifications(){
+		AndroidDriver driver= (AndroidDriver)(this.driver);
+		driver.openNotifications();
+	}
 	public String getTextUsingXpath(String locator){
 		return driver.findElementByXPath(locator).getText();
+		
 	}
 	
 	public String getCurrentActivityName(){
 		AndroidDriver driver= (AndroidDriver)(this.driver);
 		return driver.currentActivity();
+	}
+	
+	public int getRandomNo(int number){
+		Random random= new Random();
+		return random.nextInt(number);
 	}
 }
