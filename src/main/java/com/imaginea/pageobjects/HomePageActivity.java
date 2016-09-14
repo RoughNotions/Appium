@@ -25,18 +25,17 @@ public class HomePageActivity extends UIUtility {
 	String mobileRechargeLink = "com.snapdeal.main:id/mobileRechargeItem";
 	String mobileElectronics = "//*[text()='Mobiles & Electronics']";
 	String categoryName = "com.snapdeal.main:id/subCategoryTitleTextView";
-	String skip = "com.snapdeal.main:id/home_screen_login_skip";
+	String skip = "com.snapdeal.main:id/tv_skip";
 	String popupmodal="//android.widget.TextView[@resource-id='android:id/alertTitle' and @text='Get Google Play services']";
 
 	public HomePageActivity(AppiumDriver driver) {
-		super(driver);
-		if(isElementExists(popupmodal)){
-			pressBackKeyInAndroid();
-		}
-		if(isElementPresent(skip)){
-			clickElementusingID(skip);
-		}
-		initPage(driver.findElement(homeMenu));
+	        super(driver);
+	        sleep(20000L);
+	        initPage(driver.findElement(homeMenu));
+	        sleep(20000L);
+	        if (isElementPresent(skip)) {
+	            clickElementusingID(skip);
+	        }
 	}
 
 	public void login() {
