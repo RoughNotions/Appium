@@ -1,9 +1,21 @@
 package com.imaginea.pageobjects;
 
+import static org.bytedeco.javacpp.lept.pixDestroy;
+import static org.bytedeco.javacpp.lept.pixRead;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
+import org.bytedeco.javacpp.BytePointer;
+import org.bytedeco.javacpp.lept.PIX;
+import org.bytedeco.javacpp.tesseract.TessBaseAPI;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.testng.Assert;
 
 import com.imaginea.utils.UIUtility;
 
@@ -273,6 +285,46 @@ public class MobileElectronicsPageActivity extends UIUtility {
 		for (int i = 0; i < ele.size(); i++) {
 			System.out.println(ele.size());
 			ele.get(i).click();
+		}
+	}
+
+	public String getToastMessage() {
+		String filePath = System.getProperty("user.dir") + "\\toastmessages";
+		File file = new File(filePath);
+		file.mkdir();
+		sleep(2000l);
+		captureScreenshot(filePath);
+		String str = "";
+		BytePointer outText;
+		TessBaseAPI api = new TessBaseAPI();
+
+		if (api.Init(".", "ENG") != 0) {
+			System.err.println("Could not initialize tesseract.");
+			System.exit(1);
+		}
+
+		PIX image = pixRead(filePath + "\\toastmessage1.png");
+		api.SetImage(image);
+		// Get OCR result
+		outText = api.GetUTF8Text();
+		str = outText.getString();
+		Assert.assertTrue(!str.isEmpty());
+		System.out.println("OCR output:\n" + str);
+
+		// Destroy used object and release memory
+		api.End();
+		outText.deallocate();
+		pixDestroy(image);
+		return str;
+	}
+
+	public void captureScreenshot(String path) {
+		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		try {
+			String filePath = path + "\\toastmessage1.png";
+			FileUtils.copyFile(scrFile, new File(filePath));
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
