@@ -1,8 +1,5 @@
 package com.imaginea.pageobjects;
 
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileBy;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,12 +7,16 @@ import org.openqa.selenium.By;
 
 import com.imaginea.utils.UIUtility;
 
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileBy;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+
 /**
  * 
  * @author avinashg
  *
  */
-
 
 public class MobileElectronicsPageActivity extends UIUtility {
 
@@ -42,6 +43,12 @@ public class MobileElectronicsPageActivity extends UIUtility {
 	String removeItem = "com.snapdeal.main:id/btnMinus";
 	String remove = "com.snapdeal.main:id/tvNoDialog";
 	String firstTV = "com.snapdeal.main:id/productTitle";
+	String pinCode = "com.snapdeal.main:id/shipnearPincode";
+	String verifyButton = "com.snapdeal.main:id/shipnearverifyBtn";
+	String image = "com.snapdeal.main:id/imageView";
+	String applyFilter = "com.snapdeal.main:id/applyFilterButton";
+	String filterButton = "com.snapdeal.main:id/filter_by_text_view";
+	String enterSize = "com.snapdeal.main:id/search_txtbox";
 
 	public MobileElectronicsPageActivity(AppiumDriver driver) {
 		super(driver);
@@ -59,13 +66,13 @@ public class MobileElectronicsPageActivity extends UIUtility {
 
 	public String getPageTitle(String subCategoryName) {
 		String category = String.format("//android.widget.TextView[@text='%s']", subCategoryName);
-		waitForElementVisibility( 60, driver.findElementByXPath(category));
+		waitForElementVisibility(60, driver.findElementByXPath(category));
 		return driver.findElementByXPath(category).getText();
 
 	}
 
 	public List<String> getAllMobilesByPriceRange() {
-		List<String> text = getListOfElementsByID( mobileByPrice);
+		List<String> text = getListOfElementsByID(mobileByPrice);
 		List<String> fList = new ArrayList<String>();
 		for (int i = 0; i < 6; i++) {
 			fList.add(text.get(i));
@@ -75,19 +82,19 @@ public class MobileElectronicsPageActivity extends UIUtility {
 	}
 
 	public List<String> getAllMobilesByPriceType() {
-		waitForElementVisibility( 60, driver.findElementById(mobileByTypes));
-		List<String> text = getListOfElementsByID( mobileByTypes);
+		waitForElementVisibility(60, driver.findElementById(mobileByTypes));
+		List<String> text = getListOfElementsByID(mobileByTypes);
 		return text;
 	}
 
 	public List<String> getAllMobilesByPicks() {
 		driver.scrollToExact("Top Picks");
-		List<String> text = getListOfElementsByID( mobileByPicks);
+		List<String> text = getListOfElementsByID(mobileByPicks);
 		return text;
 	}
 
 	public List<String> getAllGameItems() {
-		List<String> text = getListOfElementsByID( gameItems);
+		List<String> text = getListOfElementsByID(gameItems);
 		List<String> ftext = new ArrayList<String>();
 		for (int i = 0; i < 5; i++)
 			ftext.add(text.get(i));
@@ -97,75 +104,77 @@ public class MobileElectronicsPageActivity extends UIUtility {
 	public List<String> getAllGameTypes() {
 		driver.scrollTo("Play Games with consoles");
 
-		List<String> text = getListOfElementsByID( gameTypes);
+		List<String> text = getListOfElementsByID(gameTypes);
 		return text;
 	}
 
 	public List<String> getAllBestDeals() {
 		driver.scrollToExact("Limited Period Offer");
-		List<String> text = getListOfElementsByID( bestDeals);
+		List<String> text = getListOfElementsByID(bestDeals);
 		return text;
 	}
 
 	public List<String> getAllApplianceItems() {
-		List<String> text = getListOfElementsByID( applianceItems);
+		List<String> text = getListOfElementsByID(applianceItems);
 		return text;
 	}
 
 	private void clickMoreLink() {
-		clickElementusingXPath( moreLink);
+		clickElementusingXPath(moreLink);
 	}
 
 	public List<String> getGreatDeals() {
 		driver.scrollTo("Great Deals");
-		List<String> text = getListOfElementsByID( greatDeals);
+		List<String> text = getListOfElementsByID(greatDeals);
 		return text;
 	}
 
 	public List<String> getAllTrimmersByPrice() {
 		driver.scrollToExact("Trimmers By Price");
-		List<String> text = getListOfElementsByID( trimmersPrice);
+		List<String> text = getListOfElementsByID(trimmersPrice);
 		return text;
 	}
 
 	public List<String> getTabletTypes() {
-		List<String> text = getListOfElementsByID( tabletTypes);
+		List<String> text = getListOfElementsByID(tabletTypes);
 		return text;
 	}
 
 	public List<String> getTabletItems() {
-		List<String> text = getListOfElementsByID( tabletItems);
+		List<String> text = getListOfElementsByID(tabletItems);
 		return text;
 	}
 
 	public List<String> getPriceStore() {
 		driver.scrollTo("20,000 and Above");
-		List<String> text = getListOfElementsByID( priceStore);
+		List<String> text = getListOfElementsByID(priceStore);
 		return text;
 	}
 
 	public List<String> getOS() {
 		driver.scrollTo("Shop By Operating System");
-		List<String> text = getListOfElementsByID( osText);
+		List<String> text = getListOfElementsByID(osText);
 		return text;
 	}
 
 	public void addItemToCart(String item) {
-		clickElementByText( item);
+		clickElementByText(item);
 		sleep(5000L);
-		clickElementByText( getFirstItemTitle());
+		clickElementByText(getFirstItemTitle());
 		sleep(5000L);
-		clickElementByText( getFirstTVTitle());
+		clickElementByText(getFirstTVTitle());
 		sleep(5000L);
-		clickElementusingID( cartButton);
+		enterTextusingIDDontHide(pinCode, "500034");
+		clickElementusingID(verifyButton);
+		clickElementusingID(cartButton);
 	}
 
 	public void removeItemToCart() {
 		sleep(5000L);
-		clickElementusingID( goToCart);
+		clickElementusingID(goToCart);
 		sleep(5000L);
-		clickElementusingID( removeItem);
-		clickElementusingID( remove);
+		clickElementusingID(removeItem);
+		clickElementusingID(remove);
 		navigateToBackPage();
 	}
 
@@ -183,58 +192,88 @@ public class MobileElectronicsPageActivity extends UIUtility {
 	}
 
 	public void swipeAndZoom(String item) {
-		clickElementByText( item);
+		clickElementByText(item);
 		sleep(5000L);
-		clickElementByText( getFirstItemTitle());
+		clickElementByText(getFirstItemTitle());
 		sleep(5000L);
-		clickElementByText( getFirstTVTitle());
-		clickElementusingID( "com.snapdeal.main:id/imageView");
+		clickElementByText(getFirstTVTitle());
+		clickElementusingID("com.snapdeal.main:id/imageView");
 		for (int i = 0; i < 10; i++)
 			driver.pinch(driver.findElementById("com.snapdeal.main:id/imageView"));
 	}
 
 	public List<String> getEquipmentTypes() {
-		List<String> text = getListOfElementsByID( mobileByPrice);
+		List<String> text = getListOfElementsByID(mobileByPrice);
 		return text;
 	}
 
 	public List<String> getOfficeMustHaves() {
 		swipeDown();
-		List<String> text = getListOfElementsByID( tabletTypes);
+		List<String> text = getListOfElementsByID(tabletTypes);
 		return text;
 	}
 
 	public List<String> getShopByType() {
 		driver.scrollTo("Shop By Type");
-		List<String> text = getListOfElementsByID( mobileByPicks);
+		List<String> text = getListOfElementsByID(mobileByPicks);
 		return text;
 	}
 
 	public List<String> getAllItems() {
-		List<String> text = getListOfElementsByID( mobileByPrice);
+		List<String> text = getListOfElementsByID(mobileByPrice);
 		return text;
 	}
 
 	public List<String> getTopViewedProducts() {
 		swipeDown();
-		List<String> text = getListOfElementsByID( mobileByTypes);
+		List<String> text = getListOfElementsByID(mobileByTypes);
 		return text;
 	}
 
 	public List<String> getItemsFromBudgetStore() {
 		driver.scrollToExact("McAfee Antivirus @ Rs 99");
-		List<String> text = getListOfElementsByID( mobileByPicks);
+		List<String> text = getListOfElementsByID(mobileByPicks);
 		return text;
 	}
 
 	public List<String> getAllCameraItems() {
-		List<String> text = getListOfElementsByID( mobileByPrice);
+		List<String> text = getListOfElementsByID(mobileByPrice);
 		return text;
 	}
 
 	public List<String> getAllBestCameras() {
 		driver.scrollToExact("Best of Cameras");
-		List<String> text = getListOfElementsByID( mobileByPicks);
+		List<String> text = getListOfElementsByID(mobileByPicks);
 		return text;
 	}
+
+	public void navigateToTVPage(String item) {
+		clickElementByText(item);
+		sleep(5000L);
+		clickElementByText(getFirstItemTitle());
+		sleep(5000L);
+	}
+
+	public void applyFilter(String size) {
+		clickElementusingID(filterButton);
+		unCheckAllCheckBoxes();
+		enterTextByID(enterSize, size);
+		sleep(5000l);
+		selectCheckBox();
+		clickElementusingID(applyFilter);
+	}
+
+	private void selectCheckBox() {
+		clickElementusingID("com.snapdeal.main:id/checkbox");
+	}
+
+	private void unCheckAllCheckBoxes() {
+		AndroidDriver adriver = (AndroidDriver) driver;
+		List<MobileElement> ele = adriver.findElementsByAndroidUIAutomator("new UiSelector().checked(true)");
+		for (int i = 0; i < ele.size(); i++) {
+			System.out.println(ele.size());
+			ele.get(i).click();
+		}
+	}
+
 }
