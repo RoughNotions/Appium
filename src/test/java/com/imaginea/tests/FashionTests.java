@@ -27,6 +27,9 @@ import com.imaginea.pageobjects.HomePageActivity;
 
 public class FashionTests extends AppiumParallelTest {
 
+    private String categoryName = "Fashion";
+    private String mensFashion = "Men's Fashion";
+    
     @BeforeMethod()
     public void startApp(Method name) throws Exception {
         driver = startAppiumServerInParallel(name.getName());
@@ -49,9 +52,9 @@ public class FashionTests extends AppiumParallelTest {
     public void verifyFashionCategory() {
         HomePageActivity homePage = new HomePageActivity(driver);
         FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
-        String category[] = { "Men's Fashion", "Women's Fashion", "Baby & Kids", "Jewellery", "Bags & Luggage",
+        String category[] = { mensFashion, "Women's Fashion", "Baby & Kids", "Jewellery", "Bags & Luggage",
                 "Sports, Fitness & Outdoor" };
-        homePage.selectCategory("Fashion");
+        homePage.selectCategory(categoryName);
         Assert.assertEquals(fashionPageActivity.getSubCategoryList(), Arrays.asList(category));
     }
 
@@ -59,14 +62,14 @@ public class FashionTests extends AppiumParallelTest {
     public void verifySubCategory() {
         SoftAssert s_assert = new SoftAssert();
         HomePageActivity homePage = new HomePageActivity(driver);
-        String category[] = { "Men's Fashion", "Women's Fashion", "Baby & Kids", "Jewellery", "Bags & Luggage",
+        String category[] = { mensFashion, "Women's Fashion", "Baby & Kids", "Jewellery", "Bags & Luggage",
                 "Sports, Fitness & Outdoor" };
         String subCategory[] = { "Clothing", "Ethnic Wear", "Kids Clothing", "Fashion Jewellery", "Backpacks & More",
                 "Sports" };
 
         for (int i = 0; i < category.length; i++) {
 
-            homePage.selectCategory("Fashion");
+            homePage.selectCategory(categoryName);
             FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
             fashionPageActivity.selectSubCategory(category[i]);
             s_assert.assertEquals(fashionPageActivity.getElementTextByIndex(1), subCategory[i],
@@ -80,9 +83,9 @@ public class FashionTests extends AppiumParallelTest {
     @Test(description = "Verify List of Sort Type Avilable for Fashion Category")
     public void verifyMenFashionClothingCategorySortType() {
         HomePageActivity homePage = new HomePageActivity(driver);
-        homePage.selectCategory("Fashion");
+        homePage.selectCategory(categoryName);
         FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
-        fashionPageActivity.selectSubCategory("Men's Fashion");
+        fashionPageActivity.selectSubCategory(mensFashion);
         fashionPageActivity.sleep(10000L);
         fashionPageActivity.clickElementByText("Clothing");
         fashionPageActivity.sleep(10000L);
@@ -95,9 +98,9 @@ public class FashionTests extends AppiumParallelTest {
     @Test(description = "Verify Sort By discount in Fashion Category")
     public void verifyMenFashionSortByDiscount() {
         HomePageActivity homePage = new HomePageActivity(driver);
-        homePage.selectCategory("Fashion");
+        homePage.selectCategory(categoryName);
         FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
-        fashionPageActivity.selectSubCategory("Men's Fashion");
+        fashionPageActivity.selectSubCategory(mensFashion);
         fashionPageActivity.sleep(5000L);
         fashionPageActivity.clickElementByText("Clothing");
         fashionPageActivity.sleep(5000L);
@@ -111,9 +114,9 @@ public class FashionTests extends AppiumParallelTest {
     @Test(description = "Verify Brand Selection in Fashion Category")
     public void testBrandSelection() {
         HomePageActivity homePage = new HomePageActivity(driver);
-        homePage.selectCategory("Fashion");
+        homePage.selectCategory(categoryName);
         FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
-        fashionPageActivity.selectSubCategory("Men's Fashion");
+        fashionPageActivity.selectSubCategory(mensFashion);
         fashionPageActivity.sleep(5000L);
         fashionPageActivity.clickElementByText("Clothing");
         fashionPageActivity.sleep(5000L);
@@ -130,9 +133,9 @@ public class FashionTests extends AppiumParallelTest {
     @Test(description = "Verify Size Selection in Fashion Category")
     public void testSizeSelection() {
         HomePageActivity homePage = new HomePageActivity(driver);
-        homePage.selectCategory("Fashion");
+        homePage.selectCategory(categoryName);
         FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
-        fashionPageActivity.selectSubCategory("Men's Fashion");
+        fashionPageActivity.selectSubCategory(mensFashion);
         fashionPageActivity.sleep(5000L);
         fashionPageActivity.clickElementByText("Clothing");
         fashionPageActivity.sleep(5000L);
@@ -148,9 +151,9 @@ public class FashionTests extends AppiumParallelTest {
     @Test(description = "Verify Discount Selection in Fashion Category")
     public void testDiscountSelection() {
         HomePageActivity homePage = new HomePageActivity(driver);
-        homePage.selectCategory("Fashion");
+        homePage.selectCategory(categoryName);
         FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
-        fashionPageActivity.selectSubCategory("Men's Fashion");
+        fashionPageActivity.selectSubCategory(mensFashion);
         fashionPageActivity.clickElementByText("Clothing");
         fashionPageActivity.selectCategoryByText("Discount %");
         fashionPageActivity.selectCategoryByText("40 - 50");
@@ -163,9 +166,9 @@ public class FashionTests extends AppiumParallelTest {
     @Test(description = "Verify Zoom Functionality in Fashion Category")
     public void testZoomFunctionality() {
         HomePageActivity homePage = new HomePageActivity(driver);
-        homePage.selectCategory("Fashion");
+        homePage.selectCategory(categoryName);
         FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
-        fashionPageActivity.selectSubCategory("Men's Fashion");
+        fashionPageActivity.selectSubCategory(mensFashion);
         fashionPageActivity.clickElementByText("Clothing");
         fashionPageActivity.clickElementByText("T-Shirts & Polos");
         fashionPageActivity.clickElementByText("T-Shirts");
@@ -178,20 +181,38 @@ public class FashionTests extends AppiumParallelTest {
     @Test(description = "Verify Add to Cart Functionality in Fashion Category")
     public void testAddToCartFunctionality() {
         HomePageActivity homePage = new HomePageActivity(driver);
-        homePage.selectCategory("Fashion");
+        String addToCart = "Add to Cart";
+        homePage.selectCategory(categoryName);
         FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
-        fashionPageActivity.selectSubCategory("Men's Fashion");
+        fashionPageActivity.selectSubCategory(mensFashion);
         fashionPageActivity.clickElementByText("Clothing");
         fashionPageActivity.clickElementByText("T-Shirts & Polos");
         fashionPageActivity.clickElementByText("T-Shirts");
         String fashionItem = "Alan Jones Clothing Grey Cotton T-Shirt";
-        fashionPageActivity.clickElementByText(fashionItem);
-        fashionPageActivity.clickElementByText("Add to Cart");
+        fashionPageActivity.clickElementByText(fashionItem);        
+        fashionPageActivity.clickElementByText(addToCart);
         fashionPageActivity.clickElementByText("L");
-        fashionPageActivity.clickElementByText("Add to cart");
+        fashionPageActivity.clickElementByText(addToCart);
         fashionPageActivity.clickMenuCartIcon();
         Assert.assertEquals(fashionPageActivity.getCartProductNameList().get(0), fashionItem);
         Assert.assertEquals(fashionPageActivity.getCartProductCountList().get(0), "1");
+
+    }
+
+    @Test(description = "Get Slider Title description")
+    public void testSliderTitle() {
+        HomePageActivity homePage = new HomePageActivity(driver);        
+        homePage.selectCategory(categoryName);
+        FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
+        fashionPageActivity.selectSubCategory(mensFashion);
+        Assert.assertTrue(fashionPageActivity.swipeDownAndFindSliderTitle("Brown Basics"));
+        Assert.assertTrue(fashionPageActivity.swipeDownAndFindSliderTitle("Sporty You !"));
+        Assert.assertTrue(fashionPageActivity.swipeDownAndFindSliderTitle("Top Brands"));
+        Assert.assertTrue(fashionPageActivity.swipeDownAndFindSliderTitle("Price Store"));
+        Assert.assertTrue(fashionPageActivity.swipeDownAndFindSliderTitle("Best Sellers"));
+        Assert.assertTrue(fashionPageActivity.swipeDownAndFindSliderTitle("Fast Moving Products"));
+        Assert.assertTrue(fashionPageActivity.swipeDownAndFindSliderTitle("Best in Men's Fashion"));
+        Assert.assertTrue(fashionPageActivity.swipeDownAndFindSliderTitle("Sunglasses & Fragrances"));
 
     }
 
