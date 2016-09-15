@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import com.imaginea.utils.UIUtility;
 
@@ -30,6 +31,7 @@ public class FashionPageActivity extends UIUtility {
     private String txtProductName = "com.snapdeal.main:id/txtProductName";
     private String txtCount = "com.snapdeal.main:id/txtCount";
     private String sliderTitle = "com.snapdeal.main:id/sliderTitle";
+    private String groupTitle = "com.snapdeal.main:id/groupTitle";
 
     public FashionPageActivity(AppiumDriver driver) {
         super(driver);
@@ -171,10 +173,10 @@ public class FashionPageActivity extends UIUtility {
      * @param title
      * @return
      */
-    public boolean swipeDownAndFindSliderTitle(String title) {        
+    public boolean swipeDownAndFindSliderTitle(String title) {
         List<String> stitle = new ArrayList<>();
         while (!stitle.contains(title)) {
-            swipeDown();            
+            swipeDown();
             try {
                 stitle = getListOfElementsByID(sliderTitle);
                 if (stitle.contains("Sunglasses & Fragrances")) {
@@ -186,5 +188,33 @@ public class FashionPageActivity extends UIUtility {
             }
         }
         return stitle.contains(title);
+    }
+
+    /**
+     * Swipe Filter Category in Button of Mobile Devices
+     */
+    public void swipeFilterCategoryInBottom() {
+        WebElement element = null;
+        String category = "//android.widget.TextView[@text='%s']";
+        try {
+            waitForElementVisibility(90, driver.findElementByXPath(String.format(category, "Discount %")));
+            element = driver.findElementByXPath(String.format(category, "Discount %"));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+
+        }
+        swipeLeft(element);
+        while (!isElementExists(String.format(category, "+2 More"))) {
+            swipeLeft(driver.findElementByXPath(String.format(category, "Customer Rating")));
+        }
+    }
+
+    /**
+     * Is Product Group Title displayed
+     * 
+     * @return
+     */
+    public boolean isProductGroupTitleElementPresent() {
+        return isElementPresent(groupTitle);
     }
 }

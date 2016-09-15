@@ -29,7 +29,8 @@ public class FashionTests extends AppiumParallelTest {
 
     private String categoryName = "Fashion";
     private String mensFashion = "Men's Fashion";
-    
+    private String bagLuggage = "Bags & Luggage";
+
     @BeforeMethod()
     public void startApp(Method name) throws Exception {
         driver = startAppiumServerInParallel(name.getName());
@@ -189,7 +190,7 @@ public class FashionTests extends AppiumParallelTest {
         fashionPageActivity.clickElementByText("T-Shirts & Polos");
         fashionPageActivity.clickElementByText("T-Shirts");
         String fashionItem = "Alan Jones Clothing Grey Cotton T-Shirt";
-        fashionPageActivity.clickElementByText(fashionItem);        
+        fashionPageActivity.clickElementByText(fashionItem);
         fashionPageActivity.clickElementByText(addToCart);
         fashionPageActivity.clickElementByText("L");
         fashionPageActivity.clickElementByText(addToCart);
@@ -201,7 +202,7 @@ public class FashionTests extends AppiumParallelTest {
 
     @Test(description = "Get Slider Title description")
     public void testSliderTitle() {
-        HomePageActivity homePage = new HomePageActivity(driver);        
+        HomePageActivity homePage = new HomePageActivity(driver);
         homePage.selectCategory(categoryName);
         FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
         fashionPageActivity.selectSubCategory(mensFashion);
@@ -214,6 +215,18 @@ public class FashionTests extends AppiumParallelTest {
         Assert.assertTrue(fashionPageActivity.swipeDownAndFindSliderTitle("Best in Men's Fashion"));
         Assert.assertTrue(fashionPageActivity.swipeDownAndFindSliderTitle("Sunglasses & Fragrances"));
 
+    }
+
+    @Test(description = "Test Left Scroll functionality in Bag Luggage Window")
+    public void testBagLuggageFilterLeftScrollfunctionality() {
+        HomePageActivity homePage = new HomePageActivity(driver);
+        homePage.selectCategory(categoryName);
+        FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
+        fashionPageActivity.selectSubCategory(bagLuggage);
+        fashionPageActivity.clickElementByText("Travel Accessories");
+        fashionPageActivity.swipeFilterCategoryInBottom();
+        fashionPageActivity.clickElementByText("+2 More");
+        Assert.assertTrue(fashionPageActivity.isProductGroupTitleElementPresent(), "Not in filter page");
     }
 
     @BeforeClass()

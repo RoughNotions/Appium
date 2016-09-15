@@ -32,7 +32,7 @@ public class HomePageActivity extends UIUtility {
 	        super(driver);
 	        sleep(20000L);
 	        initPage(driver.findElement(homeMenu));
-	        sleep(20000L);
+	        sleep(10000L);
 	        if (isElementPresent(skip)) {
 	            clickElementusingID(skip);
 	        }
