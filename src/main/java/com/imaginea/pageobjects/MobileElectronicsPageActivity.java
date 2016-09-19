@@ -15,6 +15,7 @@ import org.bytedeco.javacpp.tesseract.TessBaseAPI;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 import com.imaginea.utils.UIUtility;
@@ -57,10 +58,13 @@ public class MobileElectronicsPageActivity extends UIUtility {
 	String firstTV = "com.snapdeal.main:id/productTitle";
 	String pinCode = "com.snapdeal.main:id/shipnearPincode";
 	String verifyButton = "com.snapdeal.main:id/shipnearverifyBtn";
-	String image = "com.snapdeal.main:id/imageView";
+	String imageView = "com.snapdeal.main:id/imageView";
 	String applyFilter = "com.snapdeal.main:id/applyFilterButton";
 	String filterButton = "com.snapdeal.main:id/filter_by_text_view";
 	String enterSize = "com.snapdeal.main:id/search_txtbox";
+	String spec = "com.snapdeal.main:id/featureTextView";
+	String viewMore = "com.snapdeal.main:id/viewMoreButton";
+	String specText = "com.snapdeal.main:id/itemTextView1";
 
 	public MobileElectronicsPageActivity(AppiumDriver driver) {
 		super(driver);
@@ -326,6 +330,61 @@ public class MobileElectronicsPageActivity extends UIUtility {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Click on Apply Button
+	 */
+	public void clickApplyButton() {
+		clickElementByText("APPLY");
+	}
+
+	public void selectMobileType(String string, String string2, String string3) {
+		clickElementByText(string3);
+		clickElementByText(string2);
+		clickElementByText(string);
+	}
+
+	public void clickOnFirstItem() {
+		clickElementByText(getFirstTVTitle());
+		sleep(5000L);
+		enterTextusingIDDontHide(pinCode, "500034");
+		clickElementusingID(verifyButton);
+	}
+
+	public void swipeDown_Multi(int n) {
+		for (int i = 1; i <= n; i++) {
+			swipeDown();
+		}
+	}
+
+	public String getScreenSize() {
+		swipeDown();
+		String str = "";
+		List<WebElement> ele = driver.findElementsById(specText);
+		for (int i = 0; i < ele.size(); i++)
+			str = str + ele.get(i).getText();
+		return str;
+	}
+
+	public void clickOnViewMoreLink() {
+		clickElementusingID(viewMore);
+
+	}
+
+	public void clickOnTechSpecTab() {
+		AndroidDriver adriver = (AndroidDriver) driver;
+		adriver.findElementByAndroidUIAutomator("new UiSelector().resourceId(\"android:id/text1\").index(1)").click();
+		sleep(5000l);
+
+	}
+
+	public void swipeImages() {
+		swipeRight(driver.findElementById(imageView));
+	}
+
+	public void clickOnImage() {
+		clickElementusingID(imageView);
 	}
 
 }

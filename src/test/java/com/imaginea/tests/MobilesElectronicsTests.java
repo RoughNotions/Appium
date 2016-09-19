@@ -1,7 +1,12 @@
 package com.imaginea.tests;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.testng.Assert;
@@ -10,6 +15,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import com.android.ddmlib.log.LogReceiver.LogEntry;
+import com.android.utils.StdLogger.Level;
 import com.imaginea.pageobjects.HomePageActivity;
 import com.imaginea.pageobjects.MobileElectronicsPageActivity;
 import com.imaginea.utils.FileUtilities;
@@ -255,6 +262,43 @@ public class MobilesElectronicsTests extends BaseTest {
 			FileUtilities utils = new FileUtilities();
 			utils.deleteExisitngFolder(System.getProperty("user.dir") + File.separator + "toastmessages");
 		}
+	}
+
+	@Test
+	public void filterByCompatibilityModel() {
+		HomePageActivity homePage = new HomePageActivity(driver);
+		homePage.selectCategory("Mobiles & Electronics");
+		MobileElectronicsPageActivity mePage = homePage.selectSubCategory("Mobile Phones");
+		mePage.selectMobileType("LG", "Brand", "Rs. 8000-15000");
+		mePage.clickApplyButton();
+		Assert.assertTrue(mePage.getFirstTVTitle().contains("LG"), "Filter is not applied properly");
+
+	}
+
+	@Test
+	public void filterByScreenSize() {
+		HomePageActivity homePage = new HomePageActivity(driver);
+		homePage.selectCategory("Mobiles & Electronics");
+		MobileElectronicsPageActivity mePage = homePage.selectSubCategory("Mobile Phones");
+		mePage.selectMobileType("5.5 - 6.0", "Screen Size", "Rs. 8000-15000");
+		mePage.clickApplyButton();
+		mePage.clickOnFirstItem();
+		mePage.swipeDown_Multi(4);
+		mePage.clickOnViewMoreLink();
+		mePage.clickOnTechSpecTab();
+		String screenSize = mePage.getScreenSize();
+		System.out.println(screenSize);
+		Assert.assertTrue(screenSize.contains("5.5") || screenSize.contains("6.0"), "Filter is not applied properly");
+
+	}
+
+	// @Test
+	public void sortFunctionality() {
+		HomePageActivity homePage = new HomePageActivity(driver);
+		homePage.selectCategory("Mobiles & Electronics");
+		MobileElectronicsPageActivity mePage = homePage.selectSubCategory("Mobile Phones");
+		mePage.selectMobileType("5.5 - 6.0", "Screen Size", "Rs. 8000-15000");
+
 	}
 
 	@AfterMethod
