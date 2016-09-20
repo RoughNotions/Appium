@@ -10,10 +10,11 @@ import java.util.concurrent.TimeUnit;
 import org.testng.TestNG;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Listeners;
 
 import com.imaginea.base.DriverFactory;
 import com.imaginea.utils.FileUtilities;
-
+@Listeners(com.imaginea.tests.ExtentReporterNG.class)
 public class BaseTest {
 
 	AppiumDriver driver;
