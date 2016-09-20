@@ -229,6 +229,89 @@ public class FashionTests extends AppiumParallelTest {
         Assert.assertTrue(fashionPageActivity.isProductGroupTitleElementPresent(), "Not in filter page");
     }
 
+    @Test(description = "Test filter functionality in Bag And Luggage by Customer Rating")
+    public void testFilterFunctionalityInBagLuggageCustomerRating() {
+        HomePageActivity homePage = new HomePageActivity(driver);
+        homePage.selectCategory(categoryName);
+        FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
+        fashionPageActivity.selectSubCategory(bagLuggage);
+        fashionPageActivity.clickElementByText("Travel Accessories");
+        fashionPageActivity.swipeFilterCategoryInBottom();
+        fashionPageActivity.clickElementByText("+2 More");
+
+        // Filter By Customer Rating
+        fashionPageActivity.clickElementByText("Customer Rating");
+        String customerRating = "4.0 & above";
+        fashionPageActivity.selectCategoryByText(customerRating);
+        fashionPageActivity.clickApplyFiltersButton();
+        fashionPageActivity.sleep(2000L);
+        String imageId = "com.snapdeal.main:id/productImage";
+        fashionPageActivity.clickElementusingID(imageId);
+        Assert.assertTrue(Integer.parseInt(fashionPageActivity.swipeDownAndFindRating()) >= 4,
+                "Rating is not greater than 4");
+
+    }
+
+    @Test(description = "Test filter functionality in Bag And Luggage by Brand")
+    public void testFilterFunctionalityInBagLuggageBrand() {
+        HomePageActivity homePage = new HomePageActivity(driver);
+        homePage.selectCategory(categoryName);
+        FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
+        fashionPageActivity.selectSubCategory(bagLuggage);
+        fashionPageActivity.clickElementByText("Travel Accessories");
+        fashionPageActivity.swipeFilterCategoryInBottom();
+        fashionPageActivity.clickElementByText("+2 More");
+
+        // Filter By Brand
+        fashionPageActivity.clickElementByText("Brand");
+        String filter = "Swiss Military";
+        fashionPageActivity.clickElementByText(filter);
+        fashionPageActivity.clickApplyFiltersButton();
+        List<String> titleList = fashionPageActivity.getProductTitleList();
+        for (String tList : titleList) {
+            Assert.assertTrue(tList.contains(filter), "Displayed Result didn't match with filter applied");
+        }
+    }
+
+    @Test(description = "Test filter functionality in Bag And Luggage by Price")
+    public void testFilterFunctionalityInBagLuggagePrice() {
+        HomePageActivity homePage = new HomePageActivity(driver);
+        homePage.selectCategory(categoryName);
+        FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
+        fashionPageActivity.selectSubCategory(bagLuggage);
+        fashionPageActivity.clickElementByText("Travel Accessories");
+        fashionPageActivity.swipeFilterCategoryInBottom();
+        fashionPageActivity.clickElementByText("+2 More");
+        // Filter By Price
+        fashionPageActivity.clickElementByText("Price");
+        String startPrice = "5000";
+        String endPrice = "10000";
+        fashionPageActivity.setPriceFilter(startPrice, endPrice);
+        fashionPageActivity.sleep(5000L);
+        List<String> priceList = fashionPageActivity.getProductDisplayPriceList();
+        int price = Integer.parseInt(priceList.get(0).replace("Rs. ", "").replace(",", ""));
+        Assert.assertEquals(price > 5000, price < 10000, "Price is not in range");
+    }
+
+    @Test(description = "Test filter functionality in Bag And Luggage by Discount %")
+    public void testFilterFunctionalityInBagLuggageDiscount() {
+        HomePageActivity homePage = new HomePageActivity(driver);
+        homePage.selectCategory(categoryName);
+        FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
+        fashionPageActivity.selectSubCategory(bagLuggage);
+        fashionPageActivity.clickElementByText("Travel Accessories");
+        fashionPageActivity.swipeFilterCategoryInBottom();
+        fashionPageActivity.clickElementByText("+2 More");
+        // Filter by Discount %
+        fashionPageActivity.clickElementByText("Discount %");
+        String discountRange = "40 - 50";
+        fashionPageActivity.selectCategoryByText(discountRange);
+        fashionPageActivity.clickApplyFiltersButton();
+        fashionPageActivity.sleep(5000L);
+        List<String> discountList = fashionPageActivity.getProductDiscountPriceList();
+        Assert.assertTrue(discountList.get(0).contains("% OFF"), "Discount is not shown");
+    }
+
     @BeforeClass()
     public void beforeClass() throws Exception {
         startAppiumServer(getClass().getSimpleName());

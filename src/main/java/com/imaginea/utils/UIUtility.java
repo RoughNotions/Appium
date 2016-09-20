@@ -137,7 +137,7 @@ public class UIUtility {
     public void clickElementByText(String description) {
         WebElement element = driver
                 .findElement(MobileBy.AndroidUIAutomator(String.format("new UiSelector().text(\"%s\")", description)));
-        waitForElementVisibility(10, element);
+        waitForElementVisibility(60, element);
         element.click();
         sleep(10000L);
     }
