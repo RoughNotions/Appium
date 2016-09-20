@@ -32,6 +32,8 @@ public class FashionPageActivity extends UIUtility {
     private String txtCount = "com.snapdeal.main:id/txtCount";
     private String sliderTitle = "com.snapdeal.main:id/sliderTitle";
     private String groupTitle = "com.snapdeal.main:id/groupTitle";
+    private String reviewText = "com.snapdeal.main:id/writeFirstReviewstxt";
+    private String avgRatingText = "com.snapdeal.main:id/avg_rating_txt";
 
     public FashionPageActivity(AppiumDriver driver) {
         super(driver);
@@ -94,6 +96,13 @@ public class FashionPageActivity extends UIUtility {
     }
 
     /**
+     * Click on Apply Button
+     */
+    public void clickApplyFiltersButton() {
+        clickElementByText("Apply Filters");
+    }
+
+    /**
      * Get Product Title List
      * 
      * @return
@@ -121,6 +130,7 @@ public class FashionPageActivity extends UIUtility {
      * @return
      */
     public List<String> getProductDisplayPriceList() {
+        swipeDown();
         swipeDown();
         return getListOfElementsByID(productDisplayPrice);
     }
@@ -203,7 +213,8 @@ public class FashionPageActivity extends UIUtility {
             System.out.println(e.getMessage());
 
         }
-        swipeLeft(element);
+        if (element != null)
+            swipeLeft(element);
         while (!isElementExists(String.format(category, "+2 More"))) {
             swipeLeft(driver.findElementByXPath(String.format(category, "Customer Rating")));
         }
@@ -216,5 +227,27 @@ public class FashionPageActivity extends UIUtility {
      */
     public boolean isProductGroupTitleElementPresent() {
         return isElementPresent(groupTitle);
+    }
+
+    /**
+     * Swipe down and get rating of App
+     * 
+     * @return
+     */
+    public String swipeDownAndFindRating() {
+        List<String> stitle = new ArrayList<>();
+        while (!stitle.contains("Write a Review")) {
+            swipeDown();
+            try {
+                stitle = getListOfElementsByID(reviewText);
+                if (stitle.contains("Write a Review")) {
+                    break;
+                }
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                continue;
+            }
+        }
+        return getListOfElementsByID(avgRatingText).get(0);
     }
 }
