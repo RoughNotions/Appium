@@ -122,6 +122,11 @@ public class UIUtility {
         }
     }
 
+    public int getElementCountUsingXPath(String locator) {
+       return driver.findElementsByXPath(locator).size();
+    }
+
+
     public List<WebElement> getElementsTextById(String resourceId) {
         return driver.findElementsById(resourceId);
     }
@@ -194,6 +199,7 @@ public class UIUtility {
         AndroidDriver driver = (AndroidDriver) (this.driver);
         return driver.currentActivity();
     }
+
 
     public int getRandomNo(int number) {
         Random random = new Random();
@@ -324,5 +330,11 @@ public class UIUtility {
         }
         return element;
     }
+	public  void tapElementByDescription( String description) {		
+		WebElement element= driver.findElement(MobileBy.AndroidUIAutomator(String.format("new UiSelector().description(\"%s\")", description)));
+		waitForElementVisibility( 10, element);
+		element.click();
+	}
+
 
 }
