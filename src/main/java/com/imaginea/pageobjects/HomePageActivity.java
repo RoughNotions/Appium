@@ -31,11 +31,8 @@ public class HomePageActivity extends UIUtility {
 	public HomePageActivity(AppiumDriver driver) {
 	        super(driver);
 	        sleep(20000L);
-	        initPage(driver.findElement(homeMenu));
-	        sleep(10000L);
-	        if (isElementPresent(skip)) {
-	            clickElementusingID(skip);
-	        }
+	        initPage(driver.findElement(homeMenu));	        
+	        waitForElementById(skip).click();	                
 	}
 
 	public void login() {

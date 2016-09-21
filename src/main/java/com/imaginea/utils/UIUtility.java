@@ -2,17 +2,24 @@ package com.imaginea.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.google.common.base.Function;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
@@ -52,8 +59,8 @@ public class UIUtility {
     }
 
     public void clickElementusingID(String ID) {
-        WebElement element = driver.findElementById(ID); 
-        waitForElementVisibility(50, element);          
+        WebElement element = driver.findElementById(ID);
+        waitForElementVisibility(50, element);
         element.click();
     }
 
@@ -115,7 +122,6 @@ public class UIUtility {
         }
     }
 
-
     public List<WebElement> getElementsTextById(String resourceId) {
         return driver.findElementsById(resourceId);
     }
@@ -152,16 +158,14 @@ public class UIUtility {
         Dimension size = driver.manage().window().getSize();
         int x1 = (int) (size.width * 0.20);
         int y1 = 1190;
-        TouchAction action = new TouchAction((MobileDriver)driver);
+        TouchAction action = new TouchAction((MobileDriver) driver);
         MobileElement mobileElement = (MobileElement) element;
-        action.longPress(mobileElement).moveTo(x1,y1).release().perform();
+        action.longPress(mobileElement).moveTo(x1, y1).release().perform();
     }
 
     public void scrollToExactText(String sText) {
         driver.scrollToExact(sText);
     }
-
-
 
     public void pressEnterKeyInAndroid() {
         ((AndroidDriver) (this.driver)).pressKeyCode(AndroidKeyCode.ENTER);
@@ -196,122 +200,129 @@ public class UIUtility {
         return random.nextInt(number);
     }
 
+    /**
+     * Get List of Text
+     * 
+     * @param driver
+     * @param by
+     * @return
+     */
+    public List<String> getListOfByText(AppiumDriver<WebElement> driver, By by) {
+        List<String> list = new ArrayList<String>();
+        waitForElementVisibility(10000, driver.findElement(by));
+        List<WebElement> element = driver.findElements(by);
+        for (WebElement e : element) {
+            list.add(e.getText());
+        }
+        return list;
+    }
 
+    public void clickElementByText(String description) {
+        WebElement element = driver
+                .findElement(MobileBy.AndroidUIAutomator(String.format("new UiSelector().text(\"%s\")", description)));
+        waitForElementVisibility(10, element);
+        element.click();
+    }
 
+    public void sleep(Long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
-	/**
-	 * Get List of Text
-	 * 
-	 * @param driver
-	 * @param by
-	 * @return
-	 */
-	public List<String> getListOfByText(AppiumDriver<WebElement> driver, By by) {
-		List<String> list = new ArrayList<String>();
-		waitForElementVisibility( 10000, driver.findElement(by));
-		List<WebElement> element = driver.findElements(by);
-		for (WebElement e : element) {
-			list.add(e.getText());
-		}
-		return list;
-	}
+    public String getElementTextByIndex(int index) {
+        sleep(15000L);
+        return driver.findElement(MobileBy.AndroidUIAutomator(String.format("new UiSelector().index(%d)", index)))
+                .getText();
+    }
 
+    public List<String> getListOfElementsByID(String ID) {
+        List<WebElement> ele = driver.findElementsById(ID);
+        waitForElementVisibility(10, ele.get(0));
+        List<String> text = new ArrayList<String>();
+        for (int i = 0; i < ele.size(); i++) {
+            System.out.println(ele.get(i).getText());
+            text.add(ele.get(i).getText());
+        }
+        System.out.println("count --->" + text.size());
+        return text;
+    }
 
-	public  void clickElementByText( String description) {		
-		WebElement element= driver.findElement(MobileBy.AndroidUIAutomator(String.format("new UiSelector().text(\"%s\")", description)));
-		waitForElementVisibility( 10, element);
-		element.click();
-	}
+    public void swipeDown() {
+        Dimension dimensions = driver.manage().window().getSize();
+        Double screenHeightStart = dimensions.getHeight() * 0.9;
+        int scrollStart = screenHeightStart.intValue();
+        Double screenHeightEnd = dimensions.getHeight() * 0.5;
+        int scrollEnd = screenHeightEnd.intValue();
+        driver.swipe(0, scrollStart, 0, scrollEnd, 2000);
+    }
 
-	public  void sleep(Long millis) {
-		try {
-			Thread.sleep(millis);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+    public List<WebElement> getElementsTextByIndex(int index) {
+        sleep(15000L);
+        return driver.findElements(MobileBy.AndroidUIAutomator(String.format("new UiSelector().index(%d)", index)));
+    }
 
-	public  String getElementTextByIndex( int index) {
-		sleep(15000L);
-		return driver.findElement(MobileBy.AndroidUIAutomator(String.format("new UiSelector().index(%d)", index)))
-				.getText();
-	}
+    public List<String> getTitles(int index) {
+        List<WebElement> ele = getElementsTextByIndex(index);
+        List<String> names = new ArrayList<String>();
+        for (int i = 0; i < ele.size(); i++) {
+            System.out.println(ele.get(i).getText());
+            names.add(ele.get(i).getText());
+        }
+        System.out.println("count --->" + names.size());
+        return names;
+    }
 
-	public  List<String> getListOfElementsByID( String ID) {
-		List<WebElement> ele = driver.findElementsById(ID);
-		waitForElementVisibility(10, ele.get(0));
-		List<String> text = new ArrayList<String>();
-		for (int i = 0; i < ele.size(); i++) {
-			System.out.println(ele.get(i).getText());
-			text.add(ele.get(i).getText());
-		}
-		System.out.println("count --->" + text.size());
-		return text;
-	}
+    public void enterTextByID(String id, String text) {
+        driver.findElementById(id).clear();
+        driver.findElementById(id).sendKeys(text);
+        driver.hideKeyboard();
+    }
 
+    public void zoomImageById(String resourceId) {
+        WebElement element = driver.findElement(By.id(resourceId));
+        waitForElementVisibility(20, element);
+        driver.tap(1, element, 2);
+    }
 
-	public  void swipeDown() {
-		Dimension dimensions = driver.manage().window().getSize();
-		Double screenHeightStart = dimensions.getHeight() * 0.9;
-		int scrollStart = screenHeightStart.intValue();
-		Double screenHeightEnd = dimensions.getHeight() * 0.5;
-		int scrollEnd = screenHeightEnd.intValue();
-		driver.swipe(0, scrollStart, 0, scrollEnd, 2000);
-	}
+    public void rotate(String myOrientation) {
+        String orientation = driver.getOrientation().value();
+        try {
+            if (!orientation.equalsIgnoreCase(myOrientation)) {
 
-	public  List<WebElement> getElementsTextByIndex( int index) {
-		sleep(15000L);
-		return driver.findElements(MobileBy.AndroidUIAutomator(String.format("new UiSelector().index(%d)", index)));
-	}
+                try {
+                    driver.rotate(ScreenOrientation.valueOf(myOrientation));
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
 
-	public  List<String> getTitles(int index) {
-		List<WebElement> ele = getElementsTextByIndex(index);
-		List<String> names = new ArrayList<String>();
-		for (int i = 0; i < ele.size(); i++) {
-			System.out.println(ele.get(i).getText());
-			names.add(ele.get(i).getText());
-		}
-		System.out.println("count --->" + names.size());
-		return names;
-	}
+            } else {
+                try {
+                    driver.rotate(ScreenOrientation.valueOf(myOrientation));
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	public  void enterTextByID( String id, String text) {
-		driver.findElementById(id).clear();
-		driver.findElementById(id).sendKeys(text);
-		driver.hideKeyboard();
-	}	
-
-	public  void zoomImageById(String resourceId){
-		WebElement element =driver.findElement(By.id(resourceId));
-		waitForElementVisibility( 20, element);
-		driver.tap(1, element, 2);
-	}
-
-	public void rotate(String  myOrientation){
-		String orientation= driver.getOrientation().value();
-		try{
-		if(!orientation.equalsIgnoreCase(myOrientation)){
-			
-			try{
-				driver.rotate(ScreenOrientation.valueOf(myOrientation));
-			}catch(Exception e){
-				System.out.println(e.getMessage());
-			}
-		
-		}
-		else {
-			try{
-				driver.rotate(ScreenOrientation.valueOf(myOrientation));
-			}catch(Exception e){
-				System.out.println(e.getMessage());
-			}
-		}
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-	}
-	
+    
+    public WebElement waitForElementById(final String id) {
+        WebDriverWait wait = new WebDriverWait(driver, 60);
+        WebElement element = null;
+        try {
+            element = driver.findElementById(id);
+            wait.until(ExpectedConditions.visibilityOf(element));
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            //e.printStackTrace();
+        }
+        return element;
+    }
 
 }
