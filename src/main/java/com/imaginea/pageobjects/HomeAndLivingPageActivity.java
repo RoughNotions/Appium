@@ -32,6 +32,7 @@ public class HomeAndLivingPageActivity extends UIUtility {
 	 */
 	public void selectSubCategory(String subCategory) {
 		clickElementByText( subCategory);
+		sleep(3000L);
 	}
 
 	public List<String> getProductTitles(){
@@ -106,6 +107,7 @@ public class HomeAndLivingPageActivity extends UIUtility {
 		if(ele.size()>0){
 			productName = ele.get(0).getText();
 			ele.get(0).click();
+			sleep(3000L);
 		}
 		return productName;
 	}
@@ -117,6 +119,7 @@ public class HomeAndLivingPageActivity extends UIUtility {
 		if(ele.size()>0){
 			productName = ele.get(0).getText();
 			ele.get(0).click();
+			sleep(3000L);
 		}
 		return productName;
 	}
@@ -152,12 +155,10 @@ public class HomeAndLivingPageActivity extends UIUtility {
 		WebElement element;
 		String actualtext="";
 		try{
-			element= driver.findElementByXPath("//android.widget.TextView[contains(@resource-id,'addCartBUtton')]");	
+			element= driver.findElementById("com.snapdeal.main:id/addCartBUtton");	
 			actualtext=element.getText();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-				element= driver.findElementById("com.snapdeal.main:id/addCartBUtton");
-				actualtext=element.getText();
+			System.out.println(e.getMessage());				
 		}
 		
 		if(actualtext.equals(text)){
