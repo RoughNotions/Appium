@@ -63,10 +63,8 @@ public class FashionTests extends AppiumParallelTest {
     public void verifySubCategory() {
         SoftAssert s_assert = new SoftAssert();
         HomePageActivity homePage = new HomePageActivity(driver);
-        String category[] = { mensFashion, "Women's Fashion", "Baby & Kids", "Jewellery", "Bags & Luggage",
-                "Sports, Fitness & Outdoor" };
-        String subCategory[] = { "Clothing", "Ethnic Wear", "Kids Clothing", "Fashion Jewellery", "Backpacks & More",
-                "Sports" };
+        String category[] = { mensFashion };
+        String subCategory[] = { "Clothing"};
 
         for (int i = 0; i < category.length; i++) {
 
@@ -93,7 +91,7 @@ public class FashionTests extends AppiumParallelTest {
         fashionPageActivity.clickElementByText("Sort\nPopularity");
         String sortCategory[] = { "Relevance", "Popularity", "Price Low To High", "Price High To Low", "New Arrival",
                 "Discount" };
-        Assert.assertEquals(fashionPageActivity.getSortCategoryList(), Arrays.asList(sortCategory));
+        Assert.assertEquals(fashionPageActivity.getSortCategoryList(), Arrays.asList(sortCategory),"Found "+fashionPageActivity.getSortCategoryList());
     }
 
     @Test(description = "Verify Sort By discount in Fashion Category")
@@ -126,7 +124,7 @@ public class FashionTests extends AppiumParallelTest {
         fashionPageActivity.selectCategoryByText("Lee");
         fashionPageActivity.sleep(2000L);
         fashionPageActivity.clickApplyButton();
-        fashionPageActivity.sleep(5000L);
+        fashionPageActivity.sleep(8000L);
         List<String> titleList = fashionPageActivity.getProductTitleList();
         Assert.assertTrue(titleList.get(0).contains("Lee"), "Title is not shown " + titleList);
     }
@@ -173,8 +171,10 @@ public class FashionTests extends AppiumParallelTest {
         fashionPageActivity.clickElementByText("Clothing");
         fashionPageActivity.clickElementByText("T-Shirts & Polos");
         fashionPageActivity.clickElementByText("T-Shirts");
-        fashionPageActivity.clickElementByText("Alan Jones Clothing Grey Cotton T-Shirt");
+        fashionPageActivity.clickElementusingID("com.snapdeal.main:id/productImage");
+        fashionPageActivity.sleep(10000L);
         fashionPageActivity.zoomImage();
+        fashionPageActivity.sleep(5000L);
         Assert.assertTrue(fashionPageActivity.isElementPresent("com.snapdeal.main:id/imageViewZoom"),
                 "Trouble in Zooming image");
     }
@@ -182,22 +182,24 @@ public class FashionTests extends AppiumParallelTest {
     @Test(description = "Verify Add to Cart Functionality in Fashion Category")
     public void testAddToCartFunctionality() {
         HomePageActivity homePage = new HomePageActivity(driver);
-        String addToCart = "Add to Cart";
         homePage.selectCategory(categoryName);
         FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
         fashionPageActivity.selectSubCategory(mensFashion);
         fashionPageActivity.clickElementByText("Clothing");
         fashionPageActivity.clickElementByText("T-Shirts & Polos");
         fashionPageActivity.clickElementByText("T-Shirts");
-        String fashionItem = "Alan Jones Clothing Grey Cotton T-Shirt";
+        String fashionItem = "Abloom Green Cotton Blend Half Sleeves Polo T-Shirt";
         fashionPageActivity.clickElementByText(fashionItem);
-        fashionPageActivity.clickElementByText(addToCart);
-        fashionPageActivity.clickElementByText("L");
-        fashionPageActivity.clickElementByText(addToCart);
+        fashionPageActivity.sleep(5000L);
+        fashionPageActivity.clickElementByText("Add to Cart");
+        fashionPageActivity.clickElementByText("L - 42");
+        fashionPageActivity.sleep(5000L);
+        fashionPageActivity.clickAddToCart();
+        fashionPageActivity.sleep(5000L);
         fashionPageActivity.clickMenuCartIcon();
+        fashionPageActivity.sleep(5000L);
         Assert.assertEquals(fashionPageActivity.getCartProductNameList().get(0), fashionItem);
         Assert.assertEquals(fashionPageActivity.getCartProductCountList().get(0), "1");
-
     }
 
     @Test(description = "Get Slider Title description")
@@ -206,15 +208,12 @@ public class FashionTests extends AppiumParallelTest {
         homePage.selectCategory(categoryName);
         FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
         fashionPageActivity.selectSubCategory(mensFashion);
-        Assert.assertTrue(fashionPageActivity.swipeDownAndFindSliderTitle("Brown Basics"));
-        Assert.assertTrue(fashionPageActivity.swipeDownAndFindSliderTitle("Sporty You !"));
-        Assert.assertTrue(fashionPageActivity.swipeDownAndFindSliderTitle("Top Brands"));
-        Assert.assertTrue(fashionPageActivity.swipeDownAndFindSliderTitle("Price Store"));
+        Assert.assertTrue(fashionPageActivity.swipeDownAndFindSliderTitle("Basic Casuals"));
+        Assert.assertTrue(fashionPageActivity.swipeDownAndFindSliderTitle("Top Brands"));        
         Assert.assertTrue(fashionPageActivity.swipeDownAndFindSliderTitle("Best Sellers"));
         Assert.assertTrue(fashionPageActivity.swipeDownAndFindSliderTitle("Fast Moving Products"));
         Assert.assertTrue(fashionPageActivity.swipeDownAndFindSliderTitle("Best in Men's Fashion"));
         Assert.assertTrue(fashionPageActivity.swipeDownAndFindSliderTitle("Sunglasses & Fragrances"));
-
     }
 
     @Test(description = "Test Left Scroll functionality in Bag Luggage Window")
@@ -244,10 +243,10 @@ public class FashionTests extends AppiumParallelTest {
         String customerRating = "4.0 & above";
         fashionPageActivity.selectCategoryByText(customerRating);
         fashionPageActivity.clickApplyFiltersButton();
-        fashionPageActivity.sleep(2000L);
+        fashionPageActivity.sleep(10000L);
         String imageId = "com.snapdeal.main:id/productImage";
         fashionPageActivity.clickElementusingID(imageId);
-        Assert.assertTrue(Integer.parseInt(fashionPageActivity.swipeDownAndFindRating()) >= 4,
+        Assert.assertTrue(Double.parseDouble(fashionPageActivity.swipeDownAndFindRating()) >= 4.0,
                 "Rating is not greater than 4");
 
     }

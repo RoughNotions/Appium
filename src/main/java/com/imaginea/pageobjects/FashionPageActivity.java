@@ -19,7 +19,7 @@ import io.appium.java_client.AppiumDriver;
 public class FashionPageActivity extends UIUtility {
 
     private String fashionSubCategory = "com.snapdeal.main:id/subCategoryTitleTextView";
-    private String sortResourceId = "com.snapdeal.main:id/sort_by_radio_button";
+    private String sortResourceId = "com.snapdeal.main:id/textView";
     private String productDiscount = "com.snapdeal.main:id/productDiscount";
     private String productTitle = "com.snapdeal.main:id/productTitle";
     private String startPrice = "com.snapdeal.main:id/filterTextStart";
@@ -34,6 +34,7 @@ public class FashionPageActivity extends UIUtility {
     private String groupTitle = "com.snapdeal.main:id/groupTitle";
     private String reviewText = "com.snapdeal.main:id/writeFirstReviewstxt";
     private String avgRatingText = "com.snapdeal.main:id/avg_rating_txt";
+    private String addToCart = "com.snapdeal.main:id/stvDoneDialogAttribute";
 
     public FashionPageActivity(AppiumDriver driver) {
         super(driver);
@@ -234,20 +235,15 @@ public class FashionPageActivity extends UIUtility {
      * 
      * @return
      */
-    public String swipeDownAndFindRating() {
-        List<String> stitle = new ArrayList<>();
-        while (!stitle.contains("Write a Review")) {
+    public String swipeDownAndFindRating() {        
+        while (!isElementPresent(avgRatingText)) {
             swipeDown();
-            try {
-                stitle = getListOfElementsByID(reviewText);
-                if (stitle.contains("Write a Review")) {
-                    break;
-                }
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                continue;
-            }
         }
         return getListOfElementsByID(avgRatingText).get(0);
+    }
+    
+    public void clickAddToCart(){
+        waitForElementVisibility(60, driver.findElementById(addToCart));
+        clickElementusingID(addToCart);
     }
 }
