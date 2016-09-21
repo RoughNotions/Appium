@@ -65,6 +65,9 @@ public class MobileElectronicsPageActivity extends UIUtility {
 	String spec = "com.snapdeal.main:id/featureTextView";
 	String viewMore = "com.snapdeal.main:id/viewMoreButton";
 	String specText = "com.snapdeal.main:id/itemTextView1";
+	String sortIcon = "com.snapdeal.main:id/sort_by_text_view";
+	String radioButtons = "com.snapdeal.main:id/sort_by_radio_button";
+	String productDiscounts = "com.snapdeal.main:id/productDiscount";
 
 	public MobileElectronicsPageActivity(AppiumDriver driver) {
 		super(driver);
@@ -220,7 +223,7 @@ public class MobileElectronicsPageActivity extends UIUtility {
 
 	public List<String> getEquipmentTypes() {
 		List<String> text = getListOfElementsByID(mobileByPrice);
-		return text;
+		return text.subList(0, 6);
 	}
 
 	public List<String> getOfficeMustHaves() {
@@ -385,6 +388,45 @@ public class MobileElectronicsPageActivity extends UIUtility {
 
 	public void clickOnImage() {
 		clickElementusingID(imageView);
+	}
+
+	public void sortByType(String str) {
+		clickElementusingID("com.snapdeal.main:id/sort_by_text_view");
+		sleep(5000l);
+		List<WebElement> ele = driver.findElementsById(radioButtons);
+		if (str.equalsIgnoreCase("Relevance")) {
+			ele.get(0).click();
+		}
+		if (str.equalsIgnoreCase("Popularity")) {
+			ele.get(1).click();
+
+		}
+		if (str.equalsIgnoreCase("Price Low To High")) {
+			ele.get(2).click();
+
+		}
+		if (str.equalsIgnoreCase("Price High To Low")) {
+			ele.get(3).click();
+
+		}
+		if (str.equalsIgnoreCase("New Arrival")) {
+			ele.get(4).click();
+
+		}
+		if (str.equalsIgnoreCase("Discount")) {
+			ele.get(5).click();
+
+		}
+	}
+
+	public boolean compareDiscounts() {
+		List<WebElement> ele = driver.findElementsById(productDiscounts);
+		for (int i = 0; i < ele.size(); i++) {
+			if (Integer.parseInt(ele.get(0).getText().substring(0, 1)) >= Integer
+					.parseInt(ele.get(1).getText().substring(0, 1)))
+				return true;
+		}
+		return false;
 	}
 
 }
