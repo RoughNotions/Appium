@@ -63,6 +63,7 @@ public class HomePageActivity extends UIUtility {
 	 * @param categoryName
 	 */
 	public void selectCategory(String categoryName) {
+	        sleep(3000L);
 		clickElementusingClassName( imageButton);
 		String category = String.format(
 				"//android.widget.TextView[@text='%s']", categoryName);

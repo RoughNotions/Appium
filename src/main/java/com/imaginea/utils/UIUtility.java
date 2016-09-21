@@ -52,7 +52,9 @@ public class UIUtility {
     }
 
     public void clickElementusingID(String ID) {
-        driver.findElementById(ID).click();
+        WebElement element = driver.findElementById(ID); 
+        waitForElementVisibility(50, element);          
+        element.click();
     }
 
     public void enterTextusingID(String locator, String sText) {
