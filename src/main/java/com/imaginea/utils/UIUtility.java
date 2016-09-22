@@ -54,11 +54,14 @@ public class UIUtility {
     }
 
     public void clickElementusingClassName(String className) {
+        waitForElementByClassName(className);
         driver.findElementByClassName(className).click();
 
     }
 
     public void clickElementusingID(String ID) {
+        sleep(5000L);
+        waitForElementById(ID);
         WebElement element = driver.findElementById(ID);
         waitForElementVisibility(50, element);
         element.click();
@@ -85,6 +88,8 @@ public class UIUtility {
     }
 
     public void clickElementusingXPath(String continueButton) {
+        sleep(5000L);
+        waitForElementByXPath(continueButton);
         driver.findElementByXPath(continueButton).click();
     }
 
@@ -123,9 +128,8 @@ public class UIUtility {
     }
 
     public int getElementCountUsingXPath(String locator) {
-       return driver.findElementsByXPath(locator).size();
+        return driver.findElementsByXPath(locator).size();
     }
-
 
     public List<WebElement> getElementsTextById(String resourceId) {
         return driver.findElementsById(resourceId);
@@ -208,7 +212,6 @@ public class UIUtility {
         return driver.currentActivity();
     }
 
-
     public int getRandomNo(int number) {
         Random random = new Random();
         return random.nextInt(number);
@@ -232,9 +235,10 @@ public class UIUtility {
     }
 
     public void clickElementByText(String description) {
+        sleep(5000L);
         WebElement element = driver
                 .findElement(MobileBy.AndroidUIAutomator(String.format("new UiSelector().text(\"%s\")", description)));
-        waitForElementVisibility(10, element);
+        waitForElementVisibility(60, element);
         element.click();
     }
 
@@ -325,7 +329,6 @@ public class UIUtility {
         }
     }
 
-    
     public WebElement waitForElementById(final String id) {
         WebDriverWait wait = new WebDriverWait(driver, 60);
         WebElement element = null;
@@ -334,15 +337,42 @@ public class UIUtility {
             wait.until(ExpectedConditions.visibilityOf(element));
         } catch (Exception e) {
             // TODO Auto-generated catch block
-            //e.printStackTrace();
+            // e.printStackTrace();
         }
         return element;
     }
-	public  void tapElementByDescription( String description) {		
-		WebElement element= driver.findElement(MobileBy.AndroidUIAutomator(String.format("new UiSelector().description(\"%s\")", description)));
-		waitForElementVisibility( 10, element);
-		element.click();
-	}
 
+    public WebElement waitForElementByClassName(final String className) {
+        WebDriverWait wait = new WebDriverWait(driver, 60);
+        WebElement element = null;
+        try {
+            element = driver.findElementByClassName(className);
+            wait.until(ExpectedConditions.visibilityOf(element));
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+        }
+        return element;
+    }
+
+    public WebElement waitForElementByXPath(final String xpath) {
+        WebDriverWait wait = new WebDriverWait(driver, 60);
+        WebElement element = null;
+        try {
+            element = driver.findElementByXPath(xpath);
+            wait.until(ExpectedConditions.visibilityOf(element));
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+        }
+        return element;
+    }
+
+    public void tapElementByDescription(String description) {
+        WebElement element = driver.findElement(
+                MobileBy.AndroidUIAutomator(String.format("new UiSelector().description(\"%s\")", description)));
+        waitForElementVisibility(10, element);
+        element.click();
+    }
 
 }

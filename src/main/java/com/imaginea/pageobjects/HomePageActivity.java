@@ -36,6 +36,7 @@ public class HomePageActivity extends UIUtility {
 	         if(element!=null){
 	             element.click();
 	         }          
+
 	}
 
 	public void login() {
