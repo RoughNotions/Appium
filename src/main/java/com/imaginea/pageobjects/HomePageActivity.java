@@ -32,7 +32,10 @@ public class HomePageActivity extends UIUtility {
 	        super(driver);
 	        sleep(20000L);
 	        initPage(driver.findElement(homeMenu));	        
-	        waitForElementById(skip).click();	                
+	         WebElement element = waitForElementById(skip); 
+	         if(element!=null){
+	             element.click();
+	         }          
 	}
 
 	public void login() {
