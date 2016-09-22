@@ -208,7 +208,7 @@ public class FashionPageActivity extends UIUtility {
     /**
      * Swipe Filter Category in Button of Mobile Devices
      */
-    public void swipeFilterCategoryInBottom() {
+    public void swipeFilterCategoryInBottom() {        
         sleep(10000L);
         WebElement element = null;
         String category = "//android.widget.TextView[@text='%s']";
@@ -221,7 +221,7 @@ public class FashionPageActivity extends UIUtility {
         }
         if (element != null)
             swipeLeft(element);
-        while (!isElementExists(String.format(category, "+2 More"))) {
+        while (!isElementExists(String.format(category, "+3 More"))) {
             swipeLeft(driver.findElementByXPath(String.format(category, "Customer Rating")));
         }
     }

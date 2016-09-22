@@ -59,8 +59,7 @@ public class UIUtility {
 
     }
 
-    public void clickElementusingID(String ID) {
-        sleep(5000L);
+    public void clickElementusingID(String ID) {        
         waitForElementById(ID);
         WebElement element = driver.findElementById(ID);
         waitForElementVisibility(50, element);
@@ -87,8 +86,7 @@ public class UIUtility {
         driver.findElementByLinkText(str).click();
     }
 
-    public void clickElementusingXPath(String continueButton) {
-        sleep(5000L);
+    public void clickElementusingXPath(String continueButton) {        
         waitForElementByXPath(continueButton);
         driver.findElementByXPath(continueButton).click();
     }
@@ -231,7 +229,7 @@ public class UIUtility {
         WebElement element = driver
                 .findElement(MobileBy.AndroidUIAutomator(String.format("new UiSelector().text(\"%s\")", description)));
         waitForElementVisibility(60, element);
-        element.click();
+        element.click();        
     }
 
     public void sleep(Long millis) {

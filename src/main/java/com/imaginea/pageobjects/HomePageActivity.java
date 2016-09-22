@@ -30,13 +30,9 @@ public class HomePageActivity extends UIUtility {
 
 	public HomePageActivity(AppiumDriver driver) {
 	    super(driver);
-            sleep(20000L);
+	    sleep(8000L);
             initPage(driver.findElement(homeMenu));
-            sleep(9000L);
-            WebElement element = waitForElementById(skip); 
-            if(element!=null){
-                element.click();
-            }       
+            sleep(15000L);       
 	}
 
 	public void login() {

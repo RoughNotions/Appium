@@ -186,10 +186,8 @@ public class FashionTests extends AppiumParallelTest {
         FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
         fashionPageActivity.selectSubCategory(mensFashion);
         fashionPageActivity.clickElementByText("Clothing");
-        fashionPageActivity.clickElementByText("T-Shirts & Polos");
-        fashionPageActivity.clickElementByText("T-Shirts");
-        String fashionItem = "Abloom Green Cotton Blend Half Sleeves Polo T-Shirt";
-        fashionPageActivity.clickElementByText(fashionItem);
+        fashionPageActivity.clickElementByText("T-Shirts & Polos");        
+        fashionPageActivity.clickElementusingID("com.snapdeal.main:id/productImage");
         fashionPageActivity.sleep(5000L);
         fashionPageActivity.clickElementByText("Add to Cart");
         fashionPageActivity.clickElementByText("L - 42");
@@ -197,8 +195,7 @@ public class FashionTests extends AppiumParallelTest {
         fashionPageActivity.clickAddToCart();
         fashionPageActivity.sleep(5000L);
         fashionPageActivity.clickMenuCartIcon();
-        fashionPageActivity.sleep(5000L);
-        Assert.assertEquals(fashionPageActivity.getCartProductNameList().get(0), fashionItem);
+        fashionPageActivity.sleep(5000L);        
         Assert.assertEquals(fashionPageActivity.getCartProductCountList().get(0), "1");
     }
 
@@ -222,9 +219,9 @@ public class FashionTests extends AppiumParallelTest {
         homePage.selectCategory(categoryName);
         FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
         fashionPageActivity.selectSubCategory(bagLuggage);
-        fashionPageActivity.clickElementByText("Travel Accessories");
+        fashionPageActivity.clickElementByText("Laptop Bags");        
         fashionPageActivity.swipeFilterCategoryInBottom();
-        fashionPageActivity.clickElementByText("+2 More");
+        fashionPageActivity.clickElementByText("+3 More");
         Assert.assertTrue(fashionPageActivity.isProductGroupTitleElementPresent(), "Not in filter page");
     }
 
@@ -234,9 +231,9 @@ public class FashionTests extends AppiumParallelTest {
         homePage.selectCategory(categoryName);
         FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
         fashionPageActivity.selectSubCategory(bagLuggage);
-        fashionPageActivity.clickElementByText("Travel Accessories");
+        fashionPageActivity.clickElementByText("Laptop Bags");
         fashionPageActivity.swipeFilterCategoryInBottom();
-        fashionPageActivity.clickElementByText("+2 More");
+        fashionPageActivity.clickElementByText("+3 More");
 
         // Filter By Customer Rating
         fashionPageActivity.clickElementByText("Customer Rating");
@@ -257,13 +254,13 @@ public class FashionTests extends AppiumParallelTest {
         homePage.selectCategory(categoryName);
         FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
         fashionPageActivity.selectSubCategory(bagLuggage);
-        fashionPageActivity.clickElementByText("Travel Accessories");
+        fashionPageActivity.clickElementByText("Laptop Bags");
         fashionPageActivity.swipeFilterCategoryInBottom();
-        fashionPageActivity.clickElementByText("+2 More");
+        fashionPageActivity.clickElementByText("+3 More");
 
         // Filter By Brand
         fashionPageActivity.clickElementByText("Brand");
-        String filter = "Swiss Military";
+        String filter = "HP";
         fashionPageActivity.clickElementByText(filter);
         fashionPageActivity.clickApplyFiltersButton();
         List<String> titleList = fashionPageActivity.getProductTitleList();
@@ -278,9 +275,9 @@ public class FashionTests extends AppiumParallelTest {
         homePage.selectCategory(categoryName);
         FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
         fashionPageActivity.selectSubCategory(bagLuggage);
-        fashionPageActivity.clickElementByText("Travel Accessories");
+        fashionPageActivity.clickElementByText("Laptop Bags");
         fashionPageActivity.swipeFilterCategoryInBottom();
-        fashionPageActivity.clickElementByText("+2 More");
+        fashionPageActivity.clickElementByText("+3 More");
         // Filter By Price
         fashionPageActivity.clickElementByText("Price");
         String startPrice = "5000";
@@ -298,9 +295,9 @@ public class FashionTests extends AppiumParallelTest {
         homePage.selectCategory(categoryName);
         FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
         fashionPageActivity.selectSubCategory(bagLuggage);
-        fashionPageActivity.clickElementByText("Travel Accessories");
+        fashionPageActivity.clickElementByText("Laptop Bags");
         fashionPageActivity.swipeFilterCategoryInBottom();
-        fashionPageActivity.clickElementByText("+2 More");
+        fashionPageActivity.clickElementByText("+3 More");
         // Filter by Discount %
         fashionPageActivity.clickElementByText("Discount %");
         String discountRange = "40 - 50";
