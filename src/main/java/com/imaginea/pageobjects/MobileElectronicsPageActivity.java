@@ -429,4 +429,9 @@ public class MobileElectronicsPageActivity extends UIUtility {
 		return false;
 	}
 
+	public List<String> getAllStationeryItems() {
+		List<String> stationeryItems = getListOfElementsByID(mobileByPrice);
+		return stationeryItems;
+	}
+
 }

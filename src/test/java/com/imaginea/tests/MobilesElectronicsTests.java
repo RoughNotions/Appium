@@ -35,7 +35,7 @@ public class MobilesElectronicsTests extends BaseTest {
 		driver.launchApp();
 	}
 
-	//@Test
+	@Test
 	public void optionsUnderMobileElectronics() {
 		List<String> subCategories = Arrays.asList("Mobile Phones", "Mobiles Accessories", "Tablets & Accessories",
 				"Laptops & Computers", "TVs, Audio & Video", "Appliances", "Cameras & Accessories", "Gaming",
@@ -89,14 +89,15 @@ public class MobilesElectronicsTests extends BaseTest {
 		Assert.assertEquals(mePage.getPageTitle("Gaming"), "Gaming");
 		mePage.navigateToBackPage();
 
-	/*	homePage.selectCategory("Mobiles & Electronics");
-		homePage.selectSubCategory("Office Equipments");
-		Assert.assertEquals(mePage.getPageTitle("Office Equipments"), "Office Equipments");
-		mePage.navigateToBackPage();
-*/
+		/*
+		 * homePage.selectCategory("Mobiles & Electronics");
+		 * homePage.selectSubCategory("Office Equipments");
+		 * Assert.assertEquals(mePage.getPageTitle("Office Equipments"),
+		 * "Office Equipments"); mePage.navigateToBackPage();
+		 */
 	}
 
-	//@Test
+	@Test
 	public void getMobilesByPrice_Type_TopPicks() {
 		List<String> priceRange = Arrays.asList("Rs. 2000-5000", "Rs. 5000-8000", "Rs. 8000-15000", "Rs. 15000-25000",
 				"Above Rs. 25000", "Below Rs. 2000");
@@ -113,7 +114,7 @@ public class MobilesElectronicsTests extends BaseTest {
 
 	}
 
-	//@Test
+	@Test
 	public void verifyGamingItems() {
 		List<String> gameItems = Arrays.asList("Gaming Consoles", "Gaming Accessories", "Gaming Titles",
 				"Gaming Merchandise", "Gaming Monitors");
@@ -132,7 +133,7 @@ public class MobilesElectronicsTests extends BaseTest {
 
 	}
 
-	//@Test
+	@Test
 	public void verifyAppliances() {
 		List<String> applianceItems = Arrays.asList("ACs & Air Coolers", "Washing Machines", "Geysers & Heaters",
 				"Home Appliances", "Personal Care Appliances", "Irons", "Fans", "More");
@@ -152,7 +153,7 @@ public class MobilesElectronicsTests extends BaseTest {
 		 */
 	}
 
-	//@Test
+	@Test
 	public void verifyTabletsAccessories() {
 		List<String> tabletTypes = Arrays.asList("WiFi Tablets", "3G Tablets", "4G Tablets");
 		List<String> tabletItems = Arrays.asList("Tablets", "Refurbished Tablets", "Cases & Covers", "Screen Guards",
@@ -172,7 +173,7 @@ public class MobilesElectronicsTests extends BaseTest {
 		 */
 	}
 
-//	@Test
+	@Test
 	public void addToCart() {
 		HomePageActivity homePage = new HomePageActivity(driver);
 		homePage.selectCategory("Mobiles & Electronics");
@@ -185,7 +186,7 @@ public class MobilesElectronicsTests extends BaseTest {
 
 	}
 
-	//@Test
+	@Test
 	public void verifyOfficeEquipments() {
 		List<String> equipmentTypes = Arrays.asList("Note Counters & Paper Shredders", "POS Equipment",
 				"Laminators & Binders", "Labeling & Stamping Machine", "Stationery", "Office Equipment");
@@ -200,7 +201,7 @@ public class MobilesElectronicsTests extends BaseTest {
 		Assert.assertEquals(mePage.getShopByType(), shopByType, "Invalid Shop By Types");
 	}
 
-	//@Test
+	@Test
 	public void verifyLaptopsComputers() {
 
 		List<String> items = Arrays.asList("Laptops", "Printers & Inks", "Storage", "Computer Accessories",
@@ -218,7 +219,7 @@ public class MobilesElectronicsTests extends BaseTest {
 
 	}
 
-//	@Test
+	@Test
 	public void verifyCamerasAccessories() {
 		List<String> cameraItems = Arrays.asList("DSLRs", "Digital Cameras", "Camera Lenses", "Selfie Sticks",
 				"Camera Accessories", "Binoculars & Telescopes", "Camcorders", "Digital Photo Frames");
@@ -235,7 +236,7 @@ public class MobilesElectronicsTests extends BaseTest {
 		 * "Invalid Best Deals");
 		 */ }
 
-	//@Test
+	@Test
 	public void filterByTelevisonSize() {
 
 		HomePageActivity homePage = new HomePageActivity(driver);
@@ -248,7 +249,7 @@ public class MobilesElectronicsTests extends BaseTest {
 
 	}
 
-//	@Test
+	@Test
 	public void verifyToastMSGAfterAddingToCart() {
 		try {
 			HomePageActivity homePage = new HomePageActivity(driver);
@@ -269,7 +270,7 @@ public class MobilesElectronicsTests extends BaseTest {
 		}
 	}
 
-//	@Test
+	@Test
 	public void filterByCompatibilityModel() {
 		HomePageActivity homePage = new HomePageActivity(driver);
 		homePage.selectCategory("Mobiles & Electronics");
@@ -280,7 +281,7 @@ public class MobilesElectronicsTests extends BaseTest {
 
 	}
 
-	//@Test
+	@Test
 	public void filterByScreenSize() {
 		HomePageActivity homePage = new HomePageActivity(driver);
 		homePage.selectCategory("Mobiles & Electronics");
@@ -297,7 +298,7 @@ public class MobilesElectronicsTests extends BaseTest {
 
 	}
 
-	//@Test
+	@Test
 	public void sortFunctionality() {
 		HomePageActivity homePage = new HomePageActivity(driver);
 		homePage.selectCategory("Mobiles & Electronics");
@@ -306,6 +307,18 @@ public class MobilesElectronicsTests extends BaseTest {
 		mePage.clickApplyButton();
 		mePage.sortByType("Discount");
 		Assert.assertTrue(mePage.compareDiscounts(), "Not arranged in sorted order");
+	}
+
+	@Test
+	public void verifyStatioineryItems() {
+		List<String> stationeryItems = Arrays.asList("Pens & Markers", "Calculators", "Stationery Supplies",
+				"Art & Craft Supplies", "School Supplies", "Greetings & Gifts", "Lab Equipment", "School Bags");
+		HomePageActivity homePage = new HomePageActivity(driver);
+		homePage.selectCategory("Mobiles & Electronics");
+		MobileElectronicsPageActivity mePage = homePage.selectSubCategory("Office Equipments");
+		mePage.clickElementByText("Stationery");
+		Assert.assertEquals(mePage.getAllStationeryItems(), stationeryItems, "Not arranged in sorted order");
+
 	}
 
 	@AfterMethod
