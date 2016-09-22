@@ -309,6 +309,18 @@ public class MobilesElectronicsTests extends BaseTest {
 		Assert.assertTrue(mePage.compareDiscounts(), "Not arranged in sorted order");
 	}
 
+	@Test
+	public void verifyStatioineryItems() {
+		List<String> stationeryItems = Arrays.asList("Pens & Markers", "Calculators", "Stationery Supplies",
+				"Art & Craft Supplies", "School Supplies", "Greetings & Gifts", "Lab Equipment", "School Bags");
+		HomePageActivity homePage = new HomePageActivity(driver);
+		homePage.selectCategory("Mobiles & Electronics");
+		MobileElectronicsPageActivity mePage = homePage.selectSubCategory("Office Equipments");
+		mePage.clickElementByText("Stationery");
+		Assert.assertEquals(mePage.getAllStationeryItems(), stationeryItems, "Not arranged in sorted order");
+
+	}
+
 	@AfterMethod
 	public void afterMethod() {
 		driver.closeApp();
