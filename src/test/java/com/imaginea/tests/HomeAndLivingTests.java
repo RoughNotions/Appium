@@ -1,7 +1,10 @@
 package com.imaginea.tests;
 
+
 import java.io.IOException;
 import java.lang.reflect.Method;
+
+
 import java.util.Arrays;
 
 import org.testng.Assert;
@@ -151,11 +154,7 @@ public class HomeAndLivingTests extends AppiumParallelTest {
 
     }
 
-    @Test
-    public void verifyAppScreenOrientation() {
-        homePage = new HomePageActivity(driver);
-        // homePage.rotate("PORTRAIT");
-    }
+
 
     @BeforeClass()
     public void beforeClass() throws Exception {
@@ -166,5 +165,49 @@ public class HomeAndLivingTests extends AppiumParallelTest {
     public void afterClass() throws InterruptedException, IOException {
         killAppiumServer();
     }
+
+
+
+	@BeforeMethod
+	public void beforeMethod() {
+		driver.launchApp();
+	}
+
+	
+	
+	
+	@Test
+	public void verifyAppScreenOrientation(){
+		homePage = new HomePageActivity(driver);
+		homePage.rotate("PORTRAIT");
+	}
+
+	@Test
+	public void verifyShortListFunctionality(){
+		homePage = new HomePageActivity(driver);
+		homePage.selectCategory(categoryMenu);
+		String subCategory="Furniture";
+		homeLivingPageActivity = new HomeAndLivingPageActivity(driver);
+		homeLivingPageActivity.selectSubCategory(subCategory);
+
+		MaterialMainActivity mainActivity= new MaterialMainActivity(driver);
+		mainActivity.tapOnProduct("Bedroom");
+
+		mainActivity.shortListAProduct(2);
+		Assert.assertTrue(mainActivity.verifyShortliststatus(2), "Products are not shortlisted ");
+		mainActivity.tapOnQuickAccessMenu();
+		Assert.assertEquals(mainActivity.getShortListedCount(),2,"Shortlisted product count is not matching");
+		mainActivity.tapShortListOptionInMenu();
+
+		Assert.assertTrue(mainActivity.verifyTextInResultsSection(2),"Text in Results Section is not matching with product count");
+		mainActivity.navigateToHomePage();
+		mainActivity.clickShortListatBottom();
+		Assert.assertTrue(mainActivity.verifyTextInResultsSection(2),"Text in Results Section is not matching with product count");
+
+	}
+	@AfterMethod
+	public void afterMethod() {
+		driver.closeApp();
+	}
 
 }

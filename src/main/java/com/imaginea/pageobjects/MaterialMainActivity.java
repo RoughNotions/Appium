@@ -16,7 +16,12 @@ public class MaterialMainActivity   extends UIUtility{
 	String productCount_Id="com.snapdeal.main:id/numberOfProducts";
 	String categoryTitleTxt ="//*[@resource-id='com.snapdeal.main:id/categoryTitleTxt' and @index='1']";
 	String categoryList="//android.widget.ListView[@resource-id='com.snapdeal.main:id/categoryList']/android.widget.LinearLayout/android.widget.LinearLayout";
+	String shortListButton="//android.widget.TextView[@resource-id='com.snapdeal.main:id/collections_tab']";
+	String resultslabel="//android.widget.TextView[@resource-id='com.snapdeal.main:id/total_result_text_view']";
 	
+	String shortListIcon="//android.widget.TextView[@resource-id='com.snapdeal.main:id/spell_check_partial_text_view']/../following-sibling::android.widget.FrameLayout[%d]/android.widget.RelativeLayout[@resource-id='com.snapdeal.main:id/product_grid_mainLayout']/android.widget.FrameLayout[@resource-id='com.snapdeal.main:id/productHeart']";
+	String shortListStatus="//android.widget.TextView[@resource-id='com.snapdeal.main:id/spell_check_partial_text_view']/../following-sibling::android.widget.FrameLayout[%d]/android.widget.RelativeLayout[@resource-id='com.snapdeal.main:id/product_grid_mainLayout']/android.widget.FrameLayout[@resource-id='com.snapdeal.main:id/productHeart']/android.widget.ImageView";
+	String shortListCount="//android.widget.TextView[contains(@text,'Shortlist')]";
 	public MaterialMainActivity(AppiumDriver driver) {
 		super(driver);
 		// TODO Auto-generated constructor stub
@@ -72,6 +77,78 @@ public class MaterialMainActivity   extends UIUtility{
 		clickElementByText("Apply Filters"); 
 		sleep(5000l);
 	}
+
+	public void tapOnProduct(String description){
+		clickElementByText(description);
+	}
+
+	public void navigateToHomePage(){
+		tapOnQuickAccessMenu(); 
+		tapOnHomeOption();
+	}
 	
+	public void tapOnHomeOption(){
+		clickElementByText("Home"); 
+	}
 	
+	public void tapOnQuickAccessMenu(){
+		tapElementByDescription("Quick Access"); 
+	}
+	
+	public void clickShortListatBottom(){
+		clickElementusingXPath(shortListButton);
+	}
+	
+	public String getTextInResultsSection(){
+		return getTextUsingXpath(resultslabel);
+	}
+	
+	public boolean verifyTextInResultsSection(int productCount){
+		String actual=getTextInResultsSection();
+		if(actual.equals("Showing "+productCount+" results")){
+			return true;
+		}
+		return false;
+	}
+	public String getTextInShortListOption(){
+		return getTextUsingXpath(shortListCount);
+	}
+	public int getShortListedCount(){
+		String text=getTextInShortListOption();
+		text=text.replaceAll("\\D", "");
+		if(text.trim().length()>0){
+			return Integer.parseInt(text);
+		}else{
+			return 0;
+		}	
+	}
+	
+	public void tapShortListOptionInMenu(){
+		clickElementusingXPath(shortListCount);
+	}
+	public void shortListAProduct(int productCount){
+		for(int i=1;i<=productCount;i++){
+		clickElementusingXPath(String.format(shortListIcon,i));
+		}
+	}
+	
+	public boolean verifyShortliststatus(int productCount){
+		for(int i=1;i<=productCount;i++){
+			if(getElementCountUsingXPath(String.format(shortListStatus,i))!=2){
+				System.out.println(i+"Item is not shortlisted ");
+				return false;
+			}
+		}
+	return true;
+	}
+	
+	public boolean statusOfUnShortListedProducts(int productCount){
+		for(int i=1;i<=productCount;i++){
+			if(getElementCountUsingXPath(String.format(shortListStatus,i))!=1){
+				System.out.println(i+"Item is not unshortlisted ");
+				return false;
+			}
+		}
+	return true;
+	}
 }
