@@ -29,13 +29,14 @@ public class HomePageActivity extends UIUtility {
 	String popupmodal="//android.widget.TextView[@resource-id='android:id/alertTitle' and @text='Get Google Play services']";
 
 	public HomePageActivity(AppiumDriver driver) {
-	        super(driver);
-	        sleep(20000L);
-	        initPage(driver.findElement(homeMenu));
-	         WebElement element = waitForElementById(skip); 
-	         if(element!=null){
-	             element.click();       
-	         }
+	    super(driver);
+            sleep(20000L);
+            initPage(driver.findElement(homeMenu));
+            sleep(9000L);
+            WebElement element = waitForElementById(skip); 
+            if(element!=null){
+                element.click();
+            }       
 	}
 
 	public void login() {

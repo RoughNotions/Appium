@@ -84,6 +84,7 @@ public class FashionPageActivity extends UIUtility {
      * @param title
      */
     public void selectCategoryByText(String title) {
+        sleep(10000L);
         String category = String.format("//android.widget.TextView[@text='%s']", title);
         waitForElementVisibility(30, driver.findElement(By.xpath(category)));
         clickElementusingXPath(category);
@@ -109,6 +110,7 @@ public class FashionPageActivity extends UIUtility {
      * @return
      */
     public List<String> getProductTitleList() {
+        sleep(10000L);
         swipeDown();
         return getListOfElementsByID(productTitle);
     }
@@ -142,7 +144,9 @@ public class FashionPageActivity extends UIUtility {
      * @return
      */
     public List<String> getProductDiscountPriceList() {
+        sleep(10000L);
         swipeDown();
+        sleep(5000L);
         return getListOfElementsByID(productDiscountPrice);
     }
 
@@ -205,10 +209,11 @@ public class FashionPageActivity extends UIUtility {
      * Swipe Filter Category in Button of Mobile Devices
      */
     public void swipeFilterCategoryInBottom() {
+        sleep(10000L);
         WebElement element = null;
         String category = "//android.widget.TextView[@text='%s']";
         try {
-            waitForElementVisibility(90, driver.findElementByXPath(String.format(category, "Discount %")));
+            waitForElementByXPath(String.format(category, "Discount %"));
             element = driver.findElementByXPath(String.format(category, "Discount %"));
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -243,6 +248,7 @@ public class FashionPageActivity extends UIUtility {
     }
     
     public void clickAddToCart(){
+        waitForElementById(addToCart);
         waitForElementVisibility(60, driver.findElementById(addToCart));
         clickElementusingID(addToCart);
     }
