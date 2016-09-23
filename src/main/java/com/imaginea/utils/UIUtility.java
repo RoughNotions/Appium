@@ -146,7 +146,15 @@ public class UIUtility {
         MobileElement mobileElement = (MobileElement) element;
         mobileElement.swipe(SwipeElementDirection.RIGHT, 5000);
     }
-
+    public void swipeToLeft(WebElement element) {    	
+    	  
+    	Dimension size = element.getSize();
+        int x = (int) (size.width * 0.20);
+        int y = size.height;
+        TouchAction action = new TouchAction((MobileDriver) driver);
+        MobileElement mobileElement = (MobileElement) element;
+        action.longPress(mobileElement).moveTo(element, x, y).release().perform();
+    }
     private int getX(WebElement element, int x) {
         // Declare variable that contains the dimensions of the device screen
         Dimension winSize;

@@ -150,11 +150,21 @@ public class HomeAndLivingPageActivity extends UIUtility {
 		tapElement(element);
 	}
 	
+	public void enterPincode(){
+		sleep(5000l);
+		WebElement element = waitForElementById("com.snapdeal.main:id/shipnearPincode"); 
+	         if(element!=null){
+	             element.sendKeys("500061");
+	             waitForElementById("com.snapdeal.main:id/shipnearverifyBtn").click(); 
+	         }  
+	}
+	
 	
 	public boolean verifyTextInAddToCartButton(String text){
 		WebElement element;
 		String actualtext="";
 		try{
+			sleep(5000l);
 			element= driver.findElementById("com.snapdeal.main:id/addCartBUtton");	
 			actualtext=element.getText();
 		}catch(Exception e){
@@ -164,23 +174,13 @@ public class HomeAndLivingPageActivity extends UIUtility {
 		if(actualtext.equals(text)){
 			return true;
 		}
+		System.out.println("Displaying text as "+actualtext+"instead of "+text);
 		return false;
 	}
 	
-	public void swipeShopNow(){
-		WebElement element = null;
-		try{
-			String category = String.format("//android.widget.TextView[@text='%s']", "Shop Now");
-			waitForElementVisibility( 60, driver.findElementByXPath(category));
-			element= driver.findElementByXPath(category);	
-		}catch(Exception e){
-			System.out.println(e.getMessage());
-				
-		}
-		swipeRight(element);
-	}
+
 	
 	public void scrollToHomeDecorSection(){
-		scrollToExactText("Home Decor");
+		scrollToExactText("Wall Stickers");
 	}
 }
