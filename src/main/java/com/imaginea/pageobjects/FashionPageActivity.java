@@ -208,21 +208,28 @@ public class FashionPageActivity extends UIUtility {
     /**
      * Swipe Filter Category in Button of Mobile Devices
      */
-    public void swipeFilterCategoryInBottom() {
+    public void swipeFilterCategoryInBottom() {        
         sleep(10000L);
         WebElement element = null;
         String category = "//android.widget.TextView[@text='%s']";
         try {
             waitForElementByXPath(String.format(category, "Discount %"));
-            element = driver.findElementByXPath(String.format(category, "Discount %"));
+            //element = driver.findElementByXPath(String.format(category, "Discount %"));
+            List<WebElement> elements =driver.findElementsById("com.snapdeal.main:id/main_container");   
+            element = elements.get(elements.size()-1);
         } catch (Exception e) {
             System.out.println(e.getMessage());
 
         }
         if (element != null)
             swipeLeft(element);
-        while (!isElementExists(String.format(category, "+2 More"))) {
-            swipeLeft(driver.findElementByXPath(String.format(category, "Customer Rating")));
+        List<String> containerText = getListOfElementsByID("com.snapdeal.main:id/main_container");
+        int counter = 0;
+        while (counter < 2) {
+            List<WebElement> elements =driver.findElementsById("com.snapdeal.main:id/main_container");   
+            element = elements.get(elements.size()-1);
+            swipeLeft(element);
+            counter++;
         }
     }
 
