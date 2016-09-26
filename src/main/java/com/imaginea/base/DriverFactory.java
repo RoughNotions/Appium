@@ -79,9 +79,10 @@ public class DriverFactory {
 		capability.setCapability(MobileCapabilityType.DEVICE_NAME, prop.getProperty("DEVICE_NAME"));
 		capability.setCapability(MobileCapabilityType.PLATFORM_NAME, prop.getProperty("PLATFORM_NAME"));
 		capability.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, prop.getProperty("NEW_COMMAND_TIMEOUT")); // Default
-		capability.setCapability(MobileCapabilityType.APP,
-				System.getProperty("user.dir") + "\\src\\test\\resources\\" + prop.getProperty("APP")); // Default
-
+		if(prop.getProperty("APP_TYPE").equalsIgnoreCase("NativeApp")){
+			capability.setCapability(MobileCapabilityType.APP,
+					System.getProperty("user.dir") + "\\src\\test\\resources\\" + prop.getProperty("APP")); // Default
+		}
 		return capability;
 	}
 }
