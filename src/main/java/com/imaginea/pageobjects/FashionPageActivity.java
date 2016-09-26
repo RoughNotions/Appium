@@ -209,7 +209,7 @@ public class FashionPageActivity extends UIUtility {
      * Swipe Filter Category in Button of Mobile Devices
      */
     public void swipeFilterCategoryInBottom() {        
-        sleep(10000L);
+        sleep(12000L);
         WebElement element = null;
         String category = "//android.widget.TextView[@text='%s']";
         try {
@@ -247,7 +247,8 @@ public class FashionPageActivity extends UIUtility {
      * 
      * @return
      */
-    public String swipeDownAndFindRating() {        
+    public String swipeDownAndFindRating() {
+        sleep(2000L);
         while (!isElementPresent(avgRatingText)) {
             swipeDown();
         }
