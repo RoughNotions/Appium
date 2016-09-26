@@ -95,6 +95,9 @@ public class MaterialMainActivity   extends UIUtility{
 		tapElementByDescription("Quick Access"); 
 	}
 	
+	public void tapOnSettings(){
+		clickElementByText("Settings"); 
+	}
 	public void clickShortListatBottom(){
 		clickElementusingXPath(shortListButton);
 	}
@@ -151,4 +154,13 @@ public class MaterialMainActivity   extends UIUtility{
 		}
 	return true;
 	}
+	
+	public void swipePriorityOptions(){
+		WebElement element = null;
+		String category = "//android.widget.Switch[@resource-id='com.snapdeal.main:id/settingsNotificationButton']";
+		waitForElementVisibility(30, driver.findElementByXPath(category));
+		element= driver.findElementByXPath(category);	
+		swipeRight(element);
+		swipeToLeft(element);
+}
 }

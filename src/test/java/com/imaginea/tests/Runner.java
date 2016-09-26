@@ -21,7 +21,7 @@ public class Runner {
         File file = new File(System.getProperty("user.dir") + "/config.properties");
         prop.load(new FileInputStream(file));        
         prop.setProperty("ANDROID_APP_PATH", new File(System.getProperty("user.dir")
-                + "/src/test/resources/Snapdeal Online Shopping India_6.1.4_apk-dl.com.apk").getAbsolutePath());
+                + "/src/test/resources/com.snapdeal.main-2.apk").getAbsolutePath());
         FileOutputStream fr=new FileOutputStream(file);
         prop.store(fr,"Properties");
         fr.close();
@@ -29,7 +29,10 @@ public class Runner {
         ParallelThread parallelThread = new ParallelThread();
         List<String> tests = new ArrayList<String>();
         tests.add("FashionTests");        
-        tests.add("MobilesElectronicsTests");
+        //tests.add("MobilesElectronicsTests");
+        //tests.add("DailyNeedsTest");
+        //tests.add("HomeAndLivingTests");
+        //tests.add("ServicesTest");
         parallelThread.runner("com.imaginea.tests",tests);
     }
 }

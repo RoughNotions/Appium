@@ -32,7 +32,7 @@ public class HomePageActivity extends UIUtility {
 	    super(driver);
 	    sleep(8000L);
             initPage(driver.findElement(homeMenu));
-            sleep(15000L);       
+            sleep(15000L);
 	}
 
 	public void login() {

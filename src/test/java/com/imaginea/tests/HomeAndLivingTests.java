@@ -1,6 +1,9 @@
 package com.imaginea.tests;
 
 
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.SwipeElementDirection;
+
 import java.io.IOException;
 import java.lang.reflect.Method;
 
@@ -20,7 +23,7 @@ import com.imaginea.pageobjects.HomeAndLivingPageActivity;
 import com.imaginea.pageobjects.HomePageActivity;
 import com.imaginea.pageobjects.MaterialMainActivity;
 
-public class HomeAndLivingTests extends AppiumParallelTest {
+public class HomeAndLivingTests extends BaseTest{
     HomeAndLivingPageActivity homeLivingPageActivity;
     HomePageActivity homePage;
     String categoryMenu = "Home & Living";
@@ -29,23 +32,10 @@ public class HomeAndLivingTests extends AppiumParallelTest {
     String subCategory[] = { "Water Purifiers", "Cookware", "Tools", "Bed Linen", "Gifts & Decor", "Living Room",
             "Home Utility", "Iron" };
 
-    @BeforeMethod()
-    public void startApp(Method name) throws Exception {
-        driver = startAppiumServerInParallel(name.getName());
-        startLogResults(name.getName());
-    }
-
-    @AfterMethod()
-    public void killServer(ITestResult result) {
-
-        try {
-            endLogTestResults(result);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        getDriver().quit();
-    }
+	@BeforeMethod
+	public void beforeMethod() {
+		driver.launchApp();
+	}
 
     @Test(description = "Verify Home & Living Category and sub category list")
     public void verifyHomeLivingCategory() {
@@ -88,6 +78,7 @@ public class HomeAndLivingTests extends AppiumParallelTest {
                 "Page title is not matching");
 
         homeLivingPageActivity.clickFirstMostRelavantSubProduct();
+        homeLivingPageActivity.enterPincode();
         Assert.assertTrue(homeLivingPageActivity.verifyTextInAddToCartButton("Add to Cart"),
                 "Add to Cart text is not showing on the button");
         homeLivingPageActivity.clickOnAddToCartButton();
@@ -97,12 +88,11 @@ public class HomeAndLivingTests extends AppiumParallelTest {
 
     @Test
     public void verifySwipeFunctionality() {
-        homePage = new HomePageActivity(driver);
-        homePage.selectCategory(categoryMenu);
-        String subCategory = "Kitchen Appliances";
-        homeLivingPageActivity = new HomeAndLivingPageActivity(driver);
-        homeLivingPageActivity.selectSubCategory(subCategory);
-        homeLivingPageActivity.swipeShopNow();
+    	homePage = new HomePageActivity(driver);
+    	MaterialMainActivity mainActivity= new MaterialMainActivity(driver);
+		mainActivity.tapOnQuickAccessMenu();
+		mainActivity.tapOnSettings();
+		mainActivity.swipePriorityOptions();
     }
 
     @Test
@@ -155,8 +145,26 @@ public class HomeAndLivingTests extends AppiumParallelTest {
     }
 
 
+/*    @BeforeMethod()
+    public void startApp(Method name) throws Exception {
+        driver = startAppiumServerInParallel(name.getName());
+        startLogResults(name.getName());
+    }
 
-    @BeforeClass()
+    @AfterMethod()
+    public void killServer(ITestResult result) {
+
+        try {
+            endLogTestResults(result);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        getDriver().quit();
+    }*/
+
+
+ /*   @BeforeClass()
     public void beforeClass() throws Exception {
         startAppiumServer(getClass().getSimpleName());
     }
@@ -166,15 +174,8 @@ public class HomeAndLivingTests extends AppiumParallelTest {
         killAppiumServer();
     }
 
+*/
 
-
-	@BeforeMethod
-	public void beforeMethod() {
-		driver.launchApp();
-	}
-
-	
-	
 	
 	@Test
 	public void verifyAppScreenOrientation(){
