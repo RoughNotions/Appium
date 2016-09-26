@@ -189,6 +189,7 @@ public class FashionPageActivity extends UIUtility {
      * @return
      */
     public boolean swipeDownAndFindSliderTitle(String title) {
+        sleep(3000L);
         List<String> stitle = new ArrayList<>();
         while (!stitle.contains(title)) {
             swipeDown();
@@ -248,7 +249,7 @@ public class FashionPageActivity extends UIUtility {
      * @return
      */
     public String swipeDownAndFindRating() {
-        sleep(2000L);
+        sleep(4000L);
         while (!isElementPresent(avgRatingText)) {
             swipeDown();
         }

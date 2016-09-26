@@ -49,14 +49,14 @@ public class FashionTests extends AppiumParallelTest {
         getDriver().quit();
     }
 
-    @Test(description = "Verify Fashion Category and sub category list")
+    @Test(description = "Verify Fashion Category and sub category list ")
     public void verifyFashionCategory() {
         HomePageActivity homePage = new HomePageActivity(driver);
         FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
         String category[] = { mensFashion, "Women's Fashion", "Baby & Kids", "Jewellery", "Bags & Luggage",
                 "Sports, Fitness & Outdoor" };
         homePage.selectCategory(categoryName);
-        fashionPageActivity.sleep(3000L);
+        fashionPageActivity.sleep(3000L);        
         Assert.assertEquals(fashionPageActivity.getSubCategoryList(), Arrays.asList(category));
     }
 
