@@ -49,13 +49,14 @@ public class FashionTests extends AppiumParallelTest {
         getDriver().quit();
     }
 
-    @Test(description = "Verify Fashion Category and sub category list")
+    @Test(description = "Verify Fashion Category and sub category list ")
     public void verifyFashionCategory() {
         HomePageActivity homePage = new HomePageActivity(driver);
         FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
         String category[] = { mensFashion, "Women's Fashion", "Baby & Kids", "Jewellery", "Bags & Luggage",
                 "Sports, Fitness & Outdoor" };
         homePage.selectCategory(categoryName);
+        fashionPageActivity.sleep(3000L);        
         Assert.assertEquals(fashionPageActivity.getSubCategoryList(), Arrays.asList(category));
     }
 
@@ -171,6 +172,7 @@ public class FashionTests extends AppiumParallelTest {
         fashionPageActivity.clickElementByText("Clothing");
         fashionPageActivity.clickElementByText("T-Shirts & Polos");
         fashionPageActivity.clickElementByText("T-Shirts");
+        fashionPageActivity.sleep(5000L);
         fashionPageActivity.clickElementusingID("com.snapdeal.main:id/productImage");
         fashionPageActivity.sleep(10000L);
         fashionPageActivity.zoomImage();
@@ -186,7 +188,8 @@ public class FashionTests extends AppiumParallelTest {
         FashionPageActivity fashionPageActivity = new FashionPageActivity(driver);
         fashionPageActivity.selectSubCategory(mensFashion);
         fashionPageActivity.clickElementByText("Clothing");
-        fashionPageActivity.clickElementByText("T-Shirts & Polos");        
+        fashionPageActivity.clickElementByText("T-Shirts & Polos");
+        fashionPageActivity.sleep(5000L);
         fashionPageActivity.clickElementusingID("com.snapdeal.main:id/productImage");
         fashionPageActivity.sleep(5000L);
         fashionPageActivity.clickElementByText("Add to Cart");

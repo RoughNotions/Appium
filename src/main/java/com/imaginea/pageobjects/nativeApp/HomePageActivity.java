@@ -30,8 +30,11 @@ public class HomePageActivity extends UIUtility {
 
 	public HomePageActivity(AppiumDriver driver) {
 	    super(driver);
-	    sleep(8000L);
+            sleep(20000L);
             initPage(driver.findElement(homeMenu));
+            if(isElementPresent(skip)){
+                clickElementusingID(skip);
+            }
             sleep(15000L);
 	}
 
@@ -60,7 +63,7 @@ public class HomePageActivity extends UIUtility {
 	 * @param categoryName
 	 */
 	public void selectCategory(String categoryName) {
-	        sleep(3000L);
+	        sleep(5000L);
 		clickElementusingClassName( imageButton);
 		String category = String.format(
 				"//android.widget.TextView[@text='%s']", categoryName);
