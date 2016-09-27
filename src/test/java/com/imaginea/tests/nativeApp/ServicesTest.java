@@ -1,4 +1,4 @@
-package com.imaginea.base;
+package com.imaginea.tests.nativeApp;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.imaginea.base.UserBaseTest;
 import com.imaginea.pageobjects.nativeApp.ServicesPageActivity;
 
 public class ServicesTest extends UserBaseTest {
