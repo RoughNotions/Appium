@@ -33,6 +33,6 @@ public class Runner {
         //tests.add("DailyNeedsTest");
         //tests.add("HomeAndLivingTests");
         //tests.add("ServicesTest");
-        parallelThread.runner("com.imaginea.tests",tests);
+        parallelThread.runner("com.imaginea.tests.nativeApp",tests);
     }
 }
