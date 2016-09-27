@@ -2,9 +2,8 @@ package com.imaginea.pageobjects.webApp;
 
 import io.appium.java_client.AppiumDriver;
 
-import com.imaginea.utils.UIUtility;
 
-public class HomeAndLivingPage extends UIUtility{
+public class HomeAndLivingPage extends HomePage{
 
 	public HomeAndLivingPage(AppiumDriver driver) {
 		super(driver);

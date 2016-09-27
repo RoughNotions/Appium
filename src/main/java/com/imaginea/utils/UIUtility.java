@@ -1,6 +1,7 @@
 package com.imaginea.utils;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
@@ -89,6 +90,11 @@ public class UIUtility {
     public void clickElementusingXPath(String continueButton) {        
         waitForElementByXPath(continueButton);
         driver.findElementByXPath(continueButton).click();
+    }
+    
+    public void clickElement(By by) {        
+    	waitForElement(by);
+        driver.findElement(by).click();
     }
 
     public void pressEnter(String locator) {
@@ -374,4 +380,29 @@ public class UIUtility {
         element.click();
     }
 
+    public WebElement waitForElement(By by) {
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        WebElement element = null;
+        try {
+            element = driver.findElement(by);
+            wait.until(ExpectedConditions.visibilityOf(element));
+        } catch (Exception e) {
+        }
+        return element;
+    }
+    
+    public List<WebElement> getElements(By by) {
+    	waitForElement(by);
+        return driver.findElements(by);
+    }
+
+    public List<String> getElementsText(By by) {
+    	List<WebElement> list=getElements(by);
+    	List<String> options= new LinkedList<String>();
+    	for(WebElement ele:list){
+    		options.add(ele.getText());
+    	}
+    	return options;
+        
+    }
 }
