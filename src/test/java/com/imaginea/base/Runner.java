@@ -28,11 +28,11 @@ public class Runner {
         
         ParallelThread parallelThread = new ParallelThread();
         List<String> tests = new ArrayList<String>();
-        tests.add("FashionTests");        
+        //tests.add("FashionTests");        
         //tests.add("MobilesElectronicsTests");
         //tests.add("DailyNeedsTest");
         //tests.add("HomeAndLivingTests");
-        //tests.add("ServicesTest");
+        tests.add("ServicesTest");
         parallelThread.runner("com.imaginea.tests.nativeApp",tests);
     }
 }
