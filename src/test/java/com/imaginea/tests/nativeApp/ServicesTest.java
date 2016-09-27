@@ -2,6 +2,8 @@ package com.imaginea.tests.nativeApp;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 
 import org.testng.Assert;
 import org.testng.ITestResult;
@@ -34,13 +36,32 @@ public class ServicesTest extends UserBaseTest {
         getDriver().quit();
     }
 
-    @Test
+    //@Test
     public void verifyServicesTabIsSelectedOrNot() {
         ServicesPageActivity servicesPageActivity = new ServicesPageActivity(driver);
         servicesPageActivity.selectServiceTab();
-        Assert.assertTrue(
-                servicesPageActivity.isElementPresent(ServicesPageActivity.Services.serviceTabSelected.value),
+        Assert.assertTrue(servicesPageActivity.isElementPresent(ServicesPageActivity.Services.serviceTabSelected.value),
                 "Service Tab is not selected");
+    }
+
+    //@Test
+    public void verifyAllServicesText() {
+        ServicesPageActivity servicesPageActivity = new ServicesPageActivity(driver);
+        servicesPageActivity.selectServiceTab();
+        String title[] = { "Book an Uber", "Movie Tickets ", "Order Food", "Personal Services", "Buses", "Flights",
+                "Bill Payments", "More" };
+        List<String> actualTitle = servicesPageActivity.getAllServicesTitle();
+        Assert.assertEquals(actualTitle, Arrays.asList(title));
+    }
+    
+    
+    @Test
+    public void verifyHomeServicesText() {
+        ServicesPageActivity servicesPageActivity = new ServicesPageActivity(driver);
+        servicesPageActivity.selectServiceTab();
+        String title[] = { "Home Cleaning", "Plumbers", "Salon at Home"};
+        List<String> actualTitle = servicesPageActivity.getHomeServicesTitle();
+        Assert.assertEquals(actualTitle, Arrays.asList(title));
     }
 
     @BeforeClass()
