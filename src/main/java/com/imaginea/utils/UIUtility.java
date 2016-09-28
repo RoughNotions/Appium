@@ -410,7 +410,6 @@ public class UIUtility {
         
     }
     
-    
     public WebElement fluentWait(final WebElement element) {
         Wait<WebDriver> wait = new FluentWait<WebDriver>(driver).withTimeout(90, TimeUnit.SECONDS)
                 .pollingEvery(15, TimeUnit.SECONDS).ignoring(NoSuchElementException.class);
@@ -422,4 +421,12 @@ public class UIUtility {
         });
         return foo;
     };
+    public void clickSubElementFromList(By by,String text) {
+    	List<WebElement> list=getElements(by);
+    	for(WebElement ele:list){
+    		if(ele.getText().trim().equalsIgnoreCase(text)){
+    			ele.click();
+    		}
+    	}
+    }
 }
