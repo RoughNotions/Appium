@@ -46,8 +46,8 @@ public class FashionPageActivity extends UIUtility {
      * @param subCategory
      */
     public void selectSubCategory(String subCategory) {
-        clickElementByText(subCategory);
-        sleep(1000L);
+        sleep(3000L);
+        clickElementByText(subCategory);        
     }
 
     /**
@@ -84,8 +84,8 @@ public class FashionPageActivity extends UIUtility {
      * @param title
      */
     public void selectCategoryByText(String title) {
-        sleep(10000L);
         String category = String.format("//android.widget.TextView[@text='%s']", title);
+        fluentWait(driver.findElement(By.xpath(category)));
         waitForElementVisibility(30, driver.findElement(By.xpath(category)));
         clickElementusingXPath(category);
     }
@@ -109,8 +109,7 @@ public class FashionPageActivity extends UIUtility {
      * 
      * @return
      */
-    public List<String> getProductTitleList() {
-        sleep(10000L);
+    public List<String> getProductTitleList() {        
         swipeDown();
         return getListOfElementsByID(productTitle);
     }
@@ -143,10 +142,8 @@ public class FashionPageActivity extends UIUtility {
      * 
      * @return
      */
-    public List<String> getProductDiscountPriceList() {
-        sleep(10000L);
-        swipeDown();
-        sleep(5000L);
+    public List<String> getProductDiscountPriceList() {        
+        swipeDown();        
         return getListOfElementsByID(productDiscountPrice);
     }
 
@@ -188,8 +185,7 @@ public class FashionPageActivity extends UIUtility {
      * @param title
      * @return
      */
-    public boolean swipeDownAndFindSliderTitle(String title) {
-        sleep(3000L);
+    public boolean swipeDownAndFindSliderTitle(String title) {        
         List<String> stitle = new ArrayList<>();
         while (!stitle.contains(title)) {
             swipeDown();
@@ -209,13 +205,12 @@ public class FashionPageActivity extends UIUtility {
     /**
      * Swipe Filter Category in Button of Mobile Devices
      */
-    public void swipeFilterCategoryInBottom() {        
-        sleep(12000L);
+    public void swipeFilterCategoryInBottom() {       
+        
         WebElement element = null;
         String category = "//android.widget.TextView[@text='%s']";
         try {
-            waitForElementByXPath(String.format(category, "Discount %"));
-            //element = driver.findElementByXPath(String.format(category, "Discount %"));
+            fluentWait(driver.findElementByXPath(String.format(category, "Discount %")));
             List<WebElement> elements =driver.findElementsById("com.snapdeal.main:id/main_container");   
             element = elements.get(elements.size()-1);
         } catch (Exception e) {
@@ -224,6 +219,7 @@ public class FashionPageActivity extends UIUtility {
         }
         if (element != null)
             swipeLeft(element);
+        sleep(2000L);
         List<String> containerText = getListOfElementsByID("com.snapdeal.main:id/main_container");
         int counter = 0;
         while (counter < 2) {
@@ -248,17 +244,15 @@ public class FashionPageActivity extends UIUtility {
      * 
      * @return
      */
-    public String swipeDownAndFindRating() {
-        sleep(4000L);
+    public String swipeDownAndFindRating() {        
         while (!isElementPresent(avgRatingText)) {
             swipeDown();
         }
         return getListOfElementsByID(avgRatingText).get(0);
     }
     
-    public void clickAddToCart(){
-        waitForElementById(addToCart);
-        waitForElementVisibility(60, driver.findElementById(addToCart));
+    public void clickAddToCart(){        
+        fluentWait(driver.findElementById(addToCart));
         clickElementusingID(addToCart);
     }
 }

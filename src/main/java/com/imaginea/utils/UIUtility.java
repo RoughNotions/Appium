@@ -55,8 +55,9 @@ public class UIUtility {
     }
 
     public void clickElementusingClassName(String className) {
-        waitForElementByClassName(className);
-        driver.findElementByClassName(className).click();
+        WebElement element = driver.findElementByClassName(className);
+        fluentWait(element);
+        element.click();
 
     }
 
@@ -70,7 +71,12 @@ public class UIUtility {
     public void enterTextusingID(String locator, String sText) {
         driver.findElementById(locator).clear();
         driver.findElementById(locator).sendKeys(sText);
-        driver.hideKeyboard();
+        try {
+            driver.hideKeyboard();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public String getTextMSG(String resourceID) {
@@ -239,12 +245,9 @@ public class UIUtility {
     }
 
     public void clickElementByText(String description) {
-        sleep(5000L);
-        WebElement element = driver
-                .findElement(MobileBy.AndroidUIAutomator(String.format("new UiSelector().text(\"%s\")", description)));
-        waitForElementVisibility(60, element);
-        element.click();
-        sleep(10000L);
+        sleep(2000L);
+        fluentWait(driver
+                .findElement(MobileBy.AndroidUIAutomator(String.format("new UiSelector().text(\"%s\")", description)))).click();
     }
 
     public void sleep(Long millis) {
@@ -256,15 +259,16 @@ public class UIUtility {
         }
     }
 
-    public String getElementTextByIndex(int index) {
-        sleep(15000L);
-        return driver.findElement(MobileBy.AndroidUIAutomator(String.format("new UiSelector().index(%d)", index)))
-                .getText();
+    public String getElementTextByIndex(int index) {        
+        WebElement element =  driver.findElement(MobileBy.AndroidUIAutomator(String.format("new UiSelector().index(%d)", index)));
+        fluentWait(element);
+        return element.getText();
     }
 
     public List<String> getListOfElementsByID(String ID) {
-        List<WebElement> ele = driver.findElementsById(ID);
-        waitForElementVisibility(10, ele.get(0));
+        WebElement id = driver.findElementById(ID);
+        fluentWait(id);
+        List<WebElement> ele = driver.findElementsById(ID);        
         List<String> text = new ArrayList<String>();
         for (int i = 0; i < ele.size(); i++) {
             System.out.println(ele.get(i).getText());
@@ -405,4 +409,17 @@ public class UIUtility {
     	return options;
         
     }
+    
+    
+    public WebElement fluentWait(final WebElement element) {
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver).withTimeout(90, TimeUnit.SECONDS)
+                .pollingEvery(15, TimeUnit.SECONDS).ignoring(NoSuchElementException.class);
+
+        WebElement foo = wait.until(new Function<WebDriver, WebElement>() {
+            public WebElement apply(WebDriver driver) {
+                return element;
+            }
+        });
+        return foo;
+    };
 }

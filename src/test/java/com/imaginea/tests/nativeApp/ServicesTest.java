@@ -55,13 +55,23 @@ public class ServicesTest extends UserBaseTest {
     }
     
     
-    @Test
+    //@Test
     public void verifyHomeServicesText() {
         ServicesPageActivity servicesPageActivity = new ServicesPageActivity(driver);
         servicesPageActivity.selectServiceTab();
         String title[] = { "Home Cleaning", "Plumbers", "Salon at Home"};
         List<String> actualTitle = servicesPageActivity.getHomeServicesTitle();
         Assert.assertEquals(actualTitle, Arrays.asList(title));
+    }
+    
+    
+    @Test
+    public void verifyPrepaidTab() {
+        ServicesPageActivity servicesPageActivity = new ServicesPageActivity(driver);
+        servicesPageActivity.selectServiceTab();
+        servicesPageActivity.clickPrepaid();
+        servicesPageActivity.setNumber("9030169971");
+        Assert.assertTrue(servicesPageActivity.isPlanAndRechargeDisplayed());
     }
 
     @BeforeClass()
