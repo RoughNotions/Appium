@@ -19,8 +19,8 @@ public class HomeAndLivingTests extends BaseTest{
     String categoryMenu = "Home & Living";
     String category[] = {  "Kitchenware","Kitchen Appliances", "Tools & Hardware", "Home Improvement", "Home Furnishing", "Home Decoratives",
             "Furniture & Real Estate", "Home Appliances" };
-   /* String subCategory[] = { "Water Purifiers", "Cookware", "Tools", "Bed Linen", "Gifts & Decor", "Living Room",
-            "Home Utility", "Iron" };*/
+    String kitchenWareSubCategories[] = { "Cookware & Bakeware", "Storage & Thermoware", "Kitchen Tools", "Dining & Serving", "Tea & Coffee Serveware", "Microwave Cooking",
+            "Bar Accessories", "Hotel & Catering Supplies","Disposables","All Kitchenware" };
 
 	@BeforeMethod
 	public void beforeMethod() {
@@ -32,7 +32,18 @@ public class HomeAndLivingTests extends BaseTest{
         homeLivingPage = new HomeAndLivingPage(driver);
         homeLivingPage.clickMenuicon();
         homeLivingPage.selectCategory(categoryMenu);
-        System.out.println(homeLivingPage.getSubCategories(categoryMenu));
         Assert.assertEquals(homeLivingPage.getSubCategories(categoryMenu), Arrays.asList(category));
+    }
+    
+    @Test(description = "Verify Home & Living Category and sub category list")
+    public void verifyKitchenWareSubCategories() {
+    	String subCategory="Kitchenware";
+        homeLivingPage = new HomeAndLivingPage(driver);
+        homeLivingPage.clickMenuicon();
+        homeLivingPage.selectCategory(categoryMenu);
+        System.out.println(homeLivingPage.getSubCategories(categoryMenu));
+        homeLivingPage.clickSubCategory(categoryMenu,subCategory);
+        System.out.println(homeLivingPage.getRelavantSubCategories(categoryMenu,subCategory));
+        Assert.assertEquals(homeLivingPage.getRelavantSubCategories(categoryMenu,subCategory), Arrays.asList(kitchenWareSubCategories));
     }
 }
