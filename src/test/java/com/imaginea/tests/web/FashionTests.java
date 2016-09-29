@@ -9,7 +9,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import com.annotation.values.Author;
 import com.imaginea.base.BaseTest;
 import com.imaginea.pageobjects.webApp.FashionPage;
 import com.imaginea.pageobjects.webApp.FashionPage.fashion;
