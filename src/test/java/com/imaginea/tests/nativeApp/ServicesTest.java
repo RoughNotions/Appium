@@ -71,7 +71,7 @@ public class ServicesTest extends UserBaseTest {
         servicesPageActivity.selectServiceTab();
         servicesPageActivity.clickPrepaid();
         servicesPageActivity.setNumber("9030169971");
-        Assert.assertTrue(servicesPageActivity.isPlanAndRechargeDisplayed());
+        Assert.assertTrue(!servicesPageActivity.isPlanAndRechargeDisplayed());
     }
 
     @BeforeClass()
