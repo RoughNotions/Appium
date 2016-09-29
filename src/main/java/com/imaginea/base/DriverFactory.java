@@ -28,10 +28,6 @@ public class DriverFactory {
 
     public static AppiumDriver getDriver(String osName) {
         AppiumDriver driver = null;
-        System.setProperty(AppiumServiceBuilder.NODE_PATH, "C:\\Program Files (x86)\\Appium\\node.exe");
-
-        System.setProperty(AppiumServiceBuilder.APPIUM_PATH,
-                "C:\\Program Files (x86)\\Appium\\node_modules\\appium\\bin\\appium.js");
         AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
         service.start();
         saveAppiumLog(service);
@@ -54,6 +50,7 @@ public class DriverFactory {
                 e.printStackTrace();
             }
         return driver;
+
     }
 
     public static void saveAppiumLog(AppiumDriverLocalService service) {
@@ -182,22 +179,23 @@ public class DriverFactory {
     /*
      * This method gets the device OS API Level
      */
-    public String deviceOS()  {
+    public String deviceOS() {
         String deviceOSLevel = null;
-            try {
-                deviceOSLevel = cmd.runCommand("adb -s " + getDeviceSerial().get(0) + " shell getprop ro.build.version.sdk")
-                        .replaceAll("\\W", "");
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }        
+        try {
+            deviceOSLevel = cmd.runCommand("adb -s " + getDeviceSerial().get(0) + " shell getprop ro.build.version.sdk")
+                    .replaceAll("\\W", "");
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return deviceOSLevel;
 
     }
 
-    public String getDeviceManufacturer() {        
+    public String getDeviceManufacturer() {
         try {
-            return cmd.runCommand("adb -s " + getDeviceSerial().get(0) + " shell getprop ro.product.manufacturer").trim();
+            return cmd.runCommand("adb -s " + getDeviceSerial().get(0) + " shell getprop ro.product.manufacturer")
+                    .trim();
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

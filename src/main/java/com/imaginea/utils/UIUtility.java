@@ -445,4 +445,9 @@ public class UIUtility {
     public boolean isElementExistInWeb(By by){
         return fluentWaitBy(by).isEnabled();
     }
+    
+    public void waitForElementToBeVisible(By by){
+        WebDriverWait wait = new WebDriverWait(driver, 20);
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(by)));
+    }
 }
