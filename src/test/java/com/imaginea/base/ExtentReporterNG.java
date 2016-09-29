@@ -1,8 +1,5 @@
 package com.imaginea.base;
 
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.remote.MobileCapabilityType;
-
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -20,7 +17,6 @@ import javax.imageio.ImageIO;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 import org.testng.IReporter;
 import org.testng.IResultMap;
 import org.testng.ISuite;
@@ -35,242 +31,232 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
+
 /**
  * Report to capture screenshot and generate HTML report
  * 
  * @author krishnakumarnellore
  *
  */
-public class ExtentReporterNG extends BaseTest implements IReporter,
-		ITestListener {
-	private static ExtentReports extent;
-	private String screenShotNameWithTimeStamp;
-	
-	public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites,
-			String outputDirectory) {
-		extent = new ExtentReports(outputDirectory + File.separator
-				+ "SnapdealTestReport.html", true);
+public class ExtentReporterNG extends BaseTest implements IReporter, ITestListener {
+    private static ExtentReports extent;
+    private String screenShotNameWithTimeStamp;
+    DriverFactory driverFactory = new DriverFactory();
 
-		for (ISuite suite : suites) {
-			Map<String, ISuiteResult> result = suite.getResults();
+    public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites, String outputDirectory) {
+        extent = new ExtentReports(outputDirectory + File.separator + "SnapdealTestReport.html", true);
 
-			for (ISuiteResult r : result.values()) {
-				ITestContext context = r.getTestContext();
+        for (ISuite suite : suites) {
+            Map<String, ISuiteResult> result = suite.getResults();
 
-				buildTestNodes(context.getPassedTests(), LogStatus.PASS);
-				buildTestNodes(context.getFailedTests(), LogStatus.FAIL);
-				buildTestNodes(context.getSkippedTests(), LogStatus.SKIP);
-			}
-		}
-		extent.flush();
-		extent.close();		
-		getDriver().quit(); //Quite Driver
-	}
+            for (ISuiteResult r : result.values()) {
+                ITestContext context = r.getTestContext();
 
-	private void buildTestNodes(IResultMap tests, LogStatus status) {
-		ExtentTest test;
-		if (tests.getAllResults().size() > 0) {
-			for (ITestResult result : tests.getAllResults()) {
-				Object object = result.getInstance();
-				setDriver(((BaseTest)object).driver);
-				test = extent.startTest(result.getMethod().getMethodName());
+                buildTestNodes(context.getPassedTests(), LogStatus.PASS);
+                buildTestNodes(context.getFailedTests(), LogStatus.FAIL);
+                buildTestNodes(context.getSkippedTests(), LogStatus.SKIP);
+            }
+        }
+        extent.flush();
+        extent.close();
+        getDriver().quit(); // Quite Driver
+    }
 
-				test.getTest().setStartedTime(getTime(result.getStartMillis()));
-				test.getTest().setEndedTime(getTime(result.getEndMillis()));
+    private void buildTestNodes(IResultMap tests, LogStatus status) {
+        ExtentTest test;
+        if (tests.getAllResults().size() > 0) {
+            for (ITestResult result : tests.getAllResults()) {
+                Object object = result.getInstance();
+                setDriver(((BaseTest) object).driver);
+                test = extent.startTest(result.getMethod().getMethodName());
 
-				for (String group : result.getMethod().getGroups())
-					test.assignCategory(group);
+                test.getTest().setStartedTime(getTime(result.getStartMillis()));
+                test.getTest().setEndedTime(getTime(result.getEndMillis()));
 
-				String message = "Test " + status.toString().toLowerCase()
-						+ "ed";
+                for (String group : result.getMethod().getGroups())
+                    test.assignCategory(group);
 
-				if (result.getThrowable() != null)
-					message = result.getThrowable().getMessage();
-				String failedScreenPng = System.getProperty("user.dir")
-						+ "\\target\\screenshot\\"
-						+ getDriver().toString().split(" ")[1].toLowerCase() + "\\"
-						+ result.getName() + "\\" + result.getName()
-						+ "_failed" + ".png";
-				try {
-					createGif(new File(failedScreenPng));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				String failedScreenGif = System.getProperty("user.dir")
-						+ "\\target\\screenshot\\"
-						+ getDriver().toString().split(" ")[1].toLowerCase() + "\\"
-						+ result.getName() + "\\" + result.getName()
-						+ "_failed" + ".gif";
-				String imgSrc = null;
-				if (new File(failedScreenGif).isFile()) {
+                String message = "Test " + status.toString().toLowerCase() + "ed";
 
-					imgSrc = "<div class='col l4 m6 s12'><div class='card-panel'><img src="
-							+ failedScreenGif
-							+ " style=\"width:304px%;height:228px;\"></div></div>";
-				}
-				test.log(status, message, imgSrc);
-				test.setDescription("Device ID : "
-						+ getDriver().getCapabilities().getCapability(
-								MobileCapabilityType.DEVICE_NAME));
-				extent.endTest(test);
-			}
-		}
-	}
+                if (result.getThrowable() != null)
+                    message = result.getThrowable().getMessage();
+                String failedScreenPng = System.getProperty("user.dir") + "\\target\\screenshot\\"
+                        + getDriver().toString().split(" ")[1].toLowerCase() + "\\" + result.getName() + "\\"
+                        + result.getName() + "_failed" + ".png";
+                try {
+                    createGif(new File(failedScreenPng));
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                String failedScreenGif = System.getProperty("user.dir") + "\\target\\screenshot\\"
+                        + getDriver().toString().split(" ")[1].toLowerCase() + "\\" + result.getName() + "\\"
+                        + result.getName() + "_failed" + ".gif";
+                String imgSrc = null;
+                if (new File(failedScreenGif).isFile()) {
 
-	private Date getTime(long millis) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(millis);
-		return calendar.getTime();
-	}
+                    imgSrc = "<div class='col l4 m6 s12'><div class='card-panel'><img src=" + failedScreenGif
+                            + " style=\"width:304px%;height:228px;\"></div></div>";
+                }
+                test.log(status, message, imgSrc);
 
-	public void onTestStart(ITestResult result) {
+                test.setDescription(driverFactory.getDeviceModel() + "_" + driverFactory.getDeviceManufacturer() + "_"
+                        + driverFactory.getDeviceSerial().get(0)
+                                );
 
-	}
+                extent.endTest(test);
+            }
+        }
+    }
 
-	public void onTestSuccess(ITestResult result) {
-		// TODO Auto-generated method stub
+    private Date getTime(long millis) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(millis);
+        return calendar.getTime();
+    }
 
-	}
+    public void onTestStart(ITestResult result) {
 
-	public void onTestFailure(ITestResult result) {
-		Object currentClass = result.getInstance();		
-         setDriver(((BaseTest) currentClass).driver);
-		try {
-			if (!result.isSuccess()) {
-				captureScreenShot(result.getName(), getDriver(), result.getName());
-			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+    }
 
-	private void captureScreenShot(String screenShotName, AppiumDriver driver,
-			String methodName) throws InterruptedException, IOException {		
-		File scrFile = ((TakesScreenshot) getDriver())
-				.getScreenshotAs(OutputType.FILE);
-		screenShotNameWithTimeStamp = currentDateAndTime();
-		if (getDriver().toString().split(":")[0].trim().equals("AndroidDriver")) {
-			String androidModel = screenShotNameWithTimeStamp
-					+ getDriver().getCapabilities().getCapability(
-							MobileCapabilityType.DEVICE_NAME);
-			screenShotAndFrame(screenShotName, 2, scrFile, methodName,
-					androidModel, "android");
-		}
-		if (getDriver().toString().split(":")[0].trim().equals("AndroidDriver")) {
-			String androidModel = screenShotNameWithTimeStamp
-					+ getDriver().getCapabilities().getCapability(
-							MobileCapabilityType.DEVICE_NAME);
-			screenShotAndFrame(screenShotName, 2, scrFile, methodName,
-					androidModel, "Ios");
-		}
-	}
+    public void onTestSuccess(ITestResult result) {
+        // TODO Auto-generated method stub
 
-	public String currentDateAndTime() {
-		LocalDateTime now = LocalDateTime.now();
-		DateTimeFormatter dtf = DateTimeFormatter.ISO_DATE_TIME;
-		return now.truncatedTo(ChronoUnit.SECONDS).format(dtf);
-	}
+    }
 
-	public void screenShotAndFrame(String screenShotName, int status,
-			File scrFile, String methodName, String model, String platform) {
-		String failedScreen = System.getProperty("user.dir")
-				+ "\\target\\screenshot\\" + platform + "\\"
-				+ methodName + "\\" + methodName + "_failed" + ".png";
+    public void onTestFailure(ITestResult result) {
+        Object currentClass = result.getInstance();
+        setDriver(((BaseTest) currentClass).driver);
+        try {
+            if (!result.isSuccess()) {
+                captureScreenShot(result.getName(), getDriver(), result.getName());
+            }
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
-		try {			
-			if (status == ITestResult.FAILURE) {
-				FileUtils.copyFile(scrFile, new File(failedScreen));
-			}		
+    private void captureScreenShot(String screenShotName, AppiumDriver driver, String methodName)
+            throws InterruptedException, IOException {
+        File scrFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
+        screenShotNameWithTimeStamp = currentDateAndTime();
+        if (getDriver().toString().contains("chrome on ANDROID")) {
+            String androidModel = screenShotNameWithTimeStamp
+                    + getDriver().getCapabilities().getCapability(MobileCapabilityType.DEVICE_NAME);
+            screenShotAndFrame(screenShotName, 2, scrFile, methodName, androidModel, "chrome");
+        }
+        if (getDriver().toString().split(":")[0].trim().equals("AndroidDriver")) {
+            String androidModel = screenShotNameWithTimeStamp
+                    + getDriver().getCapabilities().getCapability(MobileCapabilityType.DEVICE_NAME);
+            screenShotAndFrame(screenShotName, 2, scrFile, methodName, androidModel, "android");
+        }
+        if (getDriver().toString().split(":")[0].trim().equals("AndroidDriver")) {
+            String androidModel = screenShotNameWithTimeStamp
+                    + getDriver().getCapabilities().getCapability(MobileCapabilityType.DEVICE_NAME);
+            screenShotAndFrame(screenShotName, 2, scrFile, methodName, androidModel, "Ios");
+        }
+    }
 
-		} catch (IOException e) {			
-			e.printStackTrace();
-		}
-	}
+    public String currentDateAndTime() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter dtf = DateTimeFormatter.ISO_DATE_TIME;
+        return now.truncatedTo(ChronoUnit.SECONDS).format(dtf);
+    }
 
-	public synchronized static ExtentReports logOutPut(String imgSrc,
-			String headerName) {
-		imgSrc = "<div class='col l4 m6 s12'><div class='card-panel'><h4 class='md-display-4'>"
-				+ headerName
-				+ "</h4><img src="
-				+ imgSrc
-				+ " style=\"width:304px%;height:228px;\"></div></div>";
-		extent.loadConfig(new File(System.getProperty("user.dir")
-				+ "/extent.xml"));
-		extent.setTestRunnerOutput(imgSrc);
-		return extent;
-	}
+    public void screenShotAndFrame(String screenShotName, int status, File scrFile, String methodName, String model,
+            String platform) {
+        String failedScreen = System.getProperty("user.dir") + "\\target\\screenshot\\" + platform + "\\" + methodName
+                + "\\" + methodName + "_failed" + ".png";
 
-	public void onTestSkipped(ITestResult result) {
-		// TODO Auto-generated method stub
+        try {
+            if (status == ITestResult.FAILURE) {
+                FileUtils.copyFile(scrFile, new File(failedScreen));
+            }
 
-	}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-		// TODO Auto-generated method stub
+    public synchronized static ExtentReports logOutPut(String imgSrc, String headerName) {
+        imgSrc = "<div class='col l4 m6 s12'><div class='card-panel'><h4 class='md-display-4'>" + headerName
+                + "</h4><img src=" + imgSrc + " style=\"width:304px%;height:228px;\"></div></div>";
+        extent.loadConfig(new File(System.getProperty("user.dir") + "/extent.xml"));
+        extent.setTestRunnerOutput(imgSrc);
+        return extent;
+    }
 
-	}
+    public void onTestSkipped(ITestResult result) {
+        // TODO Auto-generated method stub
 
-	public void onStart(ITestContext context) {
-		File screenShot = new File(System.getProperty("user.dir")
-				+ "/target/screenshot/");
-		if (screenShot.isDirectory()) {
-			try {
-				FileUtils.deleteDirectory(screenShot);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
+    }
 
-	public void onFinish(ITestContext context) {
-		// TODO Auto-generated method stub
-	}
+    public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
+        // TODO Auto-generated method stub
 
-	public static void createAnimatedGif(File testScreenshots, File animatedGif)
-			throws IOException {
-		AnimatedGifEncoder encoder = new AnimatedGifEncoder();
-		encoder.start(animatedGif.getAbsolutePath());
-		encoder.setDelay(1500 /* 1.5 seconds */);
-		encoder.setQuality(10 /* highest */);
-		encoder.setRepeat(1 /* infinite */);
-		encoder.setTransparent(Color.WHITE);
+    }
 
-		int width = 0;
-		int height = 0;
-		BufferedImage bufferedImage = ImageIO.read(testScreenshots);
-		width = Math.max(bufferedImage.getWidth(), width);
-		height = Math.max(bufferedImage.getHeight(), height);
+    public void onStart(ITestContext context) {
+        File screenShot = new File(System.getProperty("user.dir") + "/target/screenshot/");
+        if (screenShot.isDirectory()) {
+            try {
+                FileUtils.deleteDirectory(screenShot);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
 
-		encoder.setSize(width, height);
-		encoder.addFrame(ImageIO.read(testScreenshots));
-		encoder.finish();
-	}
+    public void onFinish(ITestContext context) {
+        // TODO Auto-generated method stub
+    }
 
-	/**
-	 * Create Gif File
-	 * 
-	 * @throws IOException
-	 */
-	public static void createGif(File file) throws IOException {
-		if (file.getName().contains("png")) {
-			file.deleteOnExit();// Delete file
-			createAnimatedGif(file, new File(file.getParent() + "/"
-					+ file.getName().replace(".png", "") + ".gif"));
-		}
-	}
+    public static void createAnimatedGif(File testScreenshots, File animatedGif) throws IOException {
+        AnimatedGifEncoder encoder = new AnimatedGifEncoder();
+        encoder.start(animatedGif.getAbsolutePath());
+        encoder.setDelay(1500 /* 1.5 seconds */);
+        encoder.setQuality(10 /* highest */);
+        encoder.setRepeat(1 /* infinite */);
+        encoder.setTransparent(Color.WHITE);
 
-	public AppiumDriver getDriver() {
-		return driver;
-	}
+        int width = 0;
+        int height = 0;
+        if (testScreenshots.exists()) {
+            BufferedImage bufferedImage = ImageIO.read(testScreenshots);
+            width = Math.max(bufferedImage.getWidth(), width);
+            height = Math.max(bufferedImage.getHeight(), height);
 
-	public void setDriver(AppiumDriver driver) {
-		this.driver = driver;
-	}
+            encoder.setSize(width, height);
+            encoder.addFrame(ImageIO.read(testScreenshots));
+            encoder.finish();
+        }
+    }
+
+    /**
+     * Create Gif File
+     * 
+     * @throws IOException
+     */
+    public static void createGif(File file) throws IOException {
+        if (file.getName().contains("png")) {
+            createAnimatedGif(file, new File(file.getParent() + "/" + file.getName().replace(".png", "") + ".gif"));
+            file.deleteOnExit();
+        }
+    }
+
+    public AppiumDriver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(AppiumDriver driver) {
+        this.driver = driver;
+    }
 
 }

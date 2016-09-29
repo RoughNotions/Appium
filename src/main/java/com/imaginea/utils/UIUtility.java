@@ -421,6 +421,18 @@ public class UIUtility {
         });
         return foo;
     };
+    
+    public WebElement fluentWaitBy(final By by) {
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver).withTimeout(90, TimeUnit.SECONDS)
+                .pollingEvery(15, TimeUnit.SECONDS).ignoring(NoSuchElementException.class);
+
+        WebElement foo = wait.until(new Function<WebDriver, WebElement>() {
+            public WebElement apply(WebDriver driver) {                
+                return driver.findElement(by);
+            }
+        });
+        return foo;
+    };
     public void clickSubElementFromList(By by,String text) {
     	List<WebElement> list=getElements(by);
     	for(WebElement ele:list){
@@ -428,5 +440,9 @@ public class UIUtility {
     			ele.click();
     		}
     	}
+    }
+    
+    public boolean isElementExistInWeb(By by){
+        return fluentWaitBy(by).isEnabled();
     }
 }
