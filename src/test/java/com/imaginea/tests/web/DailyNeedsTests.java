@@ -54,11 +54,10 @@ public class DailyNeedsTests extends BaseTest {
 		dailyneedspage.clickElementByText("Makeup");
 		dailyneedspage.clickElementByText("Eyes");
 		dailyneedspage.clickElementByText("Kajal");
-		dailyneedspage.clickOnSortPopularity();
-		String sortCategory[] = { "Popularity", "Price Low To High", "Price High To Low", "Discount",
-				"Fresh Arrivals" };
-		// Assert.assertEquals(dailyneedspage.getSortCategoryList(),
-		// Arrays.asList(sortCategory));
+		//dailyneedspage.clickOnSortPopularity();
+		String sortCategory[] = { "Relevance", "Popularity", "Price Low To High", "Price High To Low", "New Arrival",
+				"Discount", };
+		Assert.assertEquals(dailyneedspage.getSortingCategoryList(), Arrays.asList(sortCategory));
 
 	}
 

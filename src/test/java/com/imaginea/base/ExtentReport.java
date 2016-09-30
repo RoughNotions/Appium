@@ -146,17 +146,17 @@ public class ExtentReport extends BaseTest implements IReporter, ITestListener {
             throws InterruptedException, IOException {
         File scrFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
         screenShotNameWithTimeStamp = currentDateAndTime();
-        if (getDriver().toString().contains("chrome on ANDROID")) {
+        if (getDriver().toString().contains("Chrome on")) {
             String androidModel = screenShotNameWithTimeStamp
                     + getDriver().getCapabilities().getCapability(MobileCapabilityType.DEVICE_NAME);
             screenShotAndFrame(screenShotName, 2, scrFile, methodName, androidModel, "chrome");
-        }
-        if (getDriver().toString().split(":")[0].trim().equals("AndroidDriver")) {
+            }
+        else if (getDriver().toString().split(":")[0].trim().equals("AndroidDriver")) {
             String androidModel = screenShotNameWithTimeStamp
                     + getDriver().getCapabilities().getCapability(MobileCapabilityType.DEVICE_NAME);
             screenShotAndFrame(screenShotName, 2, scrFile, methodName, androidModel, "android");
         }
-        if (getDriver().toString().split(":")[0].trim().equals("AndroidDriver")) {
+        else if (getDriver().toString().split(":")[0].trim().equals("AndroidDriver")) {
             String androidModel = screenShotNameWithTimeStamp
                     + getDriver().getCapabilities().getCapability(MobileCapabilityType.DEVICE_NAME);
             screenShotAndFrame(screenShotName, 2, scrFile, methodName, androidModel, "Ios");
