@@ -1,7 +1,5 @@
 package com.imaginea.base;
 
-import io.appium.java_client.AppiumDriver;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
@@ -12,10 +10,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Listeners;
 
-import com.imaginea.base.DriverFactory;
 import com.imaginea.utils.FileUtilities;
 
-@Listeners(com.imaginea.base.ExtentReporterNG.class)
+import io.appium.java_client.AppiumDriver;
+
+@Listeners(com.imaginea.base.ExtentReport.class)
 public class BaseTest {
 
 	protected AppiumDriver driver;
@@ -26,7 +25,8 @@ public class BaseTest {
 		try {
 			TestNG test = new TestNG();
 			test.setUseDefaultListeners(false);
-			File file = new File(System.getProperty("user.dir") + "\\src\\test\\resources\\nativeapp.config.properties");
+			File file = new File(
+					System.getProperty("user.dir") + "\\src\\test\\resources\\nativeapp.config.properties");
 			FileInputStream fileInput = new FileInputStream(file);
 			Properties properties = new Properties();
 			properties.load(fileInput);
