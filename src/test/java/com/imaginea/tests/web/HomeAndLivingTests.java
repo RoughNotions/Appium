@@ -3,6 +3,7 @@ package com.imaginea.tests.web;
 import java.util.Arrays;
 
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -68,5 +69,10 @@ public class HomeAndLivingTests extends BaseTest{
         Assert.assertTrue(cartSummary.verifyTotalProductPriceFromProductPage(productPrice),"Count is not matchng");
         cartSummary.clickOnContinueButton();
         
+    }
+    
+    @AfterClass
+    public void closeDriver(){
+    	driver.quit();
     }
 }

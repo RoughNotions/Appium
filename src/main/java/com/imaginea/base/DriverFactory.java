@@ -1,12 +1,10 @@
 package com.imaginea.base;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -19,44 +17,62 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import io.appium.java_client.service.local.AppiumServiceBuilder;
 
 public class DriverFactory {
 
+	private MobileOS mobileOS;
     private CommandPrompt cmd = new CommandPrompt();
-    public static ArrayList<String> deviceSerail = new ArrayList<String>();
+    private  ArrayList<String> deviceSerail = new ArrayList<String>();
 
-    public static AppiumDriver getDriver(String osName) {
+    @SuppressWarnings("rawtypes")
+	public  AppiumDriver getDriver(Properties properties) {
+    	String executionSyle=properties.getProperty("EXECUTIONSTYLE");
         AppiumDriver driver = null;
         AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
         service.start();
         saveAppiumLog(service);
-
-        if (osName.equalsIgnoreCase("Android"))
-            try {
-                driver = new AndroidOS().getDriver(getDesiredCapabailities());
-                AndroidDriver adriver = (AndroidDriver) driver;
-                return adriver;
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        else if (osName.equalsIgnoreCase("IOS"))
-            try {
-                driver = new IOS().getDriver(getDesiredCapabailities());
-                IOSDriver idriver = (IOSDriver) driver;
-                return idriver;
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        return driver;
-
+        if(executionSyle.equalsIgnoreCase("local")){
+        	if (properties.getProperty("OS_NAME").equalsIgnoreCase("Android")){
+        		try {
+        			mobileOS= (MobileOS)Class.forName(properties.getProperty("ANDROIDCLASSNAME")).newInstance();
+        			return (AndroidDriver)mobileOS.getDriver(properties.getProperty("URL"),getDesiredCapabailities(properties,executionSyle));
+        		} catch (Exception e) {
+        			e.printStackTrace();
+        		}
+        	}else if(properties.getProperty("OS_NAME").equalsIgnoreCase("IOS")){
+        		try {
+        			mobileOS= (MobileOS)Class.forName(properties.getProperty("IOSCLASSNAME")).newInstance();
+        			return (IOSDriver)mobileOS.getDriver(properties.getProperty("URL"),getDesiredCapabailities(properties, executionSyle));
+        		} catch (Exception e) {
+        			e.printStackTrace();
+        		}
+        	}
+        }
+        else if(executionSyle.equalsIgnoreCase("SauceLabs")){
+        	String url="http://"+properties.getProperty("USERNAME")+ " : " +properties.getProperty("ACCESSKEY")+"@ondemand.saucelabs.com:80/wd/hub";
+          	if (properties.getProperty("OS_NAME").equalsIgnoreCase("Android")){
+        		try {
+        			mobileOS= (MobileOS)Class.forName(properties.getProperty("ANDROIDCLASSNAME")).newInstance();
+        			return (AndroidDriver)mobileOS.getDriver(url,getDesiredCapabailities(properties, executionSyle));
+        		} catch (Exception e) {
+        			e.printStackTrace();
+        		}
+        	}else if(properties.getProperty("OS_NAME").equalsIgnoreCase("IOS")){
+        		try {
+        			mobileOS= (MobileOS)Class.forName(properties.getProperty("IOSCLASSNAME")).newInstance();
+        			return (IOSDriver)mobileOS.getDriver(url,getDesiredCapabailities(properties, executionSyle));
+        		} catch (Exception e) {
+        			e.printStackTrace();
+        		}
+        	}
+        	}
+        	return driver;
     }
 
-    public static void saveAppiumLog(AppiumDriverLocalService service) {
+    public  void saveAppiumLog(AppiumDriverLocalService service) {
         try {
             OutputStream output;
-            output = new FileOutputStream(System.getProperty("user.dir") + "//" + "Appium_log.txt");
+            output = new FileOutputStream(System.getProperty("user.dir") + File.separator + "Appium_log.txt");
             service.addOutPutStream(output);
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
@@ -64,32 +80,22 @@ public class DriverFactory {
 
     }
 
-    public static DesiredCapabilities getDesiredCapabailities() {
+    public  DesiredCapabilities getDesiredCapabailities(Properties prop,String exectionMode) {
         DesiredCapabilities capability = new DesiredCapabilities();
-
-        File file = new File(System.getProperty("user.dir") + "\\src\\test\\resources\\nativeapp.config.properties");
-        Properties prop = new Properties();
-        FileInputStream inStream;
-        try {
-            inStream = new FileInputStream(file);
-            try {
-                prop.load(inStream);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
         capability.setCapability(MobileCapabilityType.DEVICE_NAME, prop.getProperty("DEVICE_NAME"));
         capability.setCapability(MobileCapabilityType.PLATFORM_NAME, prop.getProperty("PLATFORM_NAME"));
         capability.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, prop.getProperty("NEW_COMMAND_TIMEOUT")); // Default
-        if (prop.getProperty("APP_TYPE").equalsIgnoreCase("NativeApp")) {
-            capability.setCapability(MobileCapabilityType.APP,
-                    System.getProperty("user.dir") + "\\src\\test\\resources\\" + prop.getProperty("APP")); // Default
-        } else {
-            capability.setCapability(MobileCapabilityType.BROWSER_NAME, prop.getProperty("BROWSER_NAME"));
+        if(exectionMode.equalsIgnoreCase("SauceLabs")){
+        	capability.setCapability(MobileCapabilityType.APP, "sauce-storage:"+prop.getProperty("APP")); //Name of the App you want to work
+        }else{
+        
+        	   if (prop.getProperty("APP_TYPE").equalsIgnoreCase("NativeApp")) {
+                   capability.setCapability(MobileCapabilityType.APP, prop.getProperty("APP"));
+               } else {
+                   capability.setCapability(MobileCapabilityType.BROWSER_NAME, prop.getProperty("BROWSER_NAME"));
+               }
         }
+     
         return capability;
     }
 

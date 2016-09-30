@@ -17,22 +17,18 @@ import io.appium.java_client.AppiumDriver;
 @Listeners(com.imaginea.base.ExtentReport.class)
 public class BaseTest {
 
+	@SuppressWarnings("rawtypes")
 	protected AppiumDriver driver;
+	DriverFactory factory;
 	String screenShotNameWithTimeStamp;
 
 	@BeforeClass
 	public void setup() {
 		try {
-			TestNG test = new TestNG();
-			test.setUseDefaultListeners(false);
-			File file = new File(
-					System.getProperty("user.dir") + "\\src\\test\\resources\\nativeapp.config.properties");
-			FileInputStream fileInput = new FileInputStream(file);
-			Properties properties = new Properties();
-			properties.load(fileInput);
 			FileUtilities utils = new FileUtilities();
-			utils.deleteExisitngFolder(System.getProperty("user.dir") + File.separator + "ScreenShots");
-			driver = DriverFactory.getDriver(properties.getProperty("OS_NAME"));
+			Properties properties=utils.getProperties();
+			factory= new DriverFactory();
+			driver= factory.getDriver(properties);
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		} catch (Exception e) {
 			e.printStackTrace();
