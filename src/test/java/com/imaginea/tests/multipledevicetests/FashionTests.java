@@ -1,4 +1,4 @@
-package com.imaginea.tests.nativeApp;
+package com.imaginea.tests.multipledevicetests;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -15,7 +15,6 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import com.appium.manager.AppiumParallelTest;
-import com.imaginea.base.BaseTest;
 import com.imaginea.pageobjects.nativeApp.FashionPageActivity;
 import com.imaginea.pageobjects.nativeApp.HomePageActivity;
 
@@ -26,16 +25,29 @@ import com.imaginea.pageobjects.nativeApp.HomePageActivity;
  *
  */
 
-public class FashionTests extends BaseTest {
-
-    @BeforeMethod
-    public void beforeMethod() {
-        driver.launchApp();
-    }
+public class FashionTests extends AppiumParallelTest {
 
     private String categoryName = "Fashion";
     private String mensFashion = "Men's Fashion";
     private String bagLuggage = "Bags & Luggage";
+
+    @BeforeMethod()
+    public void startApp(Method name) throws Exception {
+        driver = startAppiumServerInParallel(name.getName());
+        startLogResults(name.getName());
+    }
+
+    @AfterMethod()
+    public void killServer(ITestResult result) {
+
+        try {
+            endLogTestResults(result);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        getDriver().quit();
+    }
 
     @Test(description = "Verify Fashion Category and sub category list ")
     public void verifyFashionCategory() {
@@ -300,9 +312,14 @@ public class FashionTests extends BaseTest {
         Assert.assertTrue(discountList.get(0).contains("% OFF"), "Discount is not shown");
     }
 
-    @AfterMethod
-    public void afterMethod() {
-        driver.closeApp();
+    @BeforeClass()
+    public void beforeClass() throws Exception {
+        startAppiumServer(getClass().getSimpleName());
+    }
+
+    @AfterClass()
+    public void afterClass() throws InterruptedException, IOException {
+        killAppiumServer();
     }
 
 }
