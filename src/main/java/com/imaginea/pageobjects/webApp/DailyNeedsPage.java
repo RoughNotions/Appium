@@ -1,7 +1,11 @@
 package com.imaginea.pageobjects.webApp;
 
-import org.openqa.selenium.By;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 import com.imaginea.utils.UIUtility;
 
@@ -13,6 +17,7 @@ public class DailyNeedsPage extends UIUtility {
 	private String subCategories = "//div[text()='%s' and @class='catName ellip']/../following-sibling::div[@class='subCatHldr'][1]/a";
 	private String relavantSubCategories = "//div[text()='%s' and @class='catName ellip']/../following-sibling::div[@class='subCatHldr'][1]/a[text()='%s']/following-sibling::div[1]/a";
 	private By Makeup = By.linkText("Makeup");
+	private By Productsort = By.id("productSorting");
 
 	public DailyNeedsPage(AppiumDriver driver) {
 		super(driver);
@@ -53,6 +58,26 @@ public class DailyNeedsPage extends UIUtility {
 	public void clickOnSortPopularity() {
 		sleep(3000l);
 		driver.findElementByCssSelector(".sd-icon-collapse-arrow");
+	}
+
+	/**
+	 * Get List of Sort Category
+	 * 
+	 * @return
+	 */
+
+	public List<String> getSortCategoryList() {
+		return getElementsText(Productsort);
+	}
+
+	public List<String> getSortingCategoryList() {
+		List<String> option = new ArrayList<>();
+		Select select = new Select(driver.findElement(By.id("productSorting")));
+		for (WebElement element : select.getOptions()) {
+			option.add(element.getText());
+			System.out.println(element.getText());
+		}
+		return option;
 	}
 
 }
