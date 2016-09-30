@@ -14,7 +14,7 @@ import com.imaginea.pageobjects.nativeApp.FashionPageActivity;
 import com.imaginea.pageobjects.nativeApp.HomePageActivity;
 import com.imaginea.utils.UIUtility;
 
-@Listeners(com.imaginea.base.ExtentReporterNG.class)
+@Listeners(com.imaginea.base.ExtentReport.class)
 public class DailyNeedsTest extends BaseTest {
 	@BeforeMethod
 	public void beforeMethod() {
