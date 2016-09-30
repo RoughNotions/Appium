@@ -67,7 +67,7 @@ public class DriverFactory {
     public static DesiredCapabilities getDesiredCapabailities() {
         DesiredCapabilities capability = new DesiredCapabilities();
 
-        File file = new File(System.getProperty("user.dir") + "\\src\\test\\resources\\config.properties");
+        File file = new File(System.getProperty("user.dir") + "\\src\\test\\resources\\nativeapp.config.properties");
         Properties prop = new Properties();
         FileInputStream inStream;
         try {
