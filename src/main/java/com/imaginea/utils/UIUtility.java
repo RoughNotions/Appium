@@ -9,12 +9,14 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
@@ -38,6 +40,7 @@ public class UIUtility {
 
     public UIUtility(AppiumDriver driver) {
         this.driver = driver;
+    	PageFactory.initElements(new AjaxElementLocatorFactory(driver, pageTimeoutTime), this);
     }
 
     public void initPage(WebElement initialElement, WebElement... initialElements) {
@@ -438,6 +441,7 @@ public class UIUtility {
     	for(WebElement ele:list){
     		if(ele.getText().trim().equalsIgnoreCase(text)){
     			ele.click();
+    			break;
     		}
     	}
     }
@@ -450,4 +454,50 @@ public class UIUtility {
         WebDriverWait wait = new WebDriverWait(driver, 20);
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(by)));
     }
+    public void clickSubElementFromList(List<WebElement> elements,String text) {
+    	for(WebElement ele:elements){
+    		if(ele.getText().trim().equalsIgnoreCase(text)){
+    			ele.click();
+    			break;
+    		}
+    	}
+    }
+    
+    public void waitForPageLoad(){
+    	while(true){
+    	String pageStatus=(String)((JavascriptExecutor)driver).executeScript("return document.readyState");
+    	if(pageStatus.equalsIgnoreCase("complete")){
+    		break;
+    	}else{
+    		System.out.println("The status is "+pageStatus);
+    	}
+    	}
+    }
+    
+    public void waitforAjaxLoading(){
+    	   JavascriptExecutor  Js=(JavascriptExecutor)driver ;
+    	   try{
+    		   System.out.println(Js.executeScript("return window.jQuery"));
+    	   }
+    	   catch(Exception e){
+    		   e.printStackTrace();
+    	   }
+    	   try{
+    		   if((boolean) Js.executeScript("return window.jQuery != undefined")){
+        		   while(!(boolean) Js.executeScript("return jQuery.active == 0")){
+        			   sleep(1500l);
+        			   break;
+        		   }
+        		   
+        	   } 
+    		   if((boolean) Js.executeScript("return window.jQuery == null")){
+        		   System.out.println("The value is null............................");
+        	   } 
+    		   
+    	   }  catch(Exception e){
+    		   e.printStackTrace();
+    	   }
+    	 
+    	    }
+    
 }
