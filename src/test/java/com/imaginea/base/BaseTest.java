@@ -25,7 +25,7 @@ public class BaseTest {
 		try {
 			TestNG test = new TestNG();
 			test.setUseDefaultListeners(false);
-			File file = new File(System.getProperty("user.dir") + "\\src\\test\\resources\\config.properties");
+			File file = new File(System.getProperty("user.dir") + "\\src\\test\\resources\\nativeapp.config.properties");
 			FileInputStream fileInput = new FileInputStream(file);
 			Properties properties = new Properties();
 			properties.load(fileInput);

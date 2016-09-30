@@ -4,17 +4,16 @@ import java.util.Arrays;
 
 import org.openqa.selenium.By;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import com.imaginea.base.BaseTest;
+import com.imaginea.base.UserBaseTest;
 import com.imaginea.pageobjects.webApp.FashionPage;
 import com.imaginea.pageobjects.webApp.FashionPage.fashion;
 import com.imaginea.pageobjects.webApp.HomePage;
 
-public class FashionTests extends BaseTest {
+public class FashionTests extends UserBaseTest {
     HomePage homePage = null;
     FashionPage fashionPage = null;
 
@@ -54,9 +53,5 @@ public class FashionTests extends BaseTest {
         }
         s_assert.assertAll();
     }
-
-    @AfterClass
-    public void tearDown() {
-        driver.quit();
-    }
+   
 }

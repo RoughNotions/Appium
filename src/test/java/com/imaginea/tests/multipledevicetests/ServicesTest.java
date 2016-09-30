@@ -1,4 +1,4 @@
-package com.imaginea.tests.nativeApp;
+package com.imaginea.tests.multipledevicetests;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -13,15 +13,27 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.imaginea.base.BaseTest;
 import com.imaginea.base.UserBaseTest;
 import com.imaginea.pageobjects.nativeApp.ServicesPageActivity;
 
-public class ServicesTest extends BaseTest {
+public class ServicesTest extends UserBaseTest {
 
-    @BeforeMethod
-    public void beforeMethod() {
-        driver.launchApp();
+    @BeforeMethod()
+    public void startApp(Method name) throws Exception {
+        driver = startAppiumServerInParallel(name.getName());
+        startLogResults(name.getName());
+    }
+
+    @AfterMethod()
+    public void killServer(ITestResult result) {
+
+        try {
+            endLogTestResults(result);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        getDriver().quit();
     }
 
     @Test
@@ -41,16 +53,18 @@ public class ServicesTest extends BaseTest {
         List<String> actualTitle = servicesPageActivity.getAllServicesTitle();
         Assert.assertEquals(actualTitle, Arrays.asList(title));
     }
-
+    
+    
     @Test
     public void verifyHomeServicesText() {
         ServicesPageActivity servicesPageActivity = new ServicesPageActivity(driver);
         servicesPageActivity.selectServiceTab();
-        String title[] = { "Home Cleaning", "Plumbers", "Salon at Home" };
+        String title[] = { "Home Cleaning", "Plumbers", "Salon at Home"};
         List<String> actualTitle = servicesPageActivity.getHomeServicesTitle();
         Assert.assertEquals(actualTitle, Arrays.asList(title));
     }
-
+    
+    
     @Test
     public void verifyPrepaidTab() {
         ServicesPageActivity servicesPageActivity = new ServicesPageActivity(driver);
@@ -60,9 +74,14 @@ public class ServicesTest extends BaseTest {
         Assert.assertTrue(!servicesPageActivity.isPlanAndRechargeDisplayed());
     }
 
-    @AfterMethod
-    public void afterMethod() {
-        driver.closeApp();
+    @BeforeClass()
+    public void beforeClass() throws Exception {
+        startAppiumServer(getClass().getSimpleName());
+    }
+
+    @AfterClass()
+    public void afterClass() throws InterruptedException, IOException {
+        killAppiumServer();
     }
 
 }
