@@ -40,7 +40,7 @@ import io.appium.java_client.remote.MobileCapabilityType;
  * @author krishnakumarnellore
  *
  */
-public class ExtentReporterNG extends BaseTest implements IReporter, ITestListener {
+public class ExtentReport extends BaseTest implements IReporter, ITestListener {
     private static ExtentReports extent;
     private String screenShotNameWithTimeStamp;
     DriverFactory driverFactory = new DriverFactory();

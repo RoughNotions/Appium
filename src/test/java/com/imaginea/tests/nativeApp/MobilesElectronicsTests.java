@@ -28,7 +28,7 @@ import com.imaginea.utils.FileUtilities;
  * @author avinashg
  *
  */
-@Listeners(com.imaginea.base.ExtentReporterNG.class)
+@Listeners(com.imaginea.base.ExtentReport.class)
 public class MobilesElectronicsTests extends BaseTest {
 
 	@BeforeMethod
