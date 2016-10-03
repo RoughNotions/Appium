@@ -11,9 +11,9 @@ import io.appium.java_client.remote.MobileCapabilityType;
 
 public class IOS implements MobileOS {
 
-	public IOSDriver getDriver(DesiredCapabilities capability) throws MalformedURLException {
+	public IOSDriver getDriver(String url,DesiredCapabilities capability) throws MalformedURLException {
 
-		return new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capability);
+		return new IOSDriver(new URL(url), capability);
 
 	}
 }

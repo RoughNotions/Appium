@@ -10,6 +10,6 @@ import io.appium.java_client.ios.IOSDriver;
 
 public interface MobileOS {
 
-	AppiumDriver getDriver(DesiredCapabilities capability) throws MalformedURLException;
+	AppiumDriver getDriver(String url,DesiredCapabilities capability) throws MalformedURLException;
 
 }
