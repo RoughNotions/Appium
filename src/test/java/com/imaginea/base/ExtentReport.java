@@ -3,6 +3,8 @@ package com.imaginea.base;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -11,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.imageio.ImageIO;
 
@@ -26,6 +29,7 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.testng.xml.XmlSuite;
 
+import com.imaginea.utils.FileUtilities;
 import com.madgag.gif.fmsware.AnimatedGifEncoder;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
@@ -103,8 +107,7 @@ public class ExtentReport extends BaseTest implements IReporter, ITestListener {
                 test.log(status, message, imgSrc);
 
                 test.setDescription(driverFactory.getDeviceModel() + "_" + driverFactory.getDeviceManufacturer() + "_"
-                        + driverFactory.getDeviceSerial().get(0)
-                                );
+                        + driverFactory.getDeviceSerial().get(0));
 
                 extent.endTest(test);
             }
@@ -144,22 +147,25 @@ public class ExtentReport extends BaseTest implements IReporter, ITestListener {
 
     private void captureScreenShot(String screenShotName, AppiumDriver driver, String methodName)
             throws InterruptedException, IOException {
+        FileUtilities utilities = new FileUtilities();
         File scrFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
         screenShotNameWithTimeStamp = currentDateAndTime();
-        if (getDriver().toString().contains("Chrome on")) {
+        Properties prop = utilities.getProperties();
+        if (prop.getProperty("APP_TYPE").equalsIgnoreCase("WebApp")) {
             String androidModel = screenShotNameWithTimeStamp
                     + getDriver().getCapabilities().getCapability(MobileCapabilityType.DEVICE_NAME);
             screenShotAndFrame(screenShotName, 2, scrFile, methodName, androidModel, "chrome");
-            }
-        else if (getDriver().toString().split(":")[0].trim().equals("AndroidDriver")) {
-            String androidModel = screenShotNameWithTimeStamp
-                    + getDriver().getCapabilities().getCapability(MobileCapabilityType.DEVICE_NAME);
-            screenShotAndFrame(screenShotName, 2, scrFile, methodName, androidModel, "android");
         }
-        else if (getDriver().toString().split(":")[0].trim().equals("AndroidDriver")) {
-            String androidModel = screenShotNameWithTimeStamp
-                    + getDriver().getCapabilities().getCapability(MobileCapabilityType.DEVICE_NAME);
-            screenShotAndFrame(screenShotName, 2, scrFile, methodName, androidModel, "Ios");
+        if (prop.getProperty("APP_TYPE").equalsIgnoreCase("NativeApp")) {
+            if (getDriver().toString().split(":")[0].trim().equals("AndroidDriver")) {
+                String androidModel = screenShotNameWithTimeStamp
+                        + getDriver().getCapabilities().getCapability(MobileCapabilityType.DEVICE_NAME);
+                screenShotAndFrame(screenShotName, 2, scrFile, methodName, androidModel, "android");
+            } else if (getDriver().toString().split(":")[0].trim().equals("AndroidDriver")) {
+                String androidModel = screenShotNameWithTimeStamp
+                        + getDriver().getCapabilities().getCapability(MobileCapabilityType.DEVICE_NAME);
+                screenShotAndFrame(screenShotName, 2, scrFile, methodName, androidModel, "Ios");
+            }
         }
     }
 

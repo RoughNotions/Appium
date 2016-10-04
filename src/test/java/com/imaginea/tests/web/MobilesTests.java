@@ -25,11 +25,7 @@ public class MobilesTests extends BaseTest {
 	String tabletSubCategory[] = { "Cases & Covers", "Screen Guards", "Keyboards", "Cables & Chargers",
 			"Cleaning Cloths, Docks & Stands", "Stylus Pens", "3D Glasses", "All Tablet Accessories" };
 
-	@BeforeMethod
-	public void beforeMethod() {
-		driver.get("https://m.snapdeal.com");
-	}
-
+	
 	@Test(description = "Verify Mobile Category list")
 	public void verifyMobileCategoryItems() {
 		mobilepage = new MobilePage(driver);

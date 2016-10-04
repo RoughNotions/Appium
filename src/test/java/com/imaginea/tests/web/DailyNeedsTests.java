@@ -3,7 +3,6 @@ package com.imaginea.tests.web;
 import java.util.Arrays;
 
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.imaginea.base.BaseTest;
@@ -16,11 +15,7 @@ public class DailyNeedsTests extends BaseTest {
 	String BeautyandPersonalCareSubcategories[] = { "Makeup", "Skin Care", "Hair Care", "Bath & Shower",
 			"Men's Grooming", "Perfumes & Fragrances", "Oral Care", "Feminine Care", "Beauty Accessories",
 			"Kits & Gift Sets", "All Beauty & Personal Care", };
-
-	@BeforeMethod
-	public void beforeMethod() {
-		driver.get("https://m.snapdeal.com");
-	}
+	
 
 	@Test(description = "Verify Daily Needs Category and sub category list")
 	public void verifyDailyNeedsCategory() {

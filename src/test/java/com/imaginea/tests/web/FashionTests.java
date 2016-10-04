@@ -1,12 +1,9 @@
 package com.imaginea.tests.web;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -17,12 +14,7 @@ import com.imaginea.pageobjects.webApp.HomePage;
 
 public class FashionTests extends BaseTest {
     HomePage homePage = null;
-    FashionPage fashionPage = null;
-
-    @BeforeMethod
-    public void beforeMethod() {
-        driver.get("https://m.snapdeal.com");
-    }
+    FashionPage fashionPage = null;   
 
     @Test(description = "Verify Fashion Category and sub category list ")
     public void verifyFashionCategory() {

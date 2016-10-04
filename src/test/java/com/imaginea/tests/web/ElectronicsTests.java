@@ -26,11 +26,6 @@ public class ElectronicsTests extends BaseTest {
 			"Binoculars & Telescopes", "Digital Photo Frames", "Selfie Sticks", "All Cameras & Accessories" };
 	String stationerySubCategory[] = { "Stationery", "Office Equipment" };
 
-	@BeforeMethod
-	public void beforeMethod() {
-		driver.get("https://m.snapdeal.com");
-	}
-
 	@Test(description = "Verify Electronics Category list")
 	public void verifyMobileCategoryItems() {
 		electronincsPage = new ElectronicsPage(driver);

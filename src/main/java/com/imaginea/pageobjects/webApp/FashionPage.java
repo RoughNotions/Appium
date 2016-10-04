@@ -34,12 +34,11 @@ public class FashionPage extends UIUtility {
     }
 
     public List<String> getSortingCategoryList() {
-        List<String> option = new ArrayList<>();
-        waitForElementToBeVisible(By.id(fashion.sorting.value));
+        sleep(3000L);
+        List<String> option = new ArrayList<>();        
         Select select = new Select(driver.findElement(By.id(fashion.sorting.value)));
         for (WebElement element : select.getOptions()) {
-            option.add(element.getText());
-            System.out.println(element.getText());
+            option.add(element.getText());            
         }
         return option;
     }
