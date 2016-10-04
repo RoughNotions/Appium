@@ -11,22 +11,22 @@ import io.appium.java_client.MobileBy;
 
 public class DailyNeedsPageActivity extends UIUtility {
 	private String DailyNeedsSubCategory = "com.snapdeal.main:id/subCategoryTitleTextView";
-	private String sortResourceId = "com.snapdeal.main:id/sort_by_radio_button";
+	private String sortResourceId = "com.snapdeal.main:id/sort_by_text_view";
 	private String productDisplay = "com.snapdeal.main:id/productDisplayPrice";
 	private String productTitle = "com.snapdeal.main:id/productTitle";
 	private String productDiscountPrice = "com.snapdeal.main:id/productDiscount";
-    //String Productname = "Lakme Enrich Satins Lip Color, Shade P152, 4.3 G";
-    private String Menucarticon = "com.snapdeal.main:id/menu_cart_icon";
-    private String txtProductName = "com.snapdeal.main:id/txtProductName";
-    private String txtCount ="com.snapdeal.main:id/txtCount";
-    private String MinusButton = "com.snapdeal.main:id/btnMinus";
-    private String startPrice = "com.snapdeal.main:id/filterTextStart";
-    private String endPrice = "com.snapdeal.main:id/filterTextEnd";
-    private String productDisplayPrice = "com.snapdeal.main:id/productDisplayPrice";
-    private String Filter = "com.snapdeal.main:id/filter_by_text_view";
-    
-  String Productname = "Lakme Enrich Satins Lip Color, Shade P152, 4.3 G";
-    
+	// String Productname = "Lakme Enrich Satins Lip Color, Shade P152, 4.3 G";
+	private String Menucarticon = "com.snapdeal.main:id/menu_cart_icon";
+	private String txtProductName = "com.snapdeal.main:id/txtProductName";
+	private String txtCount = "com.snapdeal.main:id/txtCount";
+	private String MinusButton = "com.snapdeal.main:id/btnMinus";
+	private String startPrice = "com.snapdeal.main:id/filterTextStart";
+	private String endPrice = "com.snapdeal.main:id/filterTextEnd";
+	private String productDisplayPrice = "com.snapdeal.main:id/productDisplayPrice";
+	private String Filter = "com.snapdeal.main:id/filter_by_text_view";
+
+	String Productname = "Lakme Enrich Satins Lip Color, Shade P152, 4.3 G";
+
 	public DailyNeedsPageActivity(AppiumDriver driver) {
 		super(driver);
 
@@ -81,16 +81,17 @@ public class DailyNeedsPageActivity extends UIUtility {
 		clickElementusingXPath(category);
 		sleep(5000L);
 	}
-	  /**
-     * Get Product Display Price List
-     * 
-     * @return
-     */
-    public List<String> getProductDisplayPriceList() {
-        swipeDown();
-        swipeDown();
-        return getListOfElementsByID(productDisplayPrice);
-    }
+
+	/**
+	 * Get Product Display Price List
+	 * 
+	 * @return
+	 */
+	public List<String> getProductDisplayPriceList() {
+		swipeDown();
+		swipeDown();
+		return getListOfElementsByID(productDisplayPrice);
+	}
 
 	/**
 	 * Click on Apply Button
@@ -99,29 +100,32 @@ public class DailyNeedsPageActivity extends UIUtility {
 		clickElementByText("Apply Filters");
 		sleep(5000L);
 	}
-	
-	public void Enterpincode(){
+
+	public void Enterpincode() {
 		sleep(5000L);
 		driver.findElementById("com.snapdeal.main:id/pinCodeEditText_til").sendKeys("500034");
 		sleep(5000L);
 		clickElementByText("DONE");
 		sleep(5000L);
 	}
+
 	public String getCartButtonText() {
 		return driver.findElementById("com.snapdeal.main:id/addCartBUtton").getText();
 
 	}
+
 	/**
-     * Set Price Filter
-     * 
-     * @param sPrice
-     * @param ePrice
-     */
-    public void setPriceFilter(String sPrice, String ePrice) {
-        enterTextByID(startPrice, sPrice);
-        enterTextByID(endPrice, ePrice);
-        clickElementByText("Apply Filters");
-    }
+	 * Set Price Filter
+	 * 
+	 * @param sPrice
+	 * @param ePrice
+	 */
+	public void setPriceFilter(String sPrice, String ePrice) {
+		enterTextByID(startPrice, sPrice);
+		enterTextByID(endPrice, ePrice);
+		clickElementByText("Apply Filters");
+	}
+
 	/**
 	 * Get Product Title List
 	 * 
@@ -143,22 +147,24 @@ public class DailyNeedsPageActivity extends UIUtility {
 		return getListOfElementsByID(productDiscountPrice);
 	}
 
-    /**
-     * Get Product Name Added to cart list
-     * 
-     * @return
-     */
-    public List<String> getCartProductNameList() {
-        return getListOfElementsByID(txtProductName);
-    }
-    /**
-     * Get Count Of cart Product List
-     * 
-     * @return
-     */
-    public List<String> getCartProductCountList() {
-        return getListOfElementsByID(txtCount);
-    }
+	/**
+	 * Get Product Name Added to cart list
+	 * 
+	 * @return
+	 */
+	public List<String> getCartProductNameList() {
+		return getListOfElementsByID(txtProductName);
+	}
+
+	/**
+	 * Get Count Of cart Product List
+	 * 
+	 * @return
+	 */
+	public List<String> getCartProductCountList() {
+		return getListOfElementsByID(txtCount);
+	}
+
 	public void ClickOnMakeUp() {
 		sleep(10000L);
 		clickElementByText("Makeup");
@@ -197,29 +203,35 @@ public class DailyNeedsPageActivity extends UIUtility {
 		return driver.findElement(MobileBy.AndroidUIAutomator(String.format("new UiSelector().index(%d)", num)))
 				.getText();
 	}
+
 	public void SelectProduct() {
 		clickElementByText(Productname);
 		sleep(5000L);
 	}
-	public void clickoncart(){
+
+	public void clickoncart() {
 		clickElementusingID("com.snapdeal.main:id/menu_cart_icon");
 		sleep(5000L);
 	}
-	public void clickonMinus(){
+
+	public void clickonMinus() {
 		clickElementusingID(MinusButton);
 		sleep(5000L);
 	}
+
 	/**
-     * Click on Apply Button
-     */
-    public void clickApplyFiltersButton() {
-        clickElementByText("Apply Filters");
-    }
-    public void clickonPopUpRemove(){
-    	 clickElementByText("REMOVE");
-    }
-    public void clickOnFilter(){
-    	clickElementusingID(Filter);
-    	sleep(5000L);
-    }
+	 * Click on Apply Button
+	 */
+	public void clickApplyFiltersButton() {
+		clickElementByText("Apply Filters");
+	}
+
+	public void clickonPopUpRemove() {
+		clickElementByText("REMOVE");
+	}
+
+	public void clickOnFilter() {
+		clickElementusingID(Filter);
+		sleep(5000L);
+	}
 }
