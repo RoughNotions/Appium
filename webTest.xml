@@ -6,6 +6,7 @@
         <listener class-name="com.imaginea.base.ExtentReport"/>        
     </listeners>   
     <test name="TestNG Test">
+        <parameter name="APP_TYPE" value="NativeApp"/> 
         <classes>
             <class name="com.imaginea.tests.web.DailyNeedsTests"/>           
             <class name="com.imaginea.tests.web.ElectronicsTests"/>

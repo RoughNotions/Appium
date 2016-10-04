@@ -1,28 +1,16 @@
 package com.imaginea.tests.nativeApp;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
 import org.testng.Assert;
-import org.testng.ITestResult;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.imaginea.base.BaseTest;
-import com.imaginea.base.UserBaseTest;
 import com.imaginea.pageobjects.nativeApp.ServicesPageActivity;
 
 public class ServicesTest extends BaseTest {
-
-    @BeforeMethod
-    public void beforeMethod() {
-        driver.launchApp();
-    }
 
     @Test
     public void verifyServicesTabIsSelectedOrNot() {
@@ -60,9 +48,8 @@ public class ServicesTest extends BaseTest {
         Assert.assertTrue(!servicesPageActivity.isPlanAndRechargeDisplayed());
     }
 
-    @AfterMethod
-    public void afterMethod() {
+    @AfterMethod(alwaysRun = true)
+    public void closeApp() {
         driver.closeApp();
     }
-
 }
