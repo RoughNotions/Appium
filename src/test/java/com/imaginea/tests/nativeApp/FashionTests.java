@@ -1,20 +1,13 @@
 package com.imaginea.tests.nativeApp;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
 import org.testng.Assert;
-import org.testng.ITestResult;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import com.appium.manager.AppiumParallelTest;
 import com.imaginea.base.BaseTest;
 import com.imaginea.pageobjects.nativeApp.FashionPageActivity;
 import com.imaginea.pageobjects.nativeApp.HomePageActivity;
@@ -28,10 +21,7 @@ import com.imaginea.pageobjects.nativeApp.HomePageActivity;
 
 public class FashionTests extends BaseTest {
 
-    @BeforeMethod
-    public void beforeMethod() {
-        driver.launchApp();
-    }
+   
 
     private String categoryName = "Fashion";
     private String mensFashion = "Men's Fashion";
@@ -298,11 +288,10 @@ public class FashionTests extends BaseTest {
         fashionPageActivity.sleep(5000L);
         List<String> discountList = fashionPageActivity.getProductDiscountPriceList();
         Assert.assertTrue(discountList.get(0).contains("% OFF"), "Discount is not shown");
-    }
+    }   
 
-    @AfterMethod
-    public void afterMethod() {
+    @AfterMethod(alwaysRun=true)
+    public void closeApp(){
         driver.closeApp();
     }
-
 }

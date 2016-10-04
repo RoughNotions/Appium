@@ -1,30 +1,17 @@
 package com.imaginea.tests.nativeApp;
 
-
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.SwipeElementDirection;
-
-import java.io.IOException;
-import java.lang.reflect.Method;
-
-
 import java.util.Arrays;
 
 import org.testng.Assert;
-import org.testng.ITestResult;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.appium.manager.AppiumParallelTest;
 import com.imaginea.base.BaseTest;
 import com.imaginea.pageobjects.nativeApp.HomeAndLivingPageActivity;
 import com.imaginea.pageobjects.nativeApp.HomePageActivity;
 import com.imaginea.pageobjects.nativeApp.MaterialMainActivity;
 
-public class HomeAndLivingTests extends BaseTest{
+public class HomeAndLivingTests extends BaseTest {
     HomeAndLivingPageActivity homeLivingPageActivity;
     HomePageActivity homePage;
     String categoryMenu = "Home & Living";
@@ -32,11 +19,6 @@ public class HomeAndLivingTests extends BaseTest{
             "Furniture", "Home Improvement", "Home Appliances" };
     String subCategory[] = { "Water Purifiers", "Cookware", "Tools", "Bed Linen", "Gifts & Decor", "Living Room",
             "Home Utility", "Iron" };
-
-	@BeforeMethod
-	public void beforeMethod() {
-		driver.launchApp();
-	}
 
     @Test(description = "Verify Home & Living Category and sub category list")
     public void verifyHomeLivingCategory() {
@@ -89,11 +71,11 @@ public class HomeAndLivingTests extends BaseTest{
 
     @Test
     public void verifySwipeFunctionality() {
-    	homePage = new HomePageActivity(driver);
-    	MaterialMainActivity mainActivity= new MaterialMainActivity(driver);
-		mainActivity.tapOnQuickAccessMenu();
-		mainActivity.tapOnSettings();
-		mainActivity.swipePriorityOptions();
+        homePage = new HomePageActivity(driver);
+        MaterialMainActivity mainActivity = new MaterialMainActivity(driver);
+        mainActivity.tapOnQuickAccessMenu();
+        mainActivity.tapOnSettings();
+        mainActivity.swipePriorityOptions();
     }
 
     @Test
@@ -145,71 +127,62 @@ public class HomeAndLivingTests extends BaseTest{
 
     }
 
+    /*
+     * @BeforeMethod() public void startApp(Method name) throws Exception {
+     * driver = startAppiumServerInParallel(name.getName());
+     * startLogResults(name.getName()); }
+     * 
+     * @AfterMethod() public void killServer(ITestResult result) {
+     * 
+     * try { endLogTestResults(result); } catch (IOException |
+     * InterruptedException e) { e.printStackTrace(); }
+     * 
+     * getDriver().quit(); }
+     */
 
-/*    @BeforeMethod()
-    public void startApp(Method name) throws Exception {
-        driver = startAppiumServerInParallel(name.getName());
-        startLogResults(name.getName());
+    /*
+     * @BeforeClass() public void beforeClass() throws Exception {
+     * startAppiumServer(getClass().getSimpleName()); }
+     * 
+     * @AfterClass() public void afterClass() throws InterruptedException,
+     * IOException { killAppiumServer(); }
+     * 
+     */
+
+    @Test
+    public void verifyAppScreenOrientation() {
+        homePage = new HomePageActivity(driver);
+        homePage.rotate("PORTRAIT");
     }
 
-    @AfterMethod()
-    public void killServer(ITestResult result) {
+    @Test
+    public void verifyShortListFunctionality() {
+        homePage = new HomePageActivity(driver);
+        homePage.selectCategory(categoryMenu);
+        String subCategory = "Furniture";
+        homeLivingPageActivity = new HomeAndLivingPageActivity(driver);
+        homeLivingPageActivity.selectSubCategory(subCategory);
 
-        try {
-            endLogTestResults(result);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        MaterialMainActivity mainActivity = new MaterialMainActivity(driver);
+        mainActivity.tapOnProduct("Bedroom");
 
-        getDriver().quit();
-    }*/
+        mainActivity.shortListAProduct(2);
+        Assert.assertTrue(mainActivity.verifyShortliststatus(2), "Products are not shortlisted ");
+        mainActivity.tapOnQuickAccessMenu();
+        Assert.assertEquals(mainActivity.getShortListedCount(), 2, "Shortlisted product count is not matching");
+        mainActivity.tapShortListOptionInMenu();
 
+        Assert.assertTrue(mainActivity.verifyTextInResultsSection(2),
+                "Text in Results Section is not matching with product count");
+        mainActivity.navigateToHomePage();
+        mainActivity.clickShortListatBottom();
+        Assert.assertTrue(mainActivity.verifyTextInResultsSection(2),
+                "Text in Results Section is not matching with product count");
 
- /*   @BeforeClass()
-    public void beforeClass() throws Exception {
-        startAppiumServer(getClass().getSimpleName());
     }
 
-    @AfterClass()
-    public void afterClass() throws InterruptedException, IOException {
-        killAppiumServer();
+    @AfterMethod(alwaysRun = true)
+    public void closeApp() {
+        driver.closeApp();
     }
-
-*/
-
-	
-	@Test
-	public void verifyAppScreenOrientation(){
-		homePage = new HomePageActivity(driver);
-		homePage.rotate("PORTRAIT");
-	}
-
-	@Test
-	public void verifyShortListFunctionality(){
-		homePage = new HomePageActivity(driver);
-		homePage.selectCategory(categoryMenu);
-		String subCategory="Furniture";
-		homeLivingPageActivity = new HomeAndLivingPageActivity(driver);
-		homeLivingPageActivity.selectSubCategory(subCategory);
-
-		MaterialMainActivity mainActivity= new MaterialMainActivity(driver);
-		mainActivity.tapOnProduct("Bedroom");
-
-		mainActivity.shortListAProduct(2);
-		Assert.assertTrue(mainActivity.verifyShortliststatus(2), "Products are not shortlisted ");
-		mainActivity.tapOnQuickAccessMenu();
-		Assert.assertEquals(mainActivity.getShortListedCount(),2,"Shortlisted product count is not matching");
-		mainActivity.tapShortListOptionInMenu();
-
-		Assert.assertTrue(mainActivity.verifyTextInResultsSection(2),"Text in Results Section is not matching with product count");
-		mainActivity.navigateToHomePage();
-		mainActivity.clickShortListatBottom();
-		Assert.assertTrue(mainActivity.verifyTextInResultsSection(2),"Text in Results Section is not matching with product count");
-
-	}
-	@AfterMethod
-	public void afterMethod() {
-		driver.closeApp();
-	}
-
 }

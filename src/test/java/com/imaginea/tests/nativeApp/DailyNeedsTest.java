@@ -4,20 +4,15 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import com.imaginea.base.BaseTest;
 import com.imaginea.pageobjects.nativeApp.DailyNeedsPageActivity;
 import com.imaginea.pageobjects.nativeApp.HomePageActivity;
 
-@Listeners(com.imaginea.base.ExtentReport.class)
-public class DailyNeedsTest extends BaseTest {
-	@BeforeMethod
-	public void beforeMethod() {
-		driver.launchApp();
-	}
+//@Listeners(com.imaginea.base.ExtentReport.class)
+public class DailyNeedsTest extends BaseTest {	
 
 	@Test(description = "Verify DailyNeeds Category and sub category list")
 	public void verifyDailyNeedsCategory() {
@@ -201,4 +196,8 @@ public class DailyNeedsTest extends BaseTest {
 
 	}
 
+	@AfterMethod(alwaysRun=true)
+	public void closeApp(){
+	    driver.closeApp();
+	}
 }

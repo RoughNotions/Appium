@@ -29,14 +29,12 @@ public class DriverFactory {
     public AppiumDriver getDriver(Properties properties) {
         String executionSyle = properties.getProperty("EXECUTIONSTYLE");
         AppiumDriver driver = null;
-        /*
-         * System.setProperty(AppiumServiceBuilder.NODE_PATH,
-         * "C:\\Program Files (x86)\\Appium\\node.exe");
-         * 
-         * System.setProperty(AppiumServiceBuilder.APPIUM_PATH,
-         * "C:\\Program Files (x86)\\Appium\\node_modules\\appium\\bin\\appium.js"
-         * );
-         */        
+
+        System.setProperty(AppiumServiceBuilder.NODE_PATH, "C:\\Program Files (x86)\\Appium\\node.exe");
+
+        System.setProperty(AppiumServiceBuilder.APPIUM_PATH,
+                "C:\\Program Files (x86)\\Appium\\node_modules\\appium\\bin\\appium.js");
+
         AppiumDriverLocalService service = AppiumDriverLocalService
                 .buildService(new AppiumServiceBuilder().usingAnyFreePort());
         service.start();
@@ -97,22 +95,25 @@ public class DriverFactory {
         capability.setCapability(MobileCapabilityType.DEVICE_NAME, prop.getProperty("DEVICE_NAME"));
         capability.setCapability(MobileCapabilityType.PLATFORM_NAME, prop.getProperty("PLATFORM_NAME"));
         capability.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, prop.getProperty("NEW_COMMAND_TIMEOUT")); // Default
-        if (exectionMode.equalsIgnoreCase("SauceLabs")) {
-            capability.setCapability(MobileCapabilityType.APP, "sauce-storage:" + prop.getProperty("APP")); // Name
-                                                                                                            // of
-                                                                                                            // the
-                                                                                                            // App
-                                                                                                            // you
-                                                                                                            // want
-                                                                                                            // to
-                                                                                                            // work
+        if (prop.getProperty("APP_TYPE").equalsIgnoreCase("NativeApp")) {
+            if (exectionMode.equalsIgnoreCase("SauceLabs")) {
+                capability.setCapability(MobileCapabilityType.APP, "sauce-storage:" + prop.getProperty("APP")); // Name
+                                                                                                                // of
+                                                                                                                // the
+                                                                                                                // App
+                                                                                                                // you
+                                                                                                                // want
+                                                                                                                // to
+                                                                                                                // work
+            } else {
+                capability.setCapability(MobileCapabilityType.APP,
+                        System.getProperty("user.dir") + "\\src\\test\\resources\\" + prop.getProperty("APP"));
+            }
+
         } else {
 
-            if (prop.getProperty("APP_TYPE").equalsIgnoreCase("NativeApp")) {
-                capability.setCapability(MobileCapabilityType.APP, prop.getProperty("APP"));
-            } else {
-                capability.setCapability(MobileCapabilityType.BROWSER_NAME, prop.getProperty("BROWSER_NAME"));
-            }
+            capability.setCapability(MobileCapabilityType.BROWSER_NAME, prop.getProperty("BROWSER_NAME"));
+
         }
 
         return capability;
