@@ -10,9 +10,7 @@ import org.testng.annotations.Test;
 
 import com.imaginea.base.BaseTest;
 import com.imaginea.pageobjects.nativeApp.DailyNeedsPageActivity;
-import com.imaginea.pageobjects.nativeApp.FashionPageActivity;
 import com.imaginea.pageobjects.nativeApp.HomePageActivity;
-import com.imaginea.utils.UIUtility;
 
 @Listeners(com.imaginea.base.ExtentReport.class)
 public class DailyNeedsTest extends BaseTest {
@@ -20,22 +18,22 @@ public class DailyNeedsTest extends BaseTest {
 	public void beforeMethod() {
 		driver.launchApp();
 	}
-	
+
 	@Test(description = "Verify DailyNeeds Category and sub category list")
 	public void verifyDailyNeedsCategory() {
 		HomePageActivity homePage = new HomePageActivity(driver);
 		homePage.selectCategory("Daily Needs");
 		DailyNeedsPageActivity dailyneedsactivity = new DailyNeedsPageActivity(driver);
-		String category[] = { "Shopping List", "Beauty & Personal Care", "Food & Gourmet", "Health & Wellness",
-				"Nutrition & Supplements", "Household Essentials", "Baby Care", "Pet Supplies" };
+		String category[] = { "Shopping List", "Beauty", "Personal Care & Grooming", "Health Monitoring Devices",
+				"General Wellness", "Nutrition & Supplements", "Food & Gourmet", "Household Essentials", "Baby Care" };
 		Assert.assertEquals(dailyneedsactivity.getSubCategoryList(), Arrays.asList(category));
 	}
 
 	@Test(description = "Verify Sub Category")
 	public void verifySubCategory() {
 		HomePageActivity homePage = new HomePageActivity(driver);
-		String category[] = { "Beauty & Personal Care", "Food & Gourmet", "Health & Wellness",
-				"Nutrition & Supplements", "Household Essentials", "Baby Care", "Pet Supplies" };
+		String category[] = { "Beauty", "Personal Care & Grooming", "Health Monitoring Devices", "General Wellness",
+				"Nutrition & Supplements", "Food & Gourmet", "Household Essentials", "Baby Care" };
 		String subcategory[] = { "Makeup", "Tea Coffee & Beverages", "Health Monitors & Devices",
 				"Ayurveda & Organic Products", "House & Kitchen Cleaners", "Diapers & Potty Training", "Dog Supplies" };
 		for (int i = 0; i < category.length; i++) {
@@ -54,11 +52,11 @@ public class DailyNeedsTest extends BaseTest {
 		HomePageActivity homePage = new HomePageActivity(driver);
 		homePage.selectCategory("Daily Needs");
 		DailyNeedsPageActivity dailyneedsactivity = new DailyNeedsPageActivity(driver);
-		dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
+		// dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
 		dailyneedsactivity.selectCategoryByText("Beauty");
 		dailyneedsactivity.selectCategoryByText("Makeup");
 
-		dailyneedsactivity.ClickOnSortPopularity();
+		// dailyneedsactivity.ClickOnSortPopularity();
 		String sortCategory[] = { "Relevance", "Popularity", "Price Low To High", "Price High To Low", "New Arrival",
 				"Discount" };
 		Assert.assertEquals(dailyneedsactivity.getSortCategoryList(), Arrays.asList(sortCategory));
@@ -69,15 +67,14 @@ public class DailyNeedsTest extends BaseTest {
 		HomePageActivity homePage = new HomePageActivity(driver);
 		homePage.selectCategory("Daily Needs");
 		DailyNeedsPageActivity dailyneedsactivity = new DailyNeedsPageActivity(driver);
-		dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
+		// dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
 		dailyneedsactivity.selectCategoryByText("Beauty");
 		dailyneedsactivity.selectCategoryByText("Makeup");
 
 		dailyneedsactivity.ClickOnSortPopularity();
 		dailyneedsactivity.ClickOnProductDiscount();
 
-		Assert.assertTrue(dailyneedsactivity.getProductDiscountList().get(0).contains("Rs"),
-				"Discount is not shown");
+		Assert.assertTrue(dailyneedsactivity.getProductDiscountList().get(0).contains("Rs"), "Discount is not shown");
 
 	}
 
@@ -86,7 +83,7 @@ public class DailyNeedsTest extends BaseTest {
 		HomePageActivity homePage = new HomePageActivity(driver);
 		homePage.selectCategory("Daily Needs");
 		DailyNeedsPageActivity dailyneedsactivity = new DailyNeedsPageActivity(driver);
-		dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
+		// dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
 		dailyneedsactivity.selectCategoryByText("Beauty");
 		dailyneedsactivity.selectCategoryByText("Makeup");
 
@@ -96,12 +93,12 @@ public class DailyNeedsTest extends BaseTest {
 				"Price Low To High is not shown");
 	}
 
-   @Test(description = "Verify Sort By Price High To Low in Makeup")
+	@Test(description = "Verify Sort By Price High To Low in Makeup")
 	public void verifyMakeUpByPriceHighToLow() {
 		HomePageActivity homePage = new HomePageActivity(driver);
 		homePage.selectCategory("Daily Needs");
 		DailyNeedsPageActivity dailyneedsactivity = new DailyNeedsPageActivity(driver);
-		dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
+		// dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
 		dailyneedsactivity.selectCategoryByText("Beauty");
 		dailyneedsactivity.selectCategoryByText("Makeup");
 
@@ -116,7 +113,7 @@ public class DailyNeedsTest extends BaseTest {
 		HomePageActivity homePage = new HomePageActivity(driver);
 		homePage.selectCategory("Daily Needs");
 		DailyNeedsPageActivity dailyneedsactivity = new DailyNeedsPageActivity(driver);
-		dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
+		// dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
 		dailyneedsactivity.selectCategoryByText("Beauty");
 		dailyneedsactivity.selectCategoryByText("Makeup");
 
@@ -126,15 +123,12 @@ public class DailyNeedsTest extends BaseTest {
 				"New Arrival is not shown");
 	}
 
-	
-
-
 	@Test(description = "Verify Discount Selection in daily needs makeup")
 	public void testDiscountSelection() {
 		HomePageActivity homePage = new HomePageActivity(driver);
 		homePage.selectCategory("Daily Needs");
 		DailyNeedsPageActivity dailyneedsactivity = new DailyNeedsPageActivity(driver);
-		dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
+		// dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
 		dailyneedsactivity.selectCategoryByText("Beauty");
 		dailyneedsactivity.selectCategoryByText("Makeup");
 		dailyneedsactivity.clickOnFilter();
@@ -146,39 +140,38 @@ public class DailyNeedsTest extends BaseTest {
 		List<String> titleList = dailyneedsactivity.getProductDiscountPriceList();
 		Assert.assertTrue(titleList.get(0).contains("% OFF"), "Discount is not shown");
 	}
-	
-	@Test(description = "Verify price range Selection in daily needs makeup")
-	    public void testPriceRangeSelection() {
-		 HomePageActivity homePage = new HomePageActivity(driver);
-			homePage.selectCategory("Daily Needs");
-			DailyNeedsPageActivity dailyneedsactivity = new DailyNeedsPageActivity(driver);
-			dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
-			dailyneedsactivity.selectCategoryByText("Beauty");
-			dailyneedsactivity.selectCategoryByText("Makeup");
-			dailyneedsactivity.clickOnFilter();
-			dailyneedsactivity.selectCategoryByText("Price");
-			dailyneedsactivity.sleep(2000L);
-			dailyneedsactivity.setPriceFilter("2000", "3000");
-			dailyneedsactivity.sleep(5000L);
-	        List<String> titleList = dailyneedsactivity.getProductDisplayPriceList();
-	        int price = Integer.parseInt(titleList.get(0).replace("Rs. ", "").replace(",", ""));
-	        Assert.assertEquals(price > 2000, price < 3000, "Price is not in range");
-	    }
 
+	@Test(description = "Verify price range Selection in daily needs makeup")
+	public void testPriceRangeSelection() {
+		HomePageActivity homePage = new HomePageActivity(driver);
+		homePage.selectCategory("Daily Needs");
+		DailyNeedsPageActivity dailyneedsactivity = new DailyNeedsPageActivity(driver);
+		// dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
+		dailyneedsactivity.selectCategoryByText("Beauty");
+		dailyneedsactivity.selectCategoryByText("Makeup");
+		dailyneedsactivity.clickOnFilter();
+		dailyneedsactivity.selectCategoryByText("Price");
+		dailyneedsactivity.sleep(2000L);
+		dailyneedsactivity.setPriceFilter("2000", "3000");
+		dailyneedsactivity.sleep(5000L);
+		List<String> titleList = dailyneedsactivity.getProductDisplayPriceList();
+		int price = Integer.parseInt(titleList.get(0).replace("Rs. ", "").replace(",", ""));
+		Assert.assertEquals(price > 2000, price < 3000, "Price is not in range");
+	}
 
 	@Test(description = "Verify Add to Cart Functionality in daily needs makeup")
 	public void testAddToCartFunctionality() {
 		HomePageActivity homePage = new HomePageActivity(driver);
 		homePage.selectCategory("Daily Needs");
 		DailyNeedsPageActivity dailyneedsactivity = new DailyNeedsPageActivity(driver);
-		dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
+		// dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
 
 		dailyneedsactivity.selectCategoryByText("Beauty");
 		dailyneedsactivity.selectCategoryByText("Makeup");
 		dailyneedsactivity.SelectProduct();
 		dailyneedsactivity.Enterpincode();
 		dailyneedsactivity.selectCategoryByText("Add to Cart");
-		
+
 		dailyneedsactivity.clickoncart();
 		String productname = "Lakme Enrich Satins Lip Color, Shade P152, 4.3 G";
 		Assert.assertEquals(dailyneedsactivity.getCartProductNameList().get(0), productname);
@@ -191,14 +184,14 @@ public class DailyNeedsTest extends BaseTest {
 		HomePageActivity homePage = new HomePageActivity(driver);
 		homePage.selectCategory("Daily Needs");
 		DailyNeedsPageActivity dailyneedsactivity = new DailyNeedsPageActivity(driver);
-		dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
+		// dailyneedsactivity.selectSubCategory("Beauty & Personal Care");
 
 		dailyneedsactivity.selectCategoryByText("Beauty");
 		dailyneedsactivity.selectCategoryByText("Makeup");
 		dailyneedsactivity.SelectProduct();
 		dailyneedsactivity.Enterpincode();
 		dailyneedsactivity.selectCategoryByText("Add to Cart");
-		
+
 		dailyneedsactivity.clickoncart();
 		dailyneedsactivity.clickonMinus();
 		dailyneedsactivity.clickonPopUpRemove();
