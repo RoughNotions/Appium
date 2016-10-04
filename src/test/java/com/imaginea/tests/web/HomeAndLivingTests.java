@@ -23,10 +23,6 @@ public class HomeAndLivingTests extends BaseTest{
     String kitchenWareSubCategories[] = { "Cookware & Bakeware", "Storage & Thermoware", "Kitchen Tools", "Dining & Serving", "Tea & Coffee Serveware", "Microwave Cooking",
             "Bar Accessories", "Hotel & Catering Supplies","Disposables","All Kitchenware" };
 
-	@BeforeMethod
-	public void beforeMethod() {
-		driver.get("https://m.snapdeal.com");
-	}
 
     @Test(description = "Verify Home & Living Category and sub category list")
     public void verifyHomeLivingCategory() {
@@ -71,8 +67,4 @@ public class HomeAndLivingTests extends BaseTest{
         
     }
     
-    @AfterClass
-    public void closeDriver(){
-    	driver.quit();
-    }
 }

@@ -437,6 +437,7 @@ public class UIUtility {
         return foo;
     };
     public void clickSubElementFromList(By by,String text) {
+        sleep(3000L);
     	List<WebElement> list=getElements(by);
     	for(WebElement ele:list){
     		if(ele.getText().trim().equalsIgnoreCase(text)){
