@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<!-- Only Web Automation Test Case are added -->
+<suite thread-count="1" verbose="2" name="TestNG Forum" >
+    <listeners>
+        <listener class-name="com.imaginea.base.ExtentReport"/>        
+    </listeners>   
+    <test name="TestNG Test">
+        <classes>
+            <class name="com.imaginea.tests.web.DailyNeedsTests"/>           
+            <class name="com.imaginea.tests.web.ElectronicsTests"/>
+            <class name="com.imaginea.tests.web.FashionTests"/>
+            <class name="com.imaginea.tests.web.HomeAndLivingTests"/>
+            <class name="com.imaginea.tests.web.MobilesTests"/>            
+        </classes>
+    </test> <!-- TestNG Test -->
+</suite> <!-- TestNG Forum -->
